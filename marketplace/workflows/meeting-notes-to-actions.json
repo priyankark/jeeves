@@ -1,0 +1,166 @@
+{
+  "format": "jeeves-workflow",
+  "version": 1,
+  "name": "Meeting notes to actions",
+  "description": "Turn meeting notes into decisions, actions with owners, and open questions. Includes synthetic example notes.",
+  "author": "Jeeves contributors",
+  "license": "MIT",
+  "tags": [
+    "Meetings",
+    "Productivity"
+  ],
+  "rootId": "meeting-notes-to-actions",
+  "workflows": {
+    "meeting-notes-to-actions": {
+      "id": "meeting-notes-to-actions",
+      "name": "Meeting notes to actions",
+      "description": "Turn meeting notes into decisions, actions with owners, and open questions. Includes synthetic example notes.",
+      "skillIds": [],
+      "nodes": [
+        {
+          "id": "input",
+          "type": "workflowNode",
+          "position": {
+            "x": 100,
+            "y": 180
+          },
+          "data": {
+            "kind": "input",
+            "label": "Workflow input",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "paginate": false,
+            "maxPages": 5,
+            "authEnv": "",
+            "browserMode": "observe",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "output",
+          "type": "workflowNode",
+          "position": {
+            "x": 470,
+            "y": 180
+          },
+          "data": {
+            "kind": "output",
+            "label": "Final output",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "paginate": false,
+            "maxPages": 5,
+            "authEnv": "",
+            "browserMode": "observe",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "d62bf0cf-f772-42e2-8723-f1b43e09fd77",
+          "type": "workflowNode",
+          "position": {
+            "x": 354.49504950495043,
+            "y": 292.5502121640735
+          },
+          "data": {
+            "kind": "agent",
+            "label": "Extract meeting actions",
+            "description": "",
+            "prompt": "Turn the supplied meeting notes into: decisions, action items with owner and due date, and open questions. Preserve facts. If owner or date is missing, explicitly say unassigned or not specified. Never invent commitments. Do not send messages or write to external tools.",
+            "provider": "codex",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "paginate": false,
+            "maxPages": 5,
+            "authEnv": "",
+            "browserMode": "observe",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "1c502a87-3086-4fb8-a4da-b394c3bae290",
+          "source": "input",
+          "target": "d62bf0cf-f772-42e2-8723-f1b43e09fd77"
+        },
+        {
+          "id": "94179d70-69ad-41af-b5d9-e817075348e4",
+          "source": "d62bf0cf-f772-42e2-8723-f1b43e09fd77",
+          "target": "output"
+        }
+      ],
+      "input": "{\n  \"task\": \"Summarize these synthetic meeting notes into decisions, actions, and open questions.\",\n  \"notes\": \"Demo planning meeting, 27 September. Decision: ship the accessibility fixes before adding new themes. Maya will audit keyboard navigation by Friday. Leo will update the onboarding copy; no due date agreed. Someone should investigate offline sync, but no owner was assigned. Question: should first-run setup include a sample project?\"\n}"
+    }
+  },
+  "skills": []
+}

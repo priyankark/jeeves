@@ -1,0 +1,25 @@
+{
+  "verifiedAt": "2026-09-27T15:44:12.175Z",
+  "runtime": "Electron packaged Node runtime; bundled playwright-core; system Google Chrome",
+  "model": "Synthetic local model endpoint",
+  "status": "completed",
+  "output": {
+    "type": "browser",
+    "needsReview": true,
+    "summary": "Prepared one oat milk for $4.00. Review the cart before checkout.",
+    "url": "http://127.0.0.1:60090/shop",
+    "screenshot": "a802c796-58ba-4f59-81ae-be9f3738880c-shop-browser-1.png",
+    "actions": [
+      {
+        "action": "click",
+        "target": 2
+      }
+    ]
+  },
+  "purchases": 0,
+  "login": {
+    "status": "completed",
+    "authentication": "User confirmation only; synthetic fixture",
+    "concurrentRunBlocked": true
+  }
+}

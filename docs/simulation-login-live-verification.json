@@ -1,0 +1,17 @@
+{
+  "verifiedAt": "2026-09-27T15:39:27.716Z",
+  "provider": "Real authenticated Codex CLI",
+  "browser": "Installed Chrome, visible navigation and handoff",
+  "fixture": "Local synthetic store; no real credentials or account access",
+  "navigationMs": 6793,
+  "agentActions": [
+    {
+      "action": "click",
+      "target": 0
+    }
+  ],
+  "screenshotsBeforeHandoff": 1,
+  "authenticationScreenshots": 0,
+  "manualPhase": "Simulated human entry using Playwright after CUA stopped observing",
+  "restoredAccount": "Welcome back, test shopper"
+}

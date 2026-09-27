@@ -1,0 +1,187 @@
+{
+  "method": "Exploratory interaction with the actual packaged Electron desktop window; runs launched from UI controls, not direct API calls. Native accessibility used for library/search; attached desktop UI controls for live mode and execution. API reads collected evidence afterward.",
+  "runs": [
+    {
+      "id": "a70e3873-52b6-422c-84f9-6993808d95f2",
+      "workflowName": "Support Ticket Triage",
+      "mode": "live",
+      "status": "completed",
+      "startedAt": "2026-09-27T15:58:52.111Z",
+      "decisions": [
+        {
+          "node": "classify",
+          "engine": "jev",
+          "simulated": false,
+          "model": "jev-1.13.0",
+          "answer": {
+            "type": "choice",
+            "choice": "technical",
+            "confidence": 1,
+            "probabilities": {
+              "technical": 1,
+              "billing": 0
+            }
+          },
+          "route": "technical",
+          "usage": {
+            "input_tokens": 957,
+            "output_tokens": 31
+          },
+          "latencyMs": 215
+        }
+      ],
+      "nodes": [
+        {
+          "id": "input",
+          "status": "completed",
+          "durationMs": 1
+        },
+        {
+          "id": "classify",
+          "status": "completed",
+          "durationMs": 216
+        },
+        {
+          "id": "billing",
+          "status": "skipped"
+        },
+        {
+          "id": "technical",
+          "status": "completed",
+          "durationMs": 10636
+        },
+        {
+          "id": "review",
+          "status": "skipped"
+        },
+        {
+          "id": "output",
+          "status": "completed",
+          "durationMs": 1
+        }
+      ]
+    },
+    {
+      "id": "3aec48e9-73e5-4d88-bb3c-0e06cd9371a9",
+      "workflowName": "Release readiness · Jev",
+      "mode": "live",
+      "status": "completed",
+      "startedAt": "2026-09-27T15:58:06.060Z",
+      "decisions": [
+        {
+          "node": "readiness",
+          "engine": "jev",
+          "simulated": false,
+          "model": "jev-1.13.0",
+          "answer": {
+            "type": "score",
+            "score": 0,
+            "confidence": 1,
+            "probabilities": {
+              "0": 1,
+              "1": 0,
+              "2": 0
+            },
+            "legend": {
+              "0": "Blocked: required checks fail or blockers exist",
+              "1": "Incomplete: evidence is missing or mixed",
+              "2": "Ready: all required checks pass and rollback is documented"
+            }
+          },
+          "route": "fail",
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 17
+          },
+          "latencyMs": 128
+        }
+      ],
+      "nodes": [
+        {
+          "id": "input",
+          "status": "completed",
+          "durationMs": 1
+        },
+        {
+          "id": "readiness",
+          "status": "completed",
+          "durationMs": 129
+        },
+        {
+          "id": "ready",
+          "status": "skipped"
+        },
+        {
+          "id": "blocked",
+          "status": "completed",
+          "durationMs": 2
+        },
+        {
+          "id": "review",
+          "status": "skipped"
+        }
+      ]
+    },
+    {
+      "id": "8ab9b08f-ae70-4a5b-b9a3-f6e054ed8a37",
+      "workflowName": "Release readiness · Jev",
+      "mode": "live",
+      "status": "completed",
+      "startedAt": "2026-09-27T15:57:14.128Z",
+      "decisions": [
+        {
+          "node": "readiness",
+          "engine": "jev",
+          "simulated": false,
+          "model": "jev-1.13.0",
+          "answer": {
+            "type": "score",
+            "score": 1.95,
+            "confidence": 0.92,
+            "probabilities": {
+              "0": 0,
+              "1": 0.05,
+              "2": 0.95
+            },
+            "legend": {
+              "0": "Blocked: required checks fail or blockers exist",
+              "1": "Incomplete: evidence is missing or mixed",
+              "2": "Ready: all required checks pass and rollback is documented"
+            }
+          },
+          "route": "pass",
+          "usage": {
+            "input_tokens": 597,
+            "output_tokens": 17
+          },
+          "latencyMs": 194
+        }
+      ],
+      "nodes": [
+        {
+          "id": "input",
+          "status": "completed",
+          "durationMs": 1
+        },
+        {
+          "id": "readiness",
+          "status": "completed",
+          "durationMs": 195
+        },
+        {
+          "id": "ready",
+          "status": "completed",
+          "durationMs": 1
+        },
+        {
+          "id": "blocked",
+          "status": "skipped"
+        },
+        {
+          "id": "review",
+          "status": "skipped"
+        }
+      ]
+    }
+  ]
+}

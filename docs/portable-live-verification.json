@@ -1,0 +1,14 @@
+{
+  "verifiedAt": "2026-09-27T01:13:03.854Z",
+  "appRunning": false,
+  "noNodeModules": true,
+  "elapsedMs": 11645,
+  "status": "completed",
+  "mode": "live",
+  "runId": "2f104a2b-d1f0-4993-9d39-6f4b7ca7012d",
+  "checkpoint": "results/runs/2f104a2b-d1f0-4993-9d39-6f4b7ca7012d.json",
+  "artifacts": "results/artifacts",
+  "results": {
+    "output": "Synthetic example\n\n\ud83d\udee0\ufe0f Demo Platform Team (Weekly update)\nProgress: Verified a portable workflow runner outside the desktop app. No production release has occurred.\nPlans: Collect usability feedback.\nProblems: No blockers were specified in the provided facts."
+  }
+}

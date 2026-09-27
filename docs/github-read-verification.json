@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-09-27T02:06:59.396Z",
+  "status": "completed",
+  "repository": "nodejs/node",
+  "method": "GET",
+  "credentialsUsed": false,
+  "issues": [
+    {
+      "number": 66333,
+      "title": "deps: update timezone to 2026d",
+      "url": "https://github.com/nodejs/node/pull/66333"
+    },
+    {
+      "number": 66332,
+      "title": "deps: update undici to 8.11.2",
+      "url": "https://github.com/nodejs/node/pull/66332"
+    },
+    {
+      "number": 66331,
+      "title": "deps: update lief to 1.0.0",
+      "url": "https://github.com/nodejs/node/pull/66331"
+    }
+  ]
+}

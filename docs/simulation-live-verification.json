@@ -1,0 +1,177 @@
+{
+  "verifiedAt": "2026-09-27T02:01:50.768Z",
+  "environment": "Local synthetic GitHub API and grocery storefront; real Chrome and Codex CLI. No real account data, purchases or repository writes.",
+  "results": [
+    {
+      "persona": "GitHub maintainer",
+      "status": "completed",
+      "mode": "live",
+      "provider": "codex",
+      "durationMs": 19130,
+      "output": {
+        "filename": "maintainer-brief.md",
+        "content": "# Save maintainer handoff\n\n## Task\n{\n  \"task\": \"Triage open issues and pull requests. Identify urgent bugs, unanswered questions, and review priorities. Draft suggested replies without publishing them.\",\n  \"owner\": \"acme\",\n  \"repo\": \"project\"\n}\n\n## Connected context\nThis snapshot contains **2 unique issues and 1 PR**, deduplicated by number across the supplied data. It covers up to 30 issues and 30 PRs, not a full repository audit. Suggested labels below are proposals; available repository labels are unknown.\n\n| Priority | Item | Reason and suggested labels | Missing information |\n|---|---|---|---|\n| High — investigate first | [Issue #12: Crash when loading an empty project](https://github.com/acme/project/issues/12) | Crash in a basic workflow, with reproduction steps supplied. Scope and severity remain unverified. Keep `bug`; suggest `needs-reproduction`. | Affected version, environment, crash logs, reproducibility, and whether data is lost. |\n| High — first review | [PR #14: Fix empty project crash](https://github.com/acme/project/pull/14) | Non-draft PR whose title suggests a fix for #12; the relationship is not confirmed. Suggest `bug`. | Diff, explicit issue linkage, regression test, CI results, and review status. |\n| Low — clarify | [Issue #13: Documentation typo](https://github.com/acme/project/issues/13) | Title indicates a documentation correction, but no body is supplied. Keep `documentation`; suggest `needs-information`. | Page/file, incorrect text, and proposed correction. |\n\n**Draft replies**\n\n- **#12:** “Thanks for the reproduction steps. Which version and OS are you using, and does reopening an empty project consistently crash? Please share any crash logs and whether project data is affected. PR #14 appears related; we still need to confirm it addresses this reproduction.”\n- **#14:** “Please confirm whether this fixes #12 and include a regression test covering creation and reopening of an empty project. Could you also provide the validation steps and test results?”\n- **#13:** “Could you share the documentation page or file, the text containing the typo, and the suggested correction?”\n\n**Unanswered questions:** None can be confirmed from this data. Comments, timestamps, and response history were not supplied, so unanswered status and staleness cannot be assessed.\n\nNo replies were posted, labels changed, or items merged or closed.\n"
+      },
+      "events": [
+        {
+          "time": "2026-09-27T02:01:13.607Z",
+          "message": "Live run started"
+        },
+        {
+          "time": "2026-09-27T02:01:13.608Z",
+          "nodeId": "input",
+          "message": "Workflow input started"
+        },
+        {
+          "time": "2026-09-27T02:01:13.609Z",
+          "nodeId": "input",
+          "message": "Workflow input completed"
+        },
+        {
+          "time": "2026-09-27T02:01:13.609Z",
+          "nodeId": "issues",
+          "message": "Read open issues started"
+        },
+        {
+          "time": "2026-09-27T02:01:13.610Z",
+          "nodeId": "pulls",
+          "message": "Read open pull requests started"
+        },
+        {
+          "time": "2026-09-27T02:01:13.622Z",
+          "nodeId": "issues",
+          "message": "Read open issues completed"
+        },
+        {
+          "time": "2026-09-27T02:01:13.624Z",
+          "nodeId": "pulls",
+          "message": "Read open pull requests completed"
+        },
+        {
+          "time": "2026-09-27T02:01:13.625Z",
+          "nodeId": "triage",
+          "message": "Maintainer brief started"
+        },
+        {
+          "time": "2026-09-27T02:01:32.728Z",
+          "nodeId": "triage",
+          "message": "Maintainer brief completed"
+        },
+        {
+          "time": "2026-09-27T02:01:32.730Z",
+          "nodeId": "handoff",
+          "message": "Save maintainer handoff started"
+        },
+        {
+          "time": "2026-09-27T02:01:32.732Z",
+          "nodeId": "handoff",
+          "message": "Save maintainer handoff completed"
+        },
+        {
+          "time": "2026-09-27T02:01:32.733Z",
+          "nodeId": "output",
+          "message": "Final output started"
+        },
+        {
+          "time": "2026-09-27T02:01:32.734Z",
+          "nodeId": "output",
+          "message": "Final output completed"
+        },
+        {
+          "time": "2026-09-27T02:01:32.735Z",
+          "message": "Run completed"
+        }
+      ]
+    },
+    {
+      "persona": "Budget and allergy-conscious shopper",
+      "status": "completed",
+      "mode": "live",
+      "provider": "codex",
+      "durationMs": 18029,
+      "output": {
+        "type": "browser",
+        "needsReview": true,
+        "summary": "Cart contains 1 oat milk ($4.00) and 1 rolled oats ($3.00), total $7.00—under $15. Both are in stock and labeled no nuts. No substitutions added. Stopped before checkout. This is a local simulation; configure a real grocery website and sign in through Open workflow browser for real shopping.",
+        "url": "http://127.0.0.1:55285/shop",
+        "screenshot": "0e543ff4-2e53-4307-8d8a-612259bf1083-shop-browser-2.png",
+        "actions": [
+          {
+            "action": "click",
+            "target": 2
+          },
+          {
+            "action": "click",
+            "target": 3
+          }
+        ]
+      },
+      "events": [
+        {
+          "time": "2026-09-27T02:01:32.737Z",
+          "message": "Live run started"
+        },
+        {
+          "time": "2026-09-27T02:01:32.738Z",
+          "nodeId": "input",
+          "message": "Workflow input started"
+        },
+        {
+          "time": "2026-09-27T02:01:32.739Z",
+          "nodeId": "input",
+          "message": "Workflow input completed"
+        },
+        {
+          "time": "2026-09-27T02:01:32.739Z",
+          "nodeId": "shop",
+          "message": "Prepare grocery cart started"
+        },
+        {
+          "time": "2026-09-27T02:01:33.621Z",
+          "nodeId": "shop",
+          "message": "Browser step 1: observing 127.0.0.1"
+        },
+        {
+          "time": "2026-09-27T02:01:38.799Z",
+          "nodeId": "shop",
+          "message": "Browser: click Add Oat milk"
+        },
+        {
+          "time": "2026-09-27T02:01:39.209Z",
+          "nodeId": "shop",
+          "message": "Browser step 2: observing 127.0.0.1"
+        },
+        {
+          "time": "2026-09-27T02:01:43.646Z",
+          "nodeId": "shop",
+          "message": "Browser: click Add Rolled oats"
+        },
+        {
+          "time": "2026-09-27T02:01:44.058Z",
+          "nodeId": "shop",
+          "message": "Browser step 3: observing 127.0.0.1"
+        },
+        {
+          "time": "2026-09-27T02:01:50.764Z",
+          "nodeId": "shop",
+          "message": "Prepare grocery cart completed"
+        },
+        {
+          "time": "2026-09-27T02:01:50.765Z",
+          "nodeId": "output",
+          "message": "Review prepared cart started"
+        },
+        {
+          "time": "2026-09-27T02:01:50.765Z",
+          "nodeId": "output",
+          "message": "Review prepared cart completed"
+        },
+        {
+          "time": "2026-09-27T02:01:50.766Z",
+          "message": "Run completed"
+        }
+      ]
+    }
+  ],
+  "purchases": 0
+}

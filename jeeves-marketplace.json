@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "workflows": [
+    {
+      "id": "research-brief",
+      "name": "Research to brief",
+      "description": "A focused research team. One clear handoff. A brief worth reading.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "Research",
+        "Briefs"
+      ],
+      "nodeCount": 7,
+      "providers": [
+        "openai",
+        "typesafe"
+      ],
+      "path": "marketplace/workflows/research-brief.json",
+      "sha256": "f31c35b06b16aa5be8f2b6d7a3de6a64beca59214383d9430b1649ee5bd899e5"
+    },
+    {
+      "id": "review-loop",
+      "name": "Draft & review",
+      "description": "Create a draft, pass the context, and give it a second pair of eyes.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "Writing",
+        "Review"
+      ],
+      "nodeCount": 5,
+      "providers": [
+        "openai"
+      ],
+      "path": "marketplace/workflows/review-loop.json",
+      "sha256": "de024f61e5676f1cb43d0c4bc0059fd5c5259943224d388b4011a8c2ea7078a7"
+    },
+    {
+      "id": "github-maintenance",
+      "name": "GitHub maintenance",
+      "description": "Read repository issues and pull requests, then prepare a prioritized maintainer brief. No comments, labels, or merges are submitted.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "GitHub",
+        "Maintenance"
+      ],
+      "nodeCount": 6,
+      "providers": [
+        "openai"
+      ],
+      "path": "marketplace/workflows/github-maintenance.json",
+      "sha256": "3347338c55138b8923d25fc99223e668eacb35a651c2c2020d8c162bf2138c9e"
+    },
+    {
+      "id": "grocery-browser",
+      "name": "Grocery cart preparation",
+      "description": "Use a browser agent to compare groceries and prepare a cart within your constraints. Review the cart yourself; checkout is manual.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "Browser",
+        "Shopping"
+      ],
+      "nodeCount": 3,
+      "providers": [
+        "codex"
+      ],
+      "path": "marketplace/workflows/grocery-browser.json",
+      "sha256": "d8c7a588334b9841bac9c8b2d90d381dda991af3fefb6b51473e33ff1a5ec619"
+    },
+    {
+      "id": "meeting-notes-to-actions",
+      "name": "Meeting notes to actions",
+      "description": "Turn meeting notes into decisions, actions with owners, and open questions. Includes synthetic example notes.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "Meetings",
+        "Productivity"
+      ],
+      "nodeCount": 3,
+      "providers": [
+        "codex"
+      ],
+      "path": "marketplace/workflows/meeting-notes-to-actions.json",
+      "sha256": "4b4bc22442410ccc84a4f39f07fcfdf2a59530d2c1b07c4cb4035fe425235c28"
+    },
+    {
+      "id": "bug-report-triage",
+      "name": "Bug report triage",
+      "description": "Triage reports with Jev into urgent, normal, or needs-information branches. Low confidence also goes to review. Codex drafts the selected brief; nothing is posted.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "Engineering",
+        "Triage"
+      ],
+      "nodeCount": 6,
+      "providers": [
+        "typesafe",
+        "codex"
+      ],
+      "path": "marketplace/workflows/bug-report-triage.json",
+      "sha256": "79bbdf66b1df7f9e03a6a3c3392b6cb01253a12a28a72d5cb69dbf858be0611b"
+    },
+    {
+      "id": "project-status-from-notes",
+      "name": "Project status from notes",
+      "description": "Draft a concise project status update from notes using the installed internal-comms skill. Includes synthetic example facts; nothing is sent.",
+      "author": "Jeeves contributors",
+      "license": "MIT",
+      "tags": [
+        "Writing",
+        "Skills"
+      ],
+      "nodeCount": 3,
+      "providers": [
+        "codex"
+      ],
+      "path": "marketplace/workflows/project-status-from-notes.json",
+      "sha256": "8611b2820a3bad31371868bbcfc3d2f912a4f5db28634c85f256f1aa70472874"
+    }
+  ]
+}

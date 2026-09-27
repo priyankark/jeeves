@@ -1,0 +1,160 @@
+{
+  "format": "jeeves-workflow",
+  "version": 1,
+  "name": "Grocery cart preparation",
+  "description": "Use a browser agent to compare groceries and prepare a cart within your constraints. Review the cart yourself; checkout is manual.",
+  "author": "Jeeves contributors",
+  "license": "MIT",
+  "tags": [
+    "Browser",
+    "Shopping"
+  ],
+  "rootId": "grocery-browser",
+  "workflows": {
+    "grocery-browser": {
+      "id": "grocery-browser",
+      "name": "Grocery cart preparation",
+      "description": "Use a browser agent to compare groceries and prepare a cart within your constraints. Review the cart yourself; checkout is manual.",
+      "skillIds": [],
+      "nodes": [
+        {
+          "id": "input",
+          "type": "workflowNode",
+          "position": {
+            "x": 30,
+            "y": 140
+          },
+          "data": {
+            "kind": "input",
+            "label": "Workflow input",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "authEnv": "",
+            "browserMode": "observe",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "shop",
+          "type": "workflowNode",
+          "position": {
+            "x": 350,
+            "y": 140
+          },
+          "data": {
+            "kind": "browser",
+            "label": "Prepare grocery cart",
+            "description": "",
+            "prompt": "Read the shopping task and dietary/budget constraints. Find exact matching products, inspect prices and stock, and add only suitable items. Never substitute allergenic products. If a budget or constraint cannot be met, report the blocker. Summarize exact items, quantities, prices and total from the cart, then return review before checkout. Never place an order. The user must configure a real grocery website and sign in through Open workflow browser before running if needed.",
+            "provider": "codex",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "https://groceries.example",
+            "body": "",
+            "authEnv": "",
+            "browserMode": "interact",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "output",
+          "type": "workflowNode",
+          "position": {
+            "x": 700,
+            "y": 140
+          },
+          "data": {
+            "kind": "output",
+            "label": "Review prepared cart",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "authEnv": "",
+            "browserMode": "observe",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "shop-1",
+          "source": "input",
+          "target": "shop"
+        },
+        {
+          "id": "shop-2",
+          "source": "shop",
+          "target": "output"
+        }
+      ],
+      "input": "{\n  \"task\": \"Prepare a grocery cart with oat milk and rolled oats. No nut products or substitutions. Keep the total under $15. Stop before checkout.\",\n  \"budget\": 15,\n  \"dietary_constraints\": \"No nut products. Do not substitute unavailable items.\"\n}"
+    }
+  },
+  "skills": []
+}

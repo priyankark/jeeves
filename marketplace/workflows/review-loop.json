@@ -1,0 +1,237 @@
+{
+  "format": "jeeves-workflow",
+  "version": 1,
+  "name": "Draft & review",
+  "description": "Create a draft, pass the context, and give it a second pair of eyes.",
+  "author": "Jeeves contributors",
+  "license": "MIT",
+  "tags": [
+    "Writing",
+    "Review"
+  ],
+  "rootId": "review-loop",
+  "workflows": {
+    "review-loop": {
+      "id": "review-loop",
+      "name": "Draft & review",
+      "description": "Create a draft, pass the context, and give it a second pair of eyes.",
+      "skillIds": [],
+      "nodes": [
+        {
+          "id": "input",
+          "type": "workflowNode",
+          "position": {
+            "x": 60,
+            "y": 200
+          },
+          "data": {
+            "kind": "input",
+            "label": "Workflow input",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "draft",
+          "type": "workflowNode",
+          "position": {
+            "x": 370,
+            "y": 200
+          },
+          "data": {
+            "kind": "agent",
+            "label": "Draft specialist",
+            "description": "",
+            "prompt": "Write a thoughtful first draft for the requested task.",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "handoff",
+          "type": "workflowNode",
+          "position": {
+            "x": 680,
+            "y": 200
+          },
+          "data": {
+            "kind": "handoff",
+            "label": "Context handoff",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "review",
+          "type": "workflowNode",
+          "position": {
+            "x": 990,
+            "y": 200
+          },
+          "data": {
+            "kind": "agent",
+            "label": "Critical reviewer",
+            "description": "",
+            "prompt": "Review the draft for clarity and unsupported claims. Return an improved version with a short explanation.",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "output",
+          "type": "workflowNode",
+          "position": {
+            "x": 1300,
+            "y": 200
+          },
+          "data": {
+            "kind": "output",
+            "label": "Final output",
+            "description": "",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "review-0",
+          "source": "input",
+          "target": "draft"
+        },
+        {
+          "id": "review-1",
+          "source": "draft",
+          "target": "handoff"
+        },
+        {
+          "id": "review-2",
+          "source": "handoff",
+          "target": "review"
+        },
+        {
+          "id": "review-3",
+          "source": "review",
+          "target": "output"
+        }
+      ],
+      "input": "{\n  \"task\": \"Draft a launch announcement for an open-source workflow builder.\"\n}"
+    }
+  },
+  "skills": []
+}

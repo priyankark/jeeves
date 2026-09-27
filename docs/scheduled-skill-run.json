@@ -1,0 +1,17 @@
+{
+  "scheduleId": "c74d4673-67b9-4ace-a255-706febdb7418",
+  "scheduledAt": "2026-09-27T00:42:58.631Z",
+  "runId": "25fcc7b3-b5b8-4ba3-a711-6ea64744b53a",
+  "status": "completed",
+  "startedAt": "2026-09-27T00:42:59.508Z",
+  "finishedAt": "2026-09-27T00:43:11.786Z",
+  "provider": "codex",
+  "skill": {
+    "name": "internal-comms",
+    "repo": "anthropics/skills",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "fileCount": 6
+  },
+  "nodeDurationMs": 12263,
+  "output": "Synthetic example\n\n🛠️ Demo Platform Team (This week)\nProgress: Shipped the workflow schedule editor in a test environment. Verified 12 browser scenarios against fixtures.\nPlans: Validate installer packaging next week.\nProblems: No production rollout has occurred."
+}

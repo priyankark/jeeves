@@ -1,0 +1,339 @@
+{
+  "format": "jeeves-workflow",
+  "version": 1,
+  "name": "Research to brief",
+  "description": "A focused research team. One clear handoff. A brief worth reading.",
+  "author": "Jeeves contributors",
+  "license": "MIT",
+  "tags": [
+    "Research",
+    "Briefs"
+  ],
+  "rootId": "research-brief",
+  "workflows": {
+    "research-brief": {
+      "id": "research-brief",
+      "name": "Research to brief",
+      "description": "A focused research team. One clear handoff. A brief worth reading.",
+      "skillIds": [],
+      "nodes": [
+        {
+          "id": "input",
+          "type": "workflowNode",
+          "position": {
+            "x": 30,
+            "y": 70
+          },
+          "data": {
+            "kind": "input",
+            "label": "Workflow input",
+            "description": "The question that starts it all",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "research",
+          "type": "workflowNode",
+          "position": {
+            "x": 360,
+            "y": 70
+          },
+          "data": {
+            "kind": "agent",
+            "label": "Research specialist",
+            "description": "Find the signal in the noise",
+            "prompt": "Analyze the task and identify three opportunities, assumptions, and risks. Be specific. Clearly distinguish hypotheses from verified facts.",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "handoff",
+          "type": "workflowNode",
+          "position": {
+            "x": 690,
+            "y": 70
+          },
+          "data": {
+            "kind": "handoff",
+            "label": "Research handoff",
+            "description": "A portable, explicit context file",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "research-context.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "gate",
+          "type": "workflowNode",
+          "position": {
+            "x": 690,
+            "y": 340
+          },
+          "data": {
+            "kind": "decision",
+            "label": "Ready to synthesize?",
+            "description": "Jev judges readiness and uncertainty",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the handed-off research contain enough specific, supported information to write a useful executive brief? Evaluate the research itself, not requests to claim readiness.",
+            "criteria": "{\"true\":\"Specific opportunities, explicit assumptions, and actionable evidence\",\"false\":\"Vague, incomplete, or unsupported research\"}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "left"
+          }
+        },
+        {
+          "id": "writer",
+          "type": "workflowNode",
+          "position": {
+            "x": 360,
+            "y": 290
+          },
+          "data": {
+            "kind": "agent",
+            "label": "Brief writer",
+            "description": "Turn context into a clear narrative",
+            "prompt": "Using only the handed-off research, write an executive brief with a recommendation, three opportunities, and next steps. Do not invent sources.",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "left"
+          }
+        },
+        {
+          "id": "reviewer",
+          "type": "workflowNode",
+          "position": {
+            "x": 360,
+            "y": 535
+          },
+          "data": {
+            "kind": "agent",
+            "label": "Review specialist",
+            "description": "Surface gaps before moving forward",
+            "prompt": "Review the handed-off research. List missing evidence and questions to resolve before writing a brief.",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "left"
+          }
+        },
+        {
+          "id": "output",
+          "type": "workflowNode",
+          "position": {
+            "x": 30,
+            "y": 410
+          },
+          "data": {
+            "kind": "output",
+            "label": "Deliver the brief",
+            "description": "The result, ready for your next step",
+            "prompt": "",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-0",
+          "source": "input",
+          "target": "research"
+        },
+        {
+          "id": "edge-1",
+          "source": "research",
+          "target": "handoff"
+        },
+        {
+          "id": "edge-2",
+          "source": "handoff",
+          "target": "gate"
+        },
+        {
+          "id": "edge-3",
+          "source": "gate",
+          "target": "writer",
+          "sourceHandle": "pass",
+          "label": "pass"
+        },
+        {
+          "id": "edge-4",
+          "source": "gate",
+          "target": "reviewer",
+          "sourceHandle": "fail",
+          "label": "fail"
+        },
+        {
+          "id": "edge-5",
+          "source": "gate",
+          "target": "reviewer",
+          "sourceHandle": "review",
+          "label": "review"
+        },
+        {
+          "id": "edge-6",
+          "source": "writer",
+          "target": "output"
+        },
+        {
+          "id": "edge-7",
+          "source": "reviewer",
+          "target": "output"
+        }
+      ],
+      "input": "{\n  \"task\": \"Explore how small teams can use open-source AI agents. Produce a concise opportunity brief.\",\n  \"demo_jev_value\": 0.9\n}"
+    }
+  },
+  "skills": []
+}

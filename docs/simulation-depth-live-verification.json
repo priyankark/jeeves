@@ -1,0 +1,52 @@
+{
+  "verifiedAt": "2026-09-27T09:04:56.306Z",
+  "browser": {
+    "provider": "Codex CLI",
+    "fixture": "Local synthetic grocery options",
+    "durationMs": 25930,
+    "type": "browser",
+    "needsReview": true,
+    "summary": "Cart verified: exactly 2 bottles of oat milk, substitutions disabled. At $4 per bottle, the item total is $8, under the $10 budget. Checkout has not been clicked; proceed manually when ready.",
+    "url": "http://127.0.0.1:63831/options",
+    "screenshot": "e309c7a9-11ae-486b-934a-f3bccb1777cd-browser-3.png",
+    "actions": [
+      {
+        "action": "select",
+        "target": 0,
+        "value": "2"
+      },
+      {
+        "action": "check",
+        "target": 1,
+        "checked": false
+      },
+      {
+        "action": "click",
+        "target": 3
+      }
+    ],
+    "manualReviewText": "Cart: 2 bottles. Substitutions: false",
+    "purchases": 0
+  },
+  "github": {
+    "repository": "nodejs/node",
+    "method": "GET",
+    "credentialsUsed": false,
+    "items": [
+      {
+        "number": 66345,
+        "url": "https://github.com/nodejs/node/pull/66345"
+      },
+      {
+        "number": 66344,
+        "url": "https://github.com/nodejs/node/pull/66344"
+      }
+    ],
+    "pagination": {
+      "pages": 2,
+      "itemCount": 2,
+      "truncated": true,
+      "next": "https://api.github.com/repositories/27193779/issues?state=open&per_page=1&after=Y3Vyc29yOnYyOpLPAAABoOIEgIjPAAAAAU3bMSY%3D&page=3"
+    }
+  }
+}

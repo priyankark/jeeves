@@ -1,0 +1,16 @@
+{
+  "packaged": true,
+  "userData": "/Users/priyankar/Library/Application Support/jeeves",
+  "path": "/Users/priyankar/jeeves/release/Jeeves-darwin-arm64/Jeeves.app/Contents/Resources/app",
+  "coldStartMs": 3736,
+  "files": [
+    "LICENSE",
+    "dist",
+    "electron",
+    "marketplace",
+    "package.json",
+    "runtime"
+  ],
+  "errors": [],
+  "nodeIntegration": "undefined"
+}
