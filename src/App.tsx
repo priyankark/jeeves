@@ -794,8 +794,8 @@ export default function App() {
           <img
             src="/jeeves-icon.png"
             alt="Jeeves home"
-            width="44"
-            height="44"
+            width="36"
+            height="36"
           />
         </button>
         <div className="rail-top">
