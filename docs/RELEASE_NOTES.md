@@ -2,6 +2,14 @@ Jeeves desktop preview: turn repeat work into a workflow.
 
 Start with **Try the example** to turn sample project notes into a weekly update without an API key. Add your own notes and connect one AI service when ready. Inspect and edit the steps, collect input during a run, and reuse the process.
 
+## More reliable browser control
+
+- When a retailer replaces or covers a control, Jeeves refreshes its page view and replans up to three times instead of failing with a locator timeout.
+- Recovery does not consume the configured action budget. Repeated instability pauses with a current screenshot and a clear next action.
+- If an action was dispatched but its result is uncertain, Jeeves pauses without repeating it.
+- Browser time limits scale with the configured step count, up to ten minutes, while Stop remains available.
+- Verified against a real Costco search and product navigation, plus browser tests for rerenders, covering popups, and uncertain actions.
+
 ## Waiting for you
 
 - Browser requests for login, missing information, or review now pause the run durably instead of reporting completion and running later steps.

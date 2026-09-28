@@ -136,3 +136,57 @@ it("browser handoffs survive restart, require a fresh explicit action, and prese
   });
   expect(task).toHaveBeenCalledTimes(2); // Accepting never performs another browser action.
 });
+
+it("a 30-step browser workflow can run beyond three minutes while remaining bounded", async () => {
+  const workflow = structuredClone(groceryCart);
+  workflow.nodes.find((n) => n.id === "shop")!.data.browserSteps = 30;
+  const run = createRun(workflow, "live", randomUUID());
+  await execute(run);
+  answerInput(
+    run,
+    "shopping-details",
+    run.nodes["shopping-details"].requestId!,
+    answers,
+  );
+  run.status = "running";
+  vi.useFakeTimers();
+  try {
+    vi.spyOn(AbortSignal, "timeout").mockImplementation((ms) => {
+      const controller = new AbortController();
+      setTimeout(
+        () => controller.abort(new Error("Browser time limit reached")),
+        ms,
+      );
+      return controller.signal;
+    });
+    let browserSignal: AbortSignal | undefined;
+    vi.spyOn(browser, "runBrowserTask").mockImplementation(
+      async (_data, _context, signal) => {
+        browserSignal = signal;
+        return new Promise((resolve, reject) => {
+          signal.addEventListener("abort", () => reject(signal.reason), {
+            once: true,
+          });
+          setTimeout(() => resolve(review), 210000);
+        });
+      },
+    );
+    const running = executeRun(
+      run,
+      run.input,
+      new AbortController().signal,
+      undefined,
+      async () => {},
+    );
+    await vi.waitFor(() => expect(browserSignal).toBeDefined());
+    await vi.advanceTimersByTimeAsync(210000);
+    await running;
+    expect(run.status).toBe("waiting");
+    expect(browserSignal!.aborted).toBe(false);
+    await vi.advanceTimersByTimeAsync(600000);
+    expect(browserSignal!.aborted).toBe(true);
+  } finally {
+    vi.clearAllTimers();
+    vi.useRealTimers();
+  }
+});

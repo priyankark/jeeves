@@ -445,7 +445,17 @@ export async function executeRun(
               node,
               { input, parents, previous },
               run,
-              AbortSignal.any([executionSignal, AbortSignal.timeout(180000)]),
+              AbortSignal.any([
+                executionSignal,
+                AbortSignal.timeout(
+                  node.data.kind === "browser"
+                    ? Math.min(
+                        600000,
+                        Math.max(180000, (node.data.browserSteps + 3) * 20000),
+                      )
+                    : 180000,
+                ),
+              ]),
               stack,
             );
             executionSignal.throwIfAborted();
