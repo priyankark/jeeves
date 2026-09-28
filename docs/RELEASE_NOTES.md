@@ -8,6 +8,7 @@ Start with **Try the example** to turn sample project notes into a weekly update
 - Product links with partially covered click areas use an exposed, verified point on the selected link; clicks are never forced through overlays.
 - Recovery does not consume the configured action budget. Repeated instability pauses with a current screenshot and a clear next action.
 - If an action was dispatched but its result is uncertain, Jeeves pauses without repeating it.
+- Observed page text and source URLs are retained across browser steps and human handoffs, so the agent can avoid repeated searches and pass real evidence to later workflow steps. The record is capped at 30 pages and 8,000 characters per page.
 - Browser time limits scale with the configured step count, up to ten minutes, while Stop remains available.
 - Verified against a real Costco search and product navigation, plus browser tests for rerenders, covering popups, and uncertain actions.
 

@@ -16,6 +16,14 @@ const site = createServer((req, res) => {
     return;
   }
   res.setHeader("Content-Type", "text/html");
+  if (req.url === "/first" || req.url === "/second") {
+    res.end(
+      req.url === "/first"
+        ? '<h1>Milk: $4 per carton</h1><a href="/second">Next product</a>'
+        : "<h1>Oats: $5 per bag</h1>",
+    );
+    return;
+  }
   if (req.url === "/covered-center") {
     res.end(
       `<div style="position:relative;width:320px;height:260px"><a id="search" href="#product" style="display:block;width:320px;height:260px"><span style="position:absolute;bottom:15px;left:20px">Find prices</span></a><div style="position:absolute;inset:0 0 65px;background:white">Price box covering the link center</div></div><p id="result"></p><script>document.querySelector('#search').addEventListener('click',()=>{document.querySelector('#result').textContent='Prices found';fetch('/clicked')})</script>`,
@@ -174,4 +182,54 @@ it("clicks exposed link text when a price box covers the center of a product car
   expect(result.output.needsReview).toBe(false);
   expect(clicks).toBe(1);
   expect(events.some((message) => message.includes("refreshing"))).toBe(false);
+}, 20000);
+
+it("remembers observed prices across pages and a saved human handoff", async () => {
+  const { result } = await run(
+    async (observation, history, evidence) => {
+      if (!history.length)
+        return { action: "click", target: observation.controls[0].id };
+      expect(evidence).toEqual([
+        { url: origin + "/first", text: expect.stringContaining("Milk: $4") },
+        { url: origin + "/second", text: expect.stringContaining("Oats: $5") },
+      ]);
+      return { action: "review", summary: "Both prices recorded for review." };
+    },
+    2,
+    "/first",
+  );
+  const saved = JSON.parse(JSON.stringify(result.output));
+  await runBrowserTask(
+    makeNode("browser", "search", 0, 0, { url: origin + "/second" }).data,
+    { previousBrowserResult: saved },
+    new AbortController().signal,
+    randomUUID(),
+    randomUUID(),
+    [],
+    () => {},
+    async (_observation, _history, evidence) => {
+      expect(evidence).toHaveLength(2);
+      expect(evidence[0].text).toContain("Milk: $4");
+      return {
+        action: "done",
+        summary:
+          "Compared both observed prices without reopening the first page.",
+      };
+    },
+  );
+  const limited = await runBrowserTask(
+    makeNode("browser", "search", 0, 0, {
+      url: origin + "/first",
+      browserSteps: 1,
+    }).data,
+    {},
+    new AbortController().signal,
+    randomUUID(),
+    randomUUID(),
+    [],
+    () => {},
+    async () => ({ action: "scroll", direction: "down" }),
+  );
+  expect(limited.output.needsReview).toBe(true);
+  expect(limited.output.evidence?.[0].text).toContain("Milk: $4");
 }, 20000);
