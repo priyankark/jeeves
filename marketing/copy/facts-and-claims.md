@@ -16,7 +16,7 @@ Snapshot: September 27, 2026. Use this to keep future edits consistent with the 
 | Marketplace | File-based workflow packages and public GitHub catalogs | No hosted marketplace with network-effect or user-count claims; current project repo is private | `server/workflow-market.ts` |
 | Browser tasks | Separate Chrome session for bounded browser interaction | Human handles sign-in/MFA and checkout; real retailer reliability is unproven | `docs/CUA_SIGN_IN.md` |
 | Verification | Agent-operated desktop exploration and automated checks | Not a human usability study, customer validation, or general model benchmark | `docs/UX_CREATION_REVIEW.md` |
-| Source | Repository contains an MIT license | Repository is private. Do not describe it as publicly available open source until visibility changes | `LICENSE`, latest user instruction |
+| Source | Repository contains an Apache 2.0 license | Repository is private. Do not describe it as publicly available open source until visibility changes | `LICENSE`, latest user instruction |
 
 ## Avoid in current materials
 

@@ -7,7 +7,7 @@ const staging = await mkdtemp(path.join(tmpdir(), "jeeves-desktop-"));
 try {
   for (const dir of ["dist", "runtime", "electron", "marketplace"])
     await cp(dir, path.join(staging, dir), { recursive: true });
-  for (const file of ["LICENSE"]) await cp(file, path.join(staging, file));
+  for (const file of ["LICENSE", "NOTICE"]) await cp(file, path.join(staging, file));
   const source = JSON.parse(await readFile("package.json", "utf8"));
   await writeFile(
     path.join(staging, "package.json"),
@@ -16,7 +16,7 @@ try {
         name: "jeeves",
         version: source.version,
         description: source.description,
-        license: "MIT",
+        license: source.license,
         main: "electron/main.cjs",
       },
       null,

@@ -27,6 +27,7 @@ assert.deepEqual(
   (await readdir(resources)).sort(),
   [
     "LICENSE",
+    "NOTICE",
     "dist",
     "electron",
     "marketplace",
@@ -38,6 +39,28 @@ await readFile(
   path.join(resources, "runtime/node_modules/playwright-core/package.json"),
 );
 const { version } = JSON.parse(await readFile("package.json", "utf8"));
+assert.equal(
+  JSON.parse(await readFile(path.join(resources, "package.json"), "utf8"))
+    .license,
+  "Apache-2.0",
+);
+assert.match(
+  await readFile(path.join(resources, "NOTICE"), "utf8"),
+  /Jeeves contributors/,
+);
+const notices = await readFile(
+  path.join(resources, "runtime/THIRD_PARTY_NOTICES.txt"),
+  "utf8",
+);
+for (const dependency of [
+  "react@",
+  "express@",
+  "@fontsource-variable/manrope@",
+])
+  assert.ok(
+    notices.includes(dependency),
+    `Missing license notice: ${dependency}`,
+  );
 assert.equal(
   JSON.parse(await readFile(path.join(resources, "package.json"), "utf8"))
     .version,
@@ -77,6 +100,10 @@ try {
   await page
     .getByRole("button", { name: "Try the example", exact: true })
     .waitFor();
+  assert.equal(
+    await page.getByRole("main", { name: "Welcome to Jeeves" }).isVisible(),
+    true,
+  );
   assert.equal(await app.evaluate(({ app }) => app.getVersion()), version);
   const status = await fetch(`http://127.0.0.1:${port}/api/status`).then(
     (response) => response.json(),
@@ -111,6 +138,8 @@ try {
     arch: process.arch,
     packaged: true,
     checks: [
+      "Apache 2.0 license and third-party notices bundled",
+      "First-run welcome is visible in a clean workspace",
       "Allowlisted application files only",
       "Browser runtime bundled",
       "Packaged UI starts its own engine",

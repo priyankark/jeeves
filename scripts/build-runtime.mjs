@@ -1,7 +1,7 @@
 import { build } from "esbuild";
 import { mkdir, readFile, writeFile, readdir, cp, rm } from "node:fs/promises";
 await mkdir("runtime", { recursive: true });
-const portable = await build({
+await build({
   entryPoints: ["portable/entry.ts"],
   outfile: "runtime/runner.cjs",
   bundle: true,
@@ -25,23 +25,28 @@ await build({
   legalComments: "inline",
   external: ["playwright-core"],
 });
-const names = new Set(
-  Object.keys(portable.metafile.inputs)
-    .filter((p) => p.includes("node_modules/"))
-    .map((p) => {
-      const parts = p.split("node_modules/").at(-1).split("/");
-      return parts[0].startsWith("@") ? parts.slice(0, 2).join("/") : parts[0];
-    }),
-);
+// Include production dependencies for the UI and server as well as the runner.
+// The runner's import graph alone omits React, Express, and the bundled fonts.
+const lock = JSON.parse(await readFile("package-lock.json", "utf8"));
+const directories = Object.entries(lock.packages)
+  .filter(([dir, metadata]) => dir.startsWith("node_modules/") && !metadata.dev)
+  .map(([dir]) => dir)
+  .sort();
 const notices = [];
-for (const name of names) {
-  const dir = `node_modules/${name}`;
-  const p = JSON.parse(await readFile(`${dir}/package.json`, "utf8"));
+for (const dir of directories) {
+  let p;
+  try {
+    p = JSON.parse(await readFile(`${dir}/package.json`, "utf8"));
+  } catch (error) {
+    // Optional dependencies for other operating systems may not be installed.
+    if (error.code === "ENOENT" && lock.packages[dir].optional) continue;
+    throw error;
+  }
   const files = (await readdir(dir)).filter((f) =>
     /^(license|licence|copying|notice)(\.|$)/i.test(f),
   );
   notices.push(
-    `## ${name}@${p.version} (${p.license || "See package license"})\n`,
+    `## ${p.name}@${p.version} (${p.license || "See package license"})\n`,
   );
   for (const f of files) notices.push(await readFile(`${dir}/${f}`, "utf8"));
 }

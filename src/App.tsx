@@ -250,6 +250,18 @@ export default function App() {
     void reloadSkills().catch((e) => setError(e.message));
   }, [reloadSkills]);
   const [providers, setProviders] = useState<Providers>(initialProviders);
+  function updateProviders(next: Providers) {
+    setProviders(next);
+    if (!next[copilotProvider]) {
+      const available = (
+        ["openai", "codex", "openrouter", "local"] as const
+      ).find((p) => next[p]);
+      if (available) {
+        setCopilotProvider(available);
+        setCopilotModel("");
+      }
+    }
+  }
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
   const [chat, setChat] = useState("");
@@ -1111,6 +1123,7 @@ export default function App() {
         {page === "home" && (
           <Home
             workflows={saved}
+            ready={ready}
             mode={mode}
             onMode={setMode}
             provider={copilotProvider}
@@ -1118,7 +1131,7 @@ export default function App() {
             connected={!!providers[copilotProvider]}
             connectionVersion={JSON.stringify(providers)}
             providers={providers}
-            onProviders={setProviders}
+            onProviders={updateProviders}
             onEdit={(w) => void chooseWorkflow(w)}
             onExplore={() => setPage("explore")}
             onNew={() => newWorkflow()}
@@ -2650,7 +2663,7 @@ export default function App() {
             {modal === "settings" && (
               <>
                 <NotificationSettings />
-                <Connections providers={providers} onChange={setProviders} />
+                <Connections providers={providers} onChange={updateProviders} />
                 <Integrations
                   onChange={() =>
                     setProviders((p) => ({

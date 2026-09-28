@@ -6,7 +6,7 @@
       "name": "Research to brief",
       "description": "A focused research team. One clear handoff. A brief worth reading.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "Research",
         "Briefs"
@@ -17,14 +17,14 @@
         "typesafe"
       ],
       "path": "marketplace/workflows/research-brief.json",
-      "sha256": "f31c35b06b16aa5be8f2b6d7a3de6a64beca59214383d9430b1649ee5bd899e5"
+      "sha256": "d158b5c91c050d6e91ae1d80830b3cdd4e7615d80eb18b759b9df290b41585ed"
     },
     {
       "id": "review-loop",
       "name": "Draft & review",
       "description": "Create a draft, pass the context, and give it a second pair of eyes.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "Writing",
         "Review"
@@ -34,14 +34,14 @@
         "openai"
       ],
       "path": "marketplace/workflows/review-loop.json",
-      "sha256": "de024f61e5676f1cb43d0c4bc0059fd5c5259943224d388b4011a8c2ea7078a7"
+      "sha256": "08998ffb19771f1ff2cbec755e57f0bd781c5f05c0ff7eb957bc284ba016a4bc"
     },
     {
       "id": "github-maintenance",
       "name": "GitHub maintenance",
       "description": "Read repository issues and pull requests, then prepare a prioritized maintainer brief. No comments, labels, or merges are submitted.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "GitHub",
         "Maintenance"
@@ -51,14 +51,14 @@
         "openai"
       ],
       "path": "marketplace/workflows/github-maintenance.json",
-      "sha256": "3347338c55138b8923d25fc99223e668eacb35a651c2c2020d8c162bf2138c9e"
+      "sha256": "de783d8a3e4536db1786c670f043e10f2c59f9f0f6daf91b763c3f075ed55914"
     },
     {
       "id": "grocery-browser",
       "name": "Grocery cart preparation",
       "description": "Use a browser agent to compare groceries and prepare a cart within your constraints. Review the cart yourself; checkout is manual.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "Browser",
         "Shopping"
@@ -68,14 +68,14 @@
         "codex"
       ],
       "path": "marketplace/workflows/grocery-browser.json",
-      "sha256": "671a3464a404b936fc3bd85b666ecd7ce01b5527366f18e8dcd72f7716ddf26e"
+      "sha256": "1eaaa5bbc7ae6afdc48314252b3698670f7afa4afed7fd2541586937b32c0bfa"
     },
     {
       "id": "meeting-notes-to-actions",
       "name": "Meeting notes to actions",
       "description": "Turn meeting notes into decisions, actions with owners, and open questions. Includes synthetic example notes.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "Meetings",
         "Productivity"
@@ -85,14 +85,14 @@
         "codex"
       ],
       "path": "marketplace/workflows/meeting-notes-to-actions.json",
-      "sha256": "4b4bc22442410ccc84a4f39f07fcfdf2a59530d2c1b07c4cb4035fe425235c28"
+      "sha256": "56f41f944a73221fee85034e0ecb90b4a0cf46284be075713e535603cdcd31ba"
     },
     {
       "id": "bug-report-triage",
       "name": "Bug report triage",
       "description": "Triage reports with Jev into urgent, normal, or needs-information branches. Low confidence also goes to review. Codex drafts the selected brief; nothing is posted.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "Engineering",
         "Triage"
@@ -103,14 +103,14 @@
         "codex"
       ],
       "path": "marketplace/workflows/bug-report-triage.json",
-      "sha256": "79bbdf66b1df7f9e03a6a3c3392b6cb01253a12a28a72d5cb69dbf858be0611b"
+      "sha256": "b77fe39ac20467b0cd7846c4743701b9f0af1a8b6ee702d0f49c5a6bc2d8f4e3"
     },
     {
       "id": "project-status-from-notes",
       "name": "Project status from notes",
       "description": "Draft a concise project status update from notes using the installed internal-comms skill. Includes synthetic example facts; nothing is sent.",
       "author": "Jeeves contributors",
-      "license": "MIT",
+      "license": "Apache-2.0",
       "tags": [
         "Writing",
         "Skills"
@@ -120,7 +120,7 @@
         "codex"
       ],
       "path": "marketplace/workflows/project-status-from-notes.json",
-      "sha256": "8611b2820a3bad31371868bbcfc3d2f912a4f5db28634c85f256f1aa70472874"
+      "sha256": "dc3bed376f9bcd8895733de04836bc606fd4e3cc9a88eceec8af1666a0341e73"
     }
   ]
 }

@@ -1,4 +1,4 @@
-# Jeeves — launch copy
+# Jeeves: launch copy
 
 Prepared September 27, 2026. Primary audience: developers and AI power users who already use agents and want reusable processes. Current status: product preview; repository private. These are drafts to use when choosing to share a preview, not announcements of public availability.
 
@@ -108,7 +108,7 @@ Local-first has a concrete meaning here: workflows, conversations, and run histo
 
 The current product is a preview, with desktop testing on macOS Apple Silicon. The next useful conversation is about a real recurring task: a maintainer brief, a meeting follow-up, or a project update. What would you put in good order?
 
-## Outreach drafts — not sent
+## Outreach drafts: not sent
 
 ### Personal demo invitation
 

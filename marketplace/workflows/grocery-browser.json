@@ -4,7 +4,7 @@
   "name": "Grocery cart preparation",
   "description": "Use a browser agent to compare groceries and prepare a cart within your constraints. Review the cart yourself; checkout is manual.",
   "author": "Jeeves contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "tags": [
     "Browser",
     "Shopping"

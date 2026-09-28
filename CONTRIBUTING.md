@@ -1,6 +1,6 @@
 # Contributing to Jeeves
 
-Jeeves is a local-first desktop app released under the MIT license. No Jeeves account is required to run, build, or exchange workflows.
+Jeeves is a local-first desktop app released under the Apache License 2.0. No Jeeves account is required to run, build, or exchange workflows. Contributions to the app use the same license. Dependencies and third-party skills keep their own licenses and notices.
 
 ## Develop
 

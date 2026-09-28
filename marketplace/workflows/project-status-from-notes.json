@@ -4,7 +4,7 @@
   "name": "Project status from notes",
   "description": "Draft a concise project status update from notes using the installed internal-comms skill. Includes synthetic example facts; nothing is sent.",
   "author": "Jeeves contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "tags": [
     "Writing",
     "Skills"

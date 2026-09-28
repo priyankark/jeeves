@@ -4721,3 +4721,200 @@ body,
   flex: 1;
   font-size: 13px;
 }
+
+.onboarding-page {
+  overflow: auto;
+  height: 100%;
+  padding: 28px 42px 42px;
+  background: #f8f5ec;
+  color: #263626;
+}
+.onboarding-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.onboarding-brand {
+  font-family: Manrope, sans-serif;
+  font-size: 29px;
+  font-weight: 750;
+  letter-spacing: -1.5px;
+}
+.onboarding-welcome {
+  max-width: 950px;
+  margin: 50px auto 0;
+}
+.onboarding-welcome h1 {
+  font:
+    400 clamp(32px, 4.8vw, 62px)/1.14 Georgia,
+    serif;
+  letter-spacing: -1.7px;
+  margin: 18px 0 24px;
+}
+.onboarding-welcome h1 em {
+  color: #587048;
+}
+.onboarding-welcome > p {
+  max-width: 640px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #526149;
+}
+.onboarding-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin: 30px 0;
+}
+.onboarding-steps article {
+  border-top: 1px solid #cdd4c2;
+  padding-top: 17px;
+}
+.onboarding-steps article > span {
+  color: #79866a;
+  font-size: 11px;
+}
+.onboarding-steps h2 {
+  font-size: 15px;
+  margin: 12px 0 9px;
+}
+.onboarding-steps p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #526149;
+}
+.onboarding-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.onboarding-welcome .onboarding-note {
+  font-size: 12px;
+  margin-top: 16px;
+}
+.onboarding-connect {
+  max-width: 1100px;
+  margin: 28px auto;
+}
+.onboarding-connect > .eyebrow {
+  display: block;
+  margin-top: 24px;
+}
+.onboarding-connect h1 {
+  font-size: 30px;
+  letter-spacing: -1px;
+  margin: 12px 0;
+}
+.onboarding-page h1:focus {
+  outline: none;
+}
+.onboarding-intro {
+  max-width: 700px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #526149;
+}
+.onboarding-providers {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+  align-items: start;
+  margin: 28px 0;
+}
+.onboarding-providers > section {
+  min-width: 0;
+  background: #fffef9;
+  padding: 22px;
+  border: 1px solid #dce2d2;
+  border-radius: 12px;
+}
+.onboarding-providers h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+.onboarding-providers > section > p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #526149;
+}
+.onboarding-providers .connection-security {
+  display: none;
+}
+.onboarding-providers .connections {
+  margin-top: 22px;
+}
+.onboarding-providers .connection-card {
+  margin-bottom: 14px;
+}
+.onboarding-hint {
+  padding-top: 12px;
+}
+.onboarding-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #cdd4c2;
+}
+.onboarding-footer p {
+  max-width: 630px;
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+  color: #526149;
+}
+.onboarding-footer p svg {
+  vertical-align: middle;
+  margin-right: 6px;
+}
+.connection-key-link {
+  color: #506b3c;
+  font-size: 12px;
+  text-underline-offset: 3px;
+}
+@media (max-width: 1100px) {
+  .onboarding-page {
+    padding: 22px;
+  }
+  .onboarding-welcome {
+    margin-top: 28px;
+  }
+  .onboarding-welcome h1 {
+    font-size: 40px;
+  }
+  .onboarding-steps {
+    gap: 15px;
+    margin: 22px 0;
+  }
+  .onboarding-providers {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 650px) {
+  .onboarding-welcome h1 {
+    font-size: 32px;
+  }
+  .onboarding-steps {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .onboarding-steps article {
+    padding-top: 10px;
+  }
+  .onboarding-steps h2 {
+    margin: 7px 0;
+  }
+  .onboarding-page {
+    padding: 18px;
+  }
+  .onboarding-providers > section {
+    padding: 16px;
+  }
+}

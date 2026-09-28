@@ -1,6 +1,6 @@
 # Jeeves launch film
 
-A narrated 1080p walkthrough, approximately 65 seconds. Final files live in `site/media/` so the landing page and GitHub can link to the same video. Four Product Hunt gallery images and a square thumbnail are in `gallery/`.
+A narrated 1080p walkthrough, approximately 65 seconds. Final files live in `site/media/` so the landing page and GitHub can link to the same video. Five Product Hunt gallery images and a square thumbnail are in `gallery/`.
 
 The footage comes from real Jev (`jev-1.13.0`) and Codex runs in an isolated local workspace using synthetic requests. `live-audit.json` records the three classifications, generator checks, and successful human handoff. Model waiting time and setup/navigation are edited out. The video does not claim an end-to-end runtime or benchmark. The narration uses the macOS Daniel voice; no cloned voice or licensed music is used. No private customer data or credentials appear in the footage.
 

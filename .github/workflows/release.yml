@@ -108,6 +108,6 @@ jobs:
             test "$(cat /tmp/jeeves-release-draft)" = true || { echo "Refusing to replace a published release"; exit 1; }
             gh release upload "$RELEASE_TAG" release-assets/* --clobber
           else
-            gh release create "$RELEASE_TAG" release-assets/* --verify-tag --draft --prerelease --title "Jeeves $RELEASE_TAG — desktop preview" --notes-file docs/RELEASE_NOTES.md
+            gh release create "$RELEASE_TAG" release-assets/* --verify-tag --draft --prerelease --title "Jeeves $RELEASE_TAG: desktop preview" --notes-file docs/RELEASE_NOTES.md
           fi
           gh release edit "$RELEASE_TAG" --draft=false --prerelease

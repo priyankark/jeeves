@@ -8,7 +8,7 @@
 
 Try **Request triage · Jev** from Templates or Explore: a typed Jev decision routes urgent and routine requests to different specialists; missing details or low confidence pause for your input. The builder now uses explicit Jev branches for judgment tasks while keeping simple transformations linear.
 
-Turn repeat work into a workflow. Jeeves is a local-first, MIT-licensed desktop app for people who use AI for recurring work and want a process they can inspect, adjust, and run again. No Jeeves account is required.
+Turn repeat work into a workflow. Jeeves is a local-first, Apache-2.0-licensed desktop app for people who use AI for recurring work and want a process they can inspect, adjust, and run again. No Jeeves account is required.
 
 Start with **Notes to weekly update**: review project notes, draft an update, check it against the notes, and get text ready to copy. Home offers a labeled sample without API keys. Choose **Use my own notes**, connect one AI service, and apply it to both writing steps from the same screen. You review the result before sharing; Jeeves does not send it for you.
 
@@ -98,7 +98,7 @@ Jev is TypeSafe's System One model. The app uses the official `@typesafe-ai/sdk`
 | **Choice** | The selected option names the outgoing port. Below the confidence threshold → `review`.                                         |
 | **Score**  | Below the confidence threshold → `review`; otherwise compare the probability-weighted rubric score to the pass threshold.       |
 
-The inspector configures the question, JSON criteria, model, and thresholds. The run inspector shows probabilities, confidence where applicable, chosen route, actual model, latency, usage, and the raw result. Every possible Jev route must be connected. `review` is reserved for uncertainty; it can lead to a review specialist, another workflow, or an output for human inspection. There is no pause/resume human approval queue yet.
+The inspector configures the question, JSON criteria, model, and thresholds. The run inspector shows probabilities, confidence where applicable, chosen route, actual model, latency, usage, and the raw result. Every possible Jev route must be connected. `review` is reserved for uncertainty; connect it to an input request to pause for a person, a review specialist, or an output for inspection.
 
 The starter asks Jev whether the research handoff has enough supported information for a brief. High probability goes to a writer; low or uncertain probability goes to a reviewer. In Demo mode, edit **Run input**:
 
@@ -119,7 +119,9 @@ A separate **Deterministic rule** engine is available for exact comparisons. It 
 cp .env.example .env
 ```
 
-You can now connect providers directly in **Settings**. Paste a key, choose a default model, and select **Save and verify**. Settings apply immediately. The optional `.env` route above remains available and requires a server restart. Select **Live mode** to execute real tasks. New agents and templates use your configured copilot provider. Existing workflows retain their explicit provider choices.
+First launch offers **Set up my AI connections** or **Try the example** without keys. Setup explains which services a workflow needs and helps you save and verify a connection. Reopen it from **Home → Set up AI**, or manage connections in **Settings**. Jev uses a TypeSafe API key for decisions. Writing steps need one agent service: OpenAI, Codex CLI, OpenRouter, or a local model server. You can skip setup and return later.
+
+Paste a key, choose a default model, and select **Save and verify**. Settings apply immediately. The optional `.env` route above remains available and requires a server restart. Select **Live mode** to execute real tasks. New agents and templates use your configured copilot provider. Existing workflows retain their explicit provider choices. The app's Apache 2.0 license does not include hosted AI services, model weights, API access, or usage credits.
 
 | Integration        | Configuration                                                                                          |
 | ------------------ | ------------------------------------------------------------------------------------------------------ |
@@ -132,7 +134,7 @@ You can now connect providers directly in **Settings**. Paste a key, choose a de
 
 Existing keys are never returned to the browser or included in workflow exports. Keys entered in Settings are sent to the local server and cleared from the input after saving. Connections are stored in `.jeeves/connections.json` with owner-only file permissions; `.env` is also supported. **Test connection** checks provider authentication or CLI login without generating model output. Configuration and verified connectivity have separate status labels.
 
-This workspace is configured with a working TypeSafe key and the existing Codex CLI login. Both have been verified live. OpenAI API and OpenRouter keys remain optional and are not configured. See [live verification](docs/LIVE_VERIFICATION.md) for the measured runs.
+See [live verification](docs/LIVE_VERIFICATION.md) for measured runs using TypeSafe and Codex. Credentials are not included in the repository or installers.
 
 Codex runs non-interactively with a read-only sandbox, user config ignored, small context over stdin (large context is preserved in a private local file for the agent to inspect), a per-node working directory, and a three-minute node timeout. Its CLI login remains available. This adapter currently supports analysis and generated output, not workspace edits. General API agents perform one text-generation request per node; they do not yet have browsing, arbitrary tools, or an agentic tool loop. The research example therefore analyzes supplied context rather than fetching web sources.
 
@@ -142,7 +144,7 @@ Add **Ask for input** before a step that needs details or a choice. Configure qu
 
 Execution saves its progress and enters **waiting**. Home and the Run panel show the form; **Activity → Provide input** opens it in a full-window panel from elsewhere. Draft answers survive page reload. Waiting requests survive an engine restart. **Submit & continue** validates answers on the server and continues the same run; completed steps are preserved. Replies become the input-request node’s output, available to directly connected steps as `previous` and `parents.<node-id>`. They do not overwrite the original run input. Downstream agent instructions should use these submitted answers.
 
-Optional sound and desktop alerts include input requests. Stop a waiting run to cancel the request. Questions are configured by the workflow author; agents do not yet generate new forms during execution. Input-request steps currently belong in the root workflow; place them before a nested workflow and pass the answers into it. These forms are for task details, not website passwords or payment credentials—use the browser sign-in handoff for authentication.
+Optional sound and desktop alerts include input requests. Stop a waiting run to cancel the request. Questions are configured by the workflow author; agents do not yet generate new forms during execution. Input-request steps currently belong in the root workflow; place them before a nested workflow and pass the answers into it. These forms are for task details, not website passwords or payment credentials. Use the browser sign-in handoff for authentication.
 
 Portable runs report `status: "waiting"` with the requested fields and a checkpoint path. Continue with `--resume path/to/run.json --answers answers.json`; the answers file maps step IDs to answer objects, for example `{"shopping-details":{"grocery_list":["2 cartons oat milk"],"budget_usd":25,"delivery_zip":"02139","substitutions":false}}`.
 

@@ -2,6 +2,14 @@ Jeeves desktop preview: turn repeat work into a workflow.
 
 Start with **Try the example** to turn sample project notes into a weekly update without an API key. Add your own notes and connect one AI service when ready. Inspect and edit the steps, collect input during a run, and reuse the process.
 
+## First-run setup and open source preparation
+
+- A welcome screen explains the workflow and offers a sample without keys or guided AI setup.
+- Connect Jev with a TypeSafe key and choose OpenAI, Codex CLI, OpenRouter, or a local model for agent steps. Save and verify each connection without leaving setup.
+- Skip setup, return from Home, and keep existing workspaces opening directly. Failed checks stay visible and no longer show a green connection badge.
+- Jeeves and its starter workflows now use Apache 2.0. Installers and portable runners include the license and notices. Third-party packages and skills retain their licenses.
+- Browser checks cover first-run setup, rejected and corrected credentials, keyboard navigation, existing users, and a sample on a small laptop screen.
+
 ## Give Jev the decisions
 
 - The builder now uses explicit Jev branches for triage, evidence checks, readiness, and quality, with actionable review paths. Simple transformations can remain linear; human approval remains an input request.

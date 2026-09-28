@@ -1,3 +1,4 @@
+import { Onboarding, setupPreference } from "./Onboarding";
 import { RunInputRequests } from "./InputRequest";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -31,6 +32,7 @@ import { WorkflowConnection, providerNames } from "./WorkflowConnection";
 import type { Providers } from "./Connections";
 export function Home({
   workflows,
+  ready,
   mode,
   onMode,
   provider,
@@ -46,6 +48,7 @@ export function Home({
   onInspect,
 }: {
   workflows: Workflow[];
+  ready: boolean;
   mode: "demo" | "live";
   onMode: (m: "demo" | "live") => void;
   provider: Provider;
@@ -61,6 +64,16 @@ export function Home({
   onInspect: (r: Run) => void;
 }) {
   const { publishRun } = useAttention();
+  const [setupOpen, setSetupOpen] = useState(false);
+  const [chatsLoaded, setChatsLoaded] = useState(false);
+  const setupChecked = useRef(false);
+  function finishSetup() {
+    try {
+      localStorage.setItem(setupPreference, "done");
+    } catch {}
+    setSetupOpen(false);
+  }
+
   const [session, setSession] = useState<ChatSession | null>(null);
   const [chats, setChats] = useState<ChatSession[]>([]);
   const [message, setMessage] = useState("");
@@ -116,12 +129,31 @@ export function Home({
           if (alive) setSession(s);
         }
       })
-      .catch((e) => setError(e.message));
+      .catch((e) => setError(e.message))
+      .finally(() => {
+        if (alive) setChatsLoaded(true);
+      });
     return () => {
       alive = false;
       request.current?.abort();
     };
   }, []);
+  useEffect(() => {
+    if (!ready || !chatsLoaded || setupChecked.current) return;
+    setupChecked.current = true;
+    let completed = false;
+    try {
+      completed = localStorage.getItem(setupPreference) === "done";
+    } catch {}
+    const connected = [
+      providers.typesafe,
+      providers.openai,
+      providers.codex,
+      providers.openrouter,
+      providers.local,
+    ].some(Boolean);
+    if (!completed && !connected && !chats.length) setSetupOpen(true);
+  }, [ready, chatsLoaded, providers, chats.length]);
   useEffect(() => {
     let active = true;
     if (session?.plan)
@@ -328,6 +360,29 @@ export function Home({
       needsNotes = true;
     }
   }
+  if (setupOpen)
+    return (
+      <Onboarding
+        providers={providers}
+        onProviders={onProviders}
+        onFinish={finishSetup}
+        onExample={() => {
+          finishSetup();
+          onMode("demo");
+          void send("Show me the weekly update example", "", {
+            templateId: "weekly-update",
+            mode: "demo",
+            intent: "new",
+          });
+        }}
+      />
+    );
+  if (!ready || !chatsLoaded)
+    return (
+      <main className="home-page">
+        <p role="status">Loading your workspace...</p>
+      </main>
+    );
   return (
     <main ref={home} className="home-page">
       <header className="home-top">
@@ -336,6 +391,9 @@ export function Home({
           <strong>Home</strong>
         </div>
         <div className="home-top-actions">
+          <button className="subtle-button" onClick={() => setSetupOpen(true)}>
+            Set up AI
+          </button>
           <label className="sr-only" htmlFor="recent-chat">
             Recent conversations
           </label>

@@ -54,7 +54,7 @@ export function builtinPackages(): WorkflowPackage[] {
         name: w.name,
         description: w.description,
         author: "Jeeves contributors",
-        license: "MIT",
+        license: "Apache-2.0",
         tags:
           w.id === "request-triage"
             ? ["Jev", "Triage", "Human input"]

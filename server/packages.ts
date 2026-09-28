@@ -205,7 +205,7 @@ export async function previewPackage(raw: unknown): Promise<PackagePreview> {
       author: z.string().max(100).default(""),
       license: z
         .enum(["MIT", "Apache-2.0", "CC0-1.0", "Private"])
-        .default("MIT"),
+        .default("Apache-2.0"),
       includeInput: z.boolean().default(false),
       tags: z.array(z.string().max(30)).max(8).default([]),
     })
@@ -362,6 +362,7 @@ export async function skillArchive(p: WorkflowPackage): Promise<Uint8Array> {
     await include("");
   }
   add("RUNNER_LICENSE.txt", await readFile(path.resolve("LICENSE")));
+  add("RUNNER_NOTICE.txt", await readFile(path.resolve("NOTICE")));
   add(
     "THIRD_PARTY_NOTICES.txt",
     await readFile(path.resolve("runtime/THIRD_PARTY_NOTICES.txt")),
@@ -388,7 +389,7 @@ export async function skillArchive(p: WorkflowPackage): Promise<Uint8Array> {
   );
   add(
     "references/requirements.md",
-    `# ${p.name}: execution requirements\n\n${p.description}\n\n- Runtime: ${r.tools.join("; ")}\n- Environment: ${r.variables.join("; ") || "None"}\n- Models: ${r.models.join("; ") || "None"}\n- Allowed HTTP origins: ${r.origins.join(", ") || "None"}\n- External writes: ${r.writes.join("; ") || "None"}\n- Bundled agent skills: ${p.skills.map((s) => `${s.name} (${s.repo}@${s.commit})`).join("; ") || "None"}\n\nEnvironment values are read from the process or a .env file in the invoking working directory. API keys are never bundled. Codex steps require the Codex executable and an authenticated account or API setup. Local model steps require an accessible compatible server and model. Use --provider and --model to explicitly replace agent providers if needed.\n\nWorkflow license: ${p.license}. Runner: MIT. Bundled skills retain their own licenses and notices embedded in workflow.json. API harnesses use skill instructions and text references; they do not gain script execution tools. The Codex harness stays read-only.\n`,
+    `# ${p.name}: execution requirements\n\n${p.description}\n\n- Runtime: ${r.tools.join("; ")}\n- Environment: ${r.variables.join("; ") || "None"}\n- Models: ${r.models.join("; ") || "None"}\n- Allowed HTTP origins: ${r.origins.join(", ") || "None"}\n- External writes: ${r.writes.join("; ") || "None"}\n- Bundled agent skills: ${p.skills.map((s) => `${s.name} (${s.repo}@${s.commit})`).join("; ") || "None"}\n\nEnvironment values are read from the process or a .env file in the invoking working directory. API keys are never bundled. Codex steps require the Codex executable and an authenticated account or API setup. Local model steps require an accessible compatible server and model. Use --provider and --model to explicitly replace agent providers if needed.\n\nWorkflow license: ${p.license}. Runner: Apache-2.0. Bundled skills retain their own licenses and notices embedded in workflow.json. API harnesses use skill instructions and text references; they do not gain script execution tools. The Codex harness stays read-only.\n`,
   );
   return zipSync(files, { level: 6 });
 }

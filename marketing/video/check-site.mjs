@@ -2,6 +2,7 @@ import { chromium } from "playwright-core";
 import assert from "node:assert/strict";
 import { writeFile, mkdir } from "node:fs/promises";
 const base = process.env.SITE_URL || "http://127.0.0.1:4341";
+const output = process.env.SITE_CHECK_DIR || "marketing/video/site-checks";
 const b = await chromium.launch({ channel: "chrome", headless: true });
 const p = await b.newPage();
 const errors = [];
@@ -10,7 +11,7 @@ p.on("console", (m) => {
   if (m.type() === "error") errors.push(m.text());
 });
 const checks = [];
-await mkdir("marketing/video/site-checks", { recursive: true });
+await mkdir(output, { recursive: true });
 try {
   for (const width of [320, 390, 768, 1280, 1440]) {
     await p.setViewportSize({ width, height: 900 });
@@ -28,7 +29,7 @@ try {
       assert.equal(await button.getAttribute("aria-pressed"), "true");
     }
     await p.screenshot({
-      path: `marketing/video/site-checks/${width}.png`,
+      path: `${output}/${width}.png`,
       fullPage: true,
     });
     checks.push(
@@ -63,14 +64,12 @@ try {
   await p.waitForFunction(
     () => document.querySelector("video").currentTime > 0.3,
   );
-  const media = await p
-    .locator("video")
-    .evaluate((v) => ({
-      width: v.videoWidth,
-      height: v.videoHeight,
-      duration: v.duration,
-      captions: v.textTracks.length,
-    }));
+  const media = await p.locator("video").evaluate((v) => ({
+    width: v.videoWidth,
+    height: v.videoHeight,
+    duration: v.duration,
+    captions: v.textTracks.length,
+  }));
   assert.equal(media.width, 1920);
   assert.equal(media.height, 1080);
   assert(media.duration > 60 && media.duration < 80);
@@ -88,7 +87,7 @@ try {
     media,
   };
   await writeFile(
-    "marketing/video/site-checks/report.json",
+    `${output}/report.json`,
     JSON.stringify(report, null, 2) + "\n",
   );
   console.log(JSON.stringify(report, null, 2));

@@ -4,7 +4,7 @@
   "name": "GitHub maintenance",
   "description": "Read repository issues and pull requests, then prepare a prioritized maintainer brief. No comments, labels, or merges are submitted.",
   "author": "Jeeves contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "tags": [
     "GitHub",
     "Maintenance"

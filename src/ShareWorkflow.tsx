@@ -15,7 +15,7 @@ export function ShareWorkflow({
       "skill",
     ),
     [author, setAuthor] = useState(""),
-    [license, setLicense] = useState("MIT"),
+    [license, setLicense] = useState("Apache-2.0"),
     [includeInput, setIncludeInput] = useState(false),
     [reviewed, setReviewed] = useState(false);
   const [preview, setPreview] = useState<PackagePreview | null>(null),

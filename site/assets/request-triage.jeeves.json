@@ -4,7 +4,7 @@
   "name": "Request triage · Jev",
   "description": "Jev chooses the right route. Agents draft the response. Missing details pause for you.",
   "author": "Jeeves contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "tags": [
     "Jev",
     "Triage",

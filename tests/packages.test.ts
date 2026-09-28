@@ -49,6 +49,14 @@ describe("portable workflows and home chat", () => {
       const p = (await previewPackage({ workflow, includeInput: true }))
         .package;
       const files = unzipSync(await skillArchive(p));
+      const prefix = Object.keys(files)[0].split("/")[0];
+      expect(p.license).toBe("Apache-2.0");
+      expect(strFromU8(files[`${prefix}/RUNNER_LICENSE.txt`])).toContain(
+        "Apache License",
+      );
+      expect(strFromU8(files[`${prefix}/RUNNER_NOTICE.txt`])).toContain(
+        "Jeeves contributors",
+      );
       const root = await mkdtemp(path.join(tmpdir(), "jeeves-browser-export-"));
       temporaryExports.push(root);
       for (const [name, data] of Object.entries(files)) {

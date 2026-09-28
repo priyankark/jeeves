@@ -4,7 +4,7 @@
   "name": "Bug report triage",
   "description": "Triage reports with Jev into urgent, normal, or needs-information branches. Low confidence also goes to review. Codex drafts the selected brief; nothing is posted.",
   "author": "Jeeves contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "tags": [
     "Engineering",
     "Triage"

@@ -4,6 +4,9 @@ test("home chat prepares, runs, persists, and protects against duplicate executi
   page,
   request,
 }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("jeeves-setup:v1", "done"),
+  );
   await request.put(`/api/workflows/${blank.id}`, { data: blank });
   await page.goto("/");
   await expect(

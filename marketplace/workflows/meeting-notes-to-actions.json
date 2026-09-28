@@ -4,7 +4,7 @@
   "name": "Meeting notes to actions",
   "description": "Turn meeting notes into decisions, actions with owners, and open questions. Includes synthetic example notes.",
   "author": "Jeeves contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "tags": [
     "Meetings",
     "Productivity"

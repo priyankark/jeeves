@@ -12,6 +12,11 @@ export type Providers = {
   models: Record<Provider, string>;
 };
 type ConnectionProvider = Provider | "typesafe";
+const keyLinks: Partial<Record<ConnectionProvider, string>> = {
+  typesafe: "https://console.typesafe.ai",
+  openai: "https://platform.openai.com/api-keys",
+  openrouter: "https://openrouter.ai/settings/keys",
+};
 type CheckResult = {
   ok: boolean;
   detail: string;
@@ -24,7 +29,7 @@ const catalog: { id: ConnectionProvider; name: string; description: string }[] =
     {
       id: "typesafe",
       name: "Jev · TypeSafe",
-      description: "Typed decisions, probabilities, and confidence.",
+      description: "Choose routes and check quality with Jev.",
     },
     {
       id: "codex",
@@ -34,7 +39,7 @@ const catalog: { id: ConnectionProvider; name: string; description: string }[] =
     {
       id: "openai",
       name: "OpenAI",
-      description: "Text and reasoning through the Responses API.",
+      description: "Writing and analysis using your OpenAI API key.",
     },
     {
       id: "openrouter",
@@ -75,6 +80,16 @@ export function Connections({
       setResults((r) => ({ ...r, [provider]: result }));
     } catch (e) {
       setError((e as Error).message);
+      setResults((r) => ({
+        ...r,
+        [provider]: {
+          ok: false,
+          detail:
+            "Could not verify this connection. Try again when the service is available.",
+          latencyMs: 0,
+          checkedAt: new Date().toISOString(),
+        },
+      }));
     } finally {
       setBusy(null);
     }
@@ -102,6 +117,16 @@ export function Connections({
       if (result.ok) setExpanded(null);
     } catch (e) {
       setError((e as Error).message);
+      setResults((r) => ({
+        ...r,
+        [provider]: {
+          ok: false,
+          detail:
+            "Could not verify this connection. Try again when the service is available.",
+          latencyMs: 0,
+          checkedAt: new Date().toISOString(),
+        },
+      }));
     } finally {
       setBusy(null);
     }
@@ -111,7 +136,8 @@ export function Connections({
       <div className="connection-security">
         <ShieldCheck size={16} />
         <span>
-          Keys stay on this computer. Saved changes take effect immediately.
+          Keys are stored on this computer and used to connect to the selected
+          service.
         </span>
       </div>
       {error && (
@@ -138,7 +164,7 @@ export function Connections({
                 <p>{p.description}</p>
               </div>
               <span
-                className={`connection-badge ${results[p.id]?.ok || providers[p.id] ? "connected" : ""}`}
+                className={`connection-badge ${(results[p.id] ? results[p.id]!.ok : providers[p.id]) ? "connected" : ""}`}
               >
                 {results[p.id]
                   ? results[p.id]!.ok
@@ -151,6 +177,7 @@ export function Connections({
             </div>
             {results[p.id] && (
               <div
+                role="status"
                 className={`connection-check ${results[p.id]!.ok ? "ok" : "failed"}`}
               >
                 {results[p.id]!.ok && <Check size={12} />}
@@ -202,6 +229,17 @@ export function Connections({
                   save(p.id);
                 }}
               >
+                {keyLinks[p.id] && (
+                  <a
+                    className="connection-key-link"
+                    href={keyLinks[p.id]}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open {p.id === "typesafe" ? "TypeSafe" : p.name} to get an
+                    API key
+                  </a>
+                )}
                 {p.id !== "codex" && (
                   <label>
                     {p.id === "local" ? "API key (optional)" : "API key"}

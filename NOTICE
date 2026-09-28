@@ -1,0 +1,9 @@
+Jeeves
+Copyright 2026 Jeeves contributors
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+Third-party dependencies, fonts, and bundled skills retain their own licenses
+and notices. Packaged builds include dependency notices in
+runtime/THIRD_PARTY_NOTICES.txt. Portable skills include the runner license
+and notices alongside their workflow and skill license information.
