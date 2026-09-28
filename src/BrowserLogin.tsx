@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Loader2, Monitor } from "lucide-react";
 import type { BrowserLogin as Login } from "../shared/browser-login";
 import { api } from "./api";
+import { WebsiteAccess } from "./WebsiteAccess";
+import { useAttention } from "./Attention";
+import { FriendlyError } from "./FriendlyError";
 
 export function BrowserLogin({
   workflowId,
@@ -20,7 +23,11 @@ export function BrowserLogin({
   beforeStart?: () => Promise<unknown>;
   onBusy?: (busy: boolean) => void;
 }) {
+  const { publishLogin } = useAttention();
   const [session, setSession] = useState<Login | null>(null);
+  useEffect(() => {
+    if (session) publishLogin(session);
+  }, [session, publishLogin]);
   const [pending, setPending] = useState(false),
     [error, setError] = useState("");
   const busyRef = useRef(onBusy);
@@ -123,8 +130,20 @@ export function BrowserLogin({
         </p>
       )}
       {session?.status === "waiting" && (
-        <>
+        <div className="login-handoff">
+          <strong>Your turn — sign in to continue</strong>
           <p role="status">{session.message}</p>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={() =>
+              void api(`/browser/logins/${session.id}/focus`, {
+                method: "POST",
+              }).catch((e) => setError(e.message))
+            }
+          >
+            <Monitor size={15} /> Bring browser forward
+          </button>
           <button
             type="button"
             disabled={pending}
@@ -132,7 +151,7 @@ export function BrowserLogin({
           >
             I’m signed in
           </button>
-        </>
+        </div>
       )}
       {busy && (
         <button
@@ -144,14 +163,31 @@ export function BrowserLogin({
         </button>
       )}
       {session && !["working", "waiting"].includes(session.status) && (
-        <p role={session.status === "failed" ? "alert" : "status"}>
-          {session.message}
-        </p>
+        <div role={session.status === "failed" ? "alert" : "status"}>
+          {session.status === "failed" ? (
+            <FriendlyError message={session.message} />
+          ) : (
+            session.message
+          )}
+        </div>
       )}
       {error && (
-        <p className="error-text" role="alert">
-          {error}
-        </p>
+        <div className="error-text" role="alert">
+          <FriendlyError message={error} />
+          <WebsiteAccess
+            message={error}
+            onRetry={() => act("start")}
+            retryLabel="Retry sign-in assistance"
+          />
+        </div>
+      )}
+      {session?.status === "failed" && (
+        <WebsiteAccess
+          key={session.id}
+          message={session.message}
+          onRetry={() => act("start")}
+          retryLabel="Retry sign-in assistance"
+        />
       )}
     </section>
   );

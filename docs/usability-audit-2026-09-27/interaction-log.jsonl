@@ -1,0 +1,78 @@
+{"at":"2026-09-27T20:32:24.129Z","shot":"01-first-launch","text":true}
+{"at":"2026-09-27T20:32:34.711Z","actions":[{"click":[664,450]},{"type":"Research local AI tools for a small design team and give me a short recommendation."},{"key":"Enter"},{"wait":800}],"shot":"02-newcomer-natural-request","text":true}
+{"at":"2026-09-27T20:32:51.390Z","actions":[{"click":[1125,836]},{"wait":4500}],"shot":"03-newcomer-run-result","text":true}
+{"at":"2026-09-27T20:33:45.110Z","actions":[{"move":[1075,748]},{"scroll":[0,610]}],"shot":"04-demo-result-and-followup","text":true}
+{"at":"2026-09-27T20:33:54.315Z","actions":[{"click":[703,666]},{"type":"Keep it under 200 words and focus on tools that run on a Mac."},{"key":"Enter"}],"shot":"05-conversation-followup","text":true}
+{"at":"2026-09-27T20:34:06.659Z","actions":[{"move":[1099,723]},{"scroll":[0,548]}],"shot":"06-switch-to-live"}
+{"at":"2026-09-27T20:34:14.880Z","actions":[{"click":[850,748]},{"key":"ArrowDown"},{"key":"Enter"},{"move":[1044,356]},{"scroll":[0,-615]}],"shot":"07-live-setup-blockers","text":true}
+{"at":"2026-09-27T20:34:29.169Z","actions":[{"move":[1100,749]},{"scroll":[0,1740]}],"shot":"08-bottom"}
+{"at":"2026-09-27T20:34:38.100Z","actions":[{"key":"ArrowDown"},{"key":"Tab"}],"shot":"09-live-selected","text":true}
+{"at":"2026-09-27T20:34:44.591Z","actions":[{"click":[793,709]},{"key":"l"},{"key":"Enter"},{"wait":700}],"shot":"10-live-mode","text":true}
+{"at":"2026-09-27T20:35:02.144Z","actions":[{"click":[908,30]}],"shot":"11-settings-first-look","text":true}
+{"at":"2026-09-27T20:35:17.305Z","actions":[{"click":[892,407]},{"wait":500}],"shot":"12-codex-setup","text":true}
+{"at":"2026-09-27T20:35:26.627Z","actions":[{"click":[485,572]},{"wait":1200}],"shot":"13-provider-connected","text":true}
+{"at":"2026-09-27T20:35:32.509Z","actions":[{"move":[867,723]},{"scroll":[0,1320]}],"shot":"14-settings-bottom","text":true}
+{"at":"2026-09-27T20:35:42.085Z","actions":[{"click":[523,754]},{"key":"c"},{"key":"Enter"},{"click":[815,753]},{"key":"Meta+a"},{"key":"Backspace"},{"key":"Tab"},{"key":"Escape"},{"click":[126,149]}],"shot":"15-explore-entry","text":true}
+{"at":"2026-09-27T20:35:50.621Z","actions":[{"click":[1019,632]}],"shot":"16-writer-template-preview","text":true}
+{"at":"2026-09-27T20:36:02.067Z","actions":[{"click":[682,713]},{"key":"u"},{"key":"Enter"}],"shot":"17-install-provider-choice"}
+{"at":"2026-09-27T20:36:09.443Z","actions":[{"click":[666,822]}],"shot":"18-template-installed","text":true}
+{"at":"2026-09-27T20:36:20.562Z","actions":[{"move":[933,737]},{"scroll":[0,392]}],"shot":"19-installed-next-step"}
+{"at":"2026-09-27T20:36:32.934Z","actions":[{"click":[675,806]}],"shot":"20-editor-first-look","text":true}
+{"at":"2026-09-27T20:36:44.359Z","actions":[{"click":[453,201]}],"shot":"21-writer-task-input","text":true}
+{"at":"2026-09-27T20:36:55.329Z","actions":[{"click":[454,437]},{"key":"Meta+a"},{"type":"Write a friendly 80-word announcement: our fictional design team is trying a four-day workweek in October. Ask teammates to share feedback by Friday."},{"click":[1272,119]}],"shot":"22-plain-input-error","text":true}
+{"at":"2026-09-27T20:37:10.300Z","actions":[{"click":[463,458]},{"key":"Meta+a"},{"type":"{\n  \"task\": \"Write a friendly 80-word announcement: our fictional design team is trying a four-day workweek in October. Ask teammates to share feedback by Friday.\"\n}"},{"click":[1277,117]},{"wait":1000}],"shot":"23-live-writer-running","text":true}
+{"at":"2026-09-27T20:37:17.543Z","shot":"24-writer-progress","text":true}
+{"at":"2026-09-27T20:37:25.332Z","actions":[{"click":[615,310]},{"resize":[1100,760]}],"shot":"25-laptop-running-layout","text":true}
+{"at":"2026-09-27T20:37:36.415Z","actions":[{"resize":[1366,900]},{"click":[322,798]}],"shot":"26-writer-result","text":true}
+{"at":"2026-09-27T20:37:43.668Z","actions":[{"click":[1212,482]}],"shot":"27-inspect-draft-during-run","text":true}
+{"at":"2026-09-27T20:37:49.798Z","actions":[{"click":[1250,248]}],"shot":"28-completed-live-result","text":true}
+{"at":"2026-09-27T20:37:58.170Z","actions":[{"click":[1198,425]}],"shot":"29-read-final-output","text":true}
+{"at":"2026-09-27T20:38:07.410Z","actions":[{"click":[1029,371]}],"shot":"30-copy-feedback","text":true}
+{"at":"2026-09-27T20:38:12.931Z","actions":[{"key":"Escape"},{"click":[148,564]}],"shot":"31-new-workflow-choice","text":true}
+{"at":"2026-09-27T20:38:21.058Z","actions":[{"click":[454,105]},{"key":"Meta+a"},{"type":"Audit · weekly team brief"},{"key":"Tab"},{"click":[1289,201]}],"shot":"32-add-node-menu","text":true}
+{"at":"2026-09-27T20:38:46.858Z","actions":[{"key":"Escape"},{"click":[161,410]}],"shot":"33-real-grocery-start","text":true}
+{"at":"2026-09-27T20:39:16.182Z","actions":[{"goto":"http://127.0.0.1:4317"}],"shot":"34-installed-jeeves-home","text":true}
+{"at":"2026-09-27T20:39:31.695Z","actions":[{"click":[153,653]}],"shot":"35-amazon-workflow-new","text":true}
+{"at":"2026-09-27T20:39:40.759Z","actions":[{"click":[1135,119]},{"key":"l"},{"key":"Enter"},{"click":[31,810]}],"shot":"36-amazon-provider-settings","text":true}
+{"at":"2026-09-27T20:40:37.322Z","actions":[{"key":"Escape"},{"click":[1198,747]},{"type":"Build an Amazon grocery shopper using CUA. Name it Amazon grocery shopper. Use a single Codex browser task with interact mode, 30 browser steps, starting at https://www.amazon.com/alm/storefront?almBrandId=QW1hem9uIEZyZXNo (Amazon Fresh). Connect input -> browser -> output. Input fields: grocery_list, budget_usd, delivery_zip, dietary_constraints, substitutions, task. Leave grocery_list and delivery_zip empty and budget_usd 0 until the user supplies them. Require those three fields before adding any items. Browser prompt: use screenshots and browser controls on real Amazon, verify grocery service and delivery location, search each requested item, inspect size, price, stock and dietary match, and add only the requested quantity within the total budget. Preserve existing cart items, account settings and delivery addresses. Do not subscribe or substitute unless explicitly allowed. If login, CAPTCHA, missing input or delivery availability blocks progress, hand off for human review with the exact blocker. Never place an order, proceed to checkout or buy now. Report itemized cart changes, actual observed prices, subtotal, unresolved items and any unknown taxes/delivery fees. Do not claim success unless the cart confirms it. No separate agent or API nodes."},{"key":"Enter"}],"shot":"37-amazon-copilot-request","text":true}
+{"at":"2026-09-27T20:41:28.063Z","shot":"38-amazon-proposal-status","text":true}
+{"at":"2026-09-27T20:41:43.153Z","shot":"39-amazon-proposal","text":true}
+{"at":"2026-09-27T20:41:57.961Z","actions":[{"move":[1247,571]},{"scroll":[0,1996]}],"shot":"40-amazon-apply-proposal"}
+{"at":"2026-09-27T20:42:08.332Z","actions":[{"click":[1196,616]},{"wait":500}],"shot":"41-amazon-workflow-created","text":true}
+{"at":"2026-09-27T20:42:18.691Z","actions":[{"click":[674,542]}],"shot":"42-amazon-browser-config","text":true}
+{"at":"2026-09-27T20:42:30.022Z","actions":[{"move":[1267,645]},{"scroll":[0,1091]}],"shot":"43-amazon-signin-controls"}
+{"at":"2026-09-27T20:42:39.074Z","actions":[{"click":[1165,684]},{"wait":500}],"shot":"44-amazon-cua-signin","text":true}
+{"at":"2026-09-27T20:42:49.990Z","actions":[{"click":[1170,796]},{"move":[1237,678]},{"scroll":[0,380]}],"shot":"45-amazon-permission-granted","text":true}
+{"at":"2026-09-27T20:43:00.009Z","actions":[{"click":[1156,666]},{"wait":1000}],"shot":"46-amazon-login-navigation","text":true}
+{"at":"2026-09-27T20:43:06.799Z","shot":"47-amazon-login-state","text":true}
+{"at":"2026-09-27T20:43:25.151Z","shot":"48-amazon-signin-result","text":true}
+{"at":"2026-09-27T20:43:59.067Z","actions":[{"click":[30,810]},{"move":[869,723]},{"scroll":[0,787]}],"shot":"49-amazon-site-assets-settings"}
+{"at":"2026-09-27T20:44:09.317Z","actions":[{"click":[665,300]},{"key":"Meta+End"},{"type":"\nhttps://images-na.ssl-images-amazon.com\nhttps://m.media-amazon.com"},{"click":[676,385]}],"shot":"50-amazon-assets-allowed","text":true}
+{"at":"2026-09-27T20:44:17.903Z","actions":[{"key":"Escape"},{"move":[1253,564]},{"scroll":[0,-365]}],"shot":"51-retry-amazon-login-position"}
+{"at":"2026-09-27T20:44:28.470Z","actions":[{"click":[1165,758]},{"wait":800}],"shot":"52-amazon-login-retry","text":true}
+{"at":"2026-09-27T20:44:42.794Z","shot":"53-amazon-login-progress","text":true}
+{"at":"2026-09-27T20:45:11.144Z","actions":[{"move":[1243,698]},{"scroll":[0,616]}],"shot":"54-amazon-embedded-domain"}
+{"at":"2026-09-27T20:45:25.860Z","actions":[{"click":[1189,521]}],"shot":"55-amazon-embedded-domain-granted"}
+{"at":"2026-09-27T20:45:35.730Z","actions":[{"click":[1159,665]}],"shot":"56-amazon-cua-retry"}
+{"at":"2026-09-27T20:45:53.277Z","shot":"57-amazon-signin-handoff","text":true}
+{"at":"2026-09-27T21:24:37.037Z","actions":[{"goto":"http://127.0.0.1:4328/#editor"}],"shot":"ux-new-workspace","text":true}
+{"at":"2026-09-27T21:24:51.272Z","actions":[{"click":[357,23]},{"click":[321,23]},{"click":[650,560]},{"click":[1306,294]}],"shot":"ux-expanded-inspector","text":true}
+{"at":"2026-09-27T21:25:42.779Z","actions":[{"key":"Escape"},{"wait":1000}],"shot":"ux-collapsed-workspace","text":true,"errors":true}
+{"at":"2026-09-27T21:26:45.125Z","actions":[{"click":[420,560]},{"click":[1306,294]}],"shot":"ux-fullscreen-browser-inspector","text":true}
+{"at":"2026-09-27T21:27:24.288Z","actions":[{"key":"Escape"},{"click":[97,23]},{"click":[220,23]}],"shot":"ux-focus-canvas","text":true}
+{"at":"2026-09-27T21:27:42.559Z","actions":[{"click":[162,23]}],"shot":"ux-focus-canvas-active","text":true}
+{"at":"2026-09-27T21:29:19.330Z","actions":[{"goto":"http://127.0.0.1:4328/#workflows"}],"shot":"ux-fixture-library","text":true}
+{"at":"2026-09-27T21:29:39.042Z","actions":[{"key":"Meta+r"},{"wait":800},{"click":[337,243]},{"type":"Login handoff"}],"shot":"ux-find-login-fixture","text":true}
+{"at":"2026-09-27T21:30:07.333Z","actions":[{"goto":"http://127.0.0.1:4328/?ux=1#workflows"},{"wait":800},{"click":[337,243]},{"type":"Login handoff"}],"shot":"ux-find-local-login","text":true}
+{"at":"2026-09-27T21:30:38.993Z","actions":[{"click":[634,393]},{"wait":600}],"shot":"ux-local-login-editor","text":true}
+{"at":"2026-09-27T21:31:01.698Z","actions":[{"click":[480,559]},{"move":[1190,690]},{"scroll":[0,1400]}],"shot":"ux-login-controls","text":true}
+{"at":"2026-09-27T21:31:27.298Z","actions":[{"click":[1142,701]},{"wait":2000},{"click":[1338,294]},{"goto":"http://127.0.0.1:4328/?ux=1#home"},{"wait":1000}],"shot":"ux-login-alert-on-home","text":true}
+{"at":"2026-09-27T21:32:02.453Z","actions":[{"click":[1112,22]}],"shot":"ux-activity-handoff","text":true}
+{"at":"2026-09-27T21:32:30.483Z","actions":[{"click":[1039,292]},{"wait":600}],"shot":"ux-return-to-login","text":true}
+{"at":"2026-09-27T21:33:27.777Z","actions":[{"click":[1142,702]},{"wait":400},{"click":[1137,809]},{"wait":700}],"shot":"ux-handoff-dismissed","text":true,"errors":true}
+{"at":"2026-09-27T21:54:21.702Z","actions":[{"goto":"http://127.0.0.1:4328/?input-request=1#home"},{"wait":1000}],"shot":"input-request-home-alert","text":true}
+{"at":"2026-09-27T21:54:48.237Z","actions":[{"click":[1122,23]}],"shot":"input-request-activity","text":true}
+{"at":"2026-09-27T21:55:32.209Z","actions":[{"click":[1036,271]}],"shot":"amazon-workflow-input-form","text":true}
+{"at":"2026-09-27T21:56:55.291Z","actions":[{"goto":"http://127.0.0.1:4328/?input-request=2#home"},{"wait":1000},{"click":[1122,23]}],"shot":"input-request-activity-final","text":true}
+{"at":"2026-09-27T21:57:33.515Z","actions":[{"goto":"http://127.0.0.1:4328/?input-request=3#home"},{"wait":1000},{"click":[1122,23]}],"shot":"input-request-activity-final"}
+{"at":"2026-09-27T21:58:21.404Z","actions":[{"click":[1038,310]}],"shot":"amazon-workflow-input-form"}

@@ -50,7 +50,7 @@ test("Home CUA sign-in shows handoff, survives reload, and unlocks the workflow 
   await page
     .getByRole("button", { name: "Use CUA to sign in", exact: true })
     .click();
-  expect(requestedInput).toMatchObject({ budget: 15 });
+  expect(requestedInput).toMatchObject({ budget_usd: 15 });
   await expect(
     page.getByRole("button", { name: "Run demo", exact: true }),
   ).toBeDisabled();

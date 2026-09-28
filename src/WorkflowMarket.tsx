@@ -87,15 +87,10 @@ export function WorkflowMarket({
       <div className="market-body">
         <section className="market-hero">
           <span className="eyebrow">A HEAD START, ON YOUR TERMS</span>
-          <h1>
-            Good workflows deserve
-            <br />
-            to go places.
-          </h1>
+          <h1>Good workflows deserve to go places.</h1>
           <p>
-            Find a starting point, make it yours, and give it back.
-            <br />
-            Browse and install locally. No Jeeves account required.
+            Find a starting point, make it yours, and give it back. Browse and
+            install locally. No Jeeves account required.
           </p>
         </section>
         <div className="market-controls">

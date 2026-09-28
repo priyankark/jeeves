@@ -30,11 +30,12 @@ const secretSchema = z.object({
   value: z.string().min(1).max(4096),
 });
 const configSchema = z.object({
+  allowAllWebsites: z.boolean().default(false),
   origins: z.array(originSchema).max(100),
   secrets: z.array(secretSchema).max(40),
 });
 type Config = z.infer<typeof configSchema>;
-let settings: Config = { origins: [], secrets: [] };
+let settings: Config = { allowAllWebsites: false, origins: [], secrets: [] };
 let writes: Promise<unknown> = Promise.resolve();
 const file = path.join(dataDir, "integrations.json");
 export async function loadIntegrations() {
@@ -57,6 +58,8 @@ export function allowedOrigins() {
 }
 export function integrationStatus() {
   return {
+    allowAllWebsites: settings.allowAllWebsites,
+    environmentAllowsAll: allowedOrigins().includes("*"),
     origins: settings.origins,
     environmentOrigins: allowedOrigins().filter(
       (o) => !settings.origins.includes(o),
@@ -67,6 +70,8 @@ export function integrationStatus() {
 export async function saveIntegrations(raw: unknown) {
   const body = z
     .object({
+      allowAllWebsites: z.boolean().optional(),
+      addOrigin: originSchema.optional(),
       origins: z.array(originSchema).max(100).optional(),
       secret: secretSchema.optional(),
       remove: z.string().optional(),
@@ -74,7 +79,11 @@ export async function saveIntegrations(raw: unknown) {
     .parse(raw);
   const operation = async () => {
     const next = structuredClone(settings);
+    if (body.allowAllWebsites !== undefined)
+      next.allowAllWebsites = body.allowAllWebsites;
     if (body.origins) next.origins = body.origins;
+    if (body.addOrigin)
+      next.origins = [...new Set([...next.origins, body.addOrigin])];
     if (body.remove)
       next.secrets = next.secrets.filter((s) => s.name !== body.remove);
     if (body.secret)
@@ -94,6 +103,23 @@ export async function saveIntegrations(raw: unknown) {
   const result = writes.then(operation, operation);
   writes = result.catch(() => {});
   return result;
+}
+export function isOriginAllowed(origin: string) {
+  try {
+    const url = new URL(origin);
+    if (
+      !["http:", "https:"].includes(url.protocol) ||
+      url.username ||
+      url.password
+    )
+      return false;
+    return (
+      settings.allowAllWebsites ||
+      allowedOrigins().some((value) => value === "*" || value === url.origin)
+    );
+  } catch {
+    return false;
+  }
 }
 export function actionToken(name: string, origin: string) {
   if (!name) return undefined;

@@ -15,7 +15,7 @@ import { resolveSkills, safeSkillPath, skillMetadata } from "./skills";
 import { capabilities } from "./providers";
 import { chromeInstalled } from "./browser";
 import {
-  allowedOrigins,
+  isOriginAllowed,
   actionToken,
   integrationSecrets,
 } from "./integrations";
@@ -78,7 +78,7 @@ export function requirements(
         }
         if (origin) {
           r.origins.push(origin);
-          if (!allowedOrigins().includes(origin))
+          if (!isOriginAllowed(origin))
             r.missing.push(`Allow action origin ${origin}`);
         }
         if (d.kind === "action" && d.method === "POST")

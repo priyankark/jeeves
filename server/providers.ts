@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 import { readFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import type { Provider } from "../shared/schema";
+import { prepareAgentContext } from "./agent-context";
 export const dataDir = path.resolve(process.env.JEEVES_DATA_DIR || ".jeeves");
 export function capabilities() {
   return {
@@ -39,6 +40,7 @@ export async function generate(
     const dir = path.join(dataDir, "workspaces", taskId);
     await mkdir(dir, { recursive: true });
     instructions += "\n\n" + (await skillInstructions(skills, dir));
+    const context = await prepareAgentContext(input, dir);
     const output = path.join(dir, "result.md");
     const args = [
       "exec",
@@ -72,7 +74,7 @@ export async function generate(
           ? resolve()
           : reject(new Error(`Codex exited ${code}: ${stderr}`)),
       );
-      child.stdin.end(`${instructions}\n\nContext:\n${input}`);
+      child.stdin.end(`${instructions}\n\nContext:\n${context}`);
     });
     return readFile(output, "utf8");
   }

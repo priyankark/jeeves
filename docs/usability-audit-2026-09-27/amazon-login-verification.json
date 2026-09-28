@@ -1,0 +1,10 @@
+{
+  "verifiedAt": "2026-09-27T20:46:28.960Z",
+  "id": "96239b07-f85e-4e68-8067-c19bf68c57cd",
+  "workflowId": "63d474f9-e8c7-4f4d-b001-69e75aa04431",
+  "nodeId": "browser",
+  "status": "waiting",
+  "message": "Your turn. Complete sign-in in Chrome, then choose I’m signed in. Jeeves has stopped observing this browser.",
+  "shoppingRunCompleted": false,
+  "itemsAdded": 0
+}

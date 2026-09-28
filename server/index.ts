@@ -22,6 +22,7 @@ import {
   startLogin,
   loginStatus,
   finishLogin,
+  focusLogin,
 } from "./browser-login";
 import { interpolate } from "./action-context";
 import { zipSync, strToU8 } from "fflate";
@@ -61,6 +62,7 @@ import {
   resumeRun,
   uncertainActions,
   prepareRun,
+  answerInput,
 } from "./engine";
 import { capabilities, generate, dataDir } from "./providers";
 import { initialize, saveJson, listJson, readJson } from "./storage";
@@ -149,6 +151,9 @@ app.get("/api/browser/logins/:id", (req, res) =>
 );
 app.post("/api/browser/logins/:id/finish", async (req, res) =>
   res.json(await finishLogin(req.params.id)),
+);
+app.post("/api/browser/logins/:id/focus", async (req, res) =>
+  res.json(await focusLogin(req.params.id)),
 );
 app.post("/api/browser/logins/:id/cancel", async (req, res) =>
   res.json(await finishLogin(req.params.id, true)),
@@ -422,6 +427,62 @@ app.post("/api/connections/:provider/check", async (req, res) =>
     await checkConnection(connectionProvider.parse(req.params.provider)),
   ),
 );
+// Waiting requests are durable and discoverable independently of the open editor.
+app.get("/api/input-requests", async (_req, res) => {
+  res.json(
+    (await listJson<Run>("runs")).filter((run) => run.status === "waiting"),
+  );
+});
+const answering = new Set<string>();
+app.post("/api/runs/:id/input/:nodeId", async (req, res) => {
+  const id = idSchema.parse(req.params.id),
+    nodeId = idSchema.parse(req.params.nodeId);
+  const body = z
+    .object({
+      requestId: z.string().min(1).max(100),
+      answers: z.record(z.string(), z.unknown()),
+    })
+    .parse(req.body);
+  if (answering.has(id) || active.has(id)) {
+    res
+      .status(409)
+      .json({
+        error: "This run is already continuing. Refresh to see its progress.",
+      });
+    return;
+  }
+  answering.add(id);
+  try {
+    const previous = await readJson<Run>("runs", id);
+    const run = structuredClone(previous);
+    let result;
+    try {
+      result = answerInput(run, nodeId, body.requestId, body.answers);
+    } catch (e) {
+      res.status(409).json({ error: (e as Error).message });
+      return;
+    }
+    if (Object.keys(result.errors).length) {
+      res
+        .status(400)
+        .json({
+          error: "Check the highlighted answers.",
+          fieldErrors: result.errors,
+        });
+      return;
+    }
+    if (Object.values(run.nodes).some((n) => n.status === "waiting")) {
+      await saveJson("runs", run.id, run);
+    } else {
+      run.status = "running";
+      delete run.finishedAt;
+      await launchRun(run, run.input);
+    }
+    res.json(run);
+  } finally {
+    answering.delete(id);
+  }
+});
 app.post("/api/runs/:id/resume", async (req, res) => {
   if (active.size >= 4) {
     res.status(429).json({ error: "Four runs are already active." });
@@ -430,7 +491,7 @@ app.post("/api/runs/:id/resume", async (req, res) => {
   const previous =
     active.get(req.params.id)?.run ||
     (await readJson<Run>("runs", req.params.id));
-  if (previous.status === "running" || previous.status === "completed") {
+  if (!["failed", "cancelled"].includes(previous.status)) {
     res
       .status(409)
       .json({ error: "Only stopped or failed runs can be resumed." });
@@ -545,10 +606,43 @@ app.post("/api/runs/:id/browser/:nodeId/open", async (req, res) => {
   await openWorkflowBrowser(`${run.workflowId}-${node.id}`, url);
   res.json({ opened: true });
 });
-app.post("/api/runs/:id/cancel", (req, res) => {
-  const task = active.get(req.params.id);
-  if (task) task.controller.abort();
-  res.json({ cancelled: !!task });
+app.post("/api/runs/:id/cancel", async (req, res) => {
+  const id = idSchema.parse(req.params.id);
+  if (answering.has(id)) {
+    res
+      .status(409)
+      .json({
+        error: "Your answers are being saved. Try stopping again in a moment.",
+      });
+    return;
+  }
+  const task = active.get(id);
+  if (task) {
+    task.controller.abort();
+    res.json({ cancelled: true });
+    return;
+  }
+  answering.add(id);
+  try {
+    const run = await readJson<Run>("runs", id);
+    if (run.status !== "waiting") {
+      res.json({ cancelled: false });
+      return;
+    }
+    run.status = "cancelled";
+    run.finishedAt = new Date().toISOString();
+    for (const state of Object.values(run.nodes))
+      if (["waiting", "pending"].includes(state.status))
+        state.status = "cancelled";
+    run.events.push({
+      time: run.finishedAt,
+      message: "Run stopped while waiting for input.",
+    });
+    await saveJson("runs", id, run);
+    res.json({ cancelled: true });
+  } finally {
+    answering.delete(id);
+  }
 });
 app.get("/api/artifacts/:name", (req, res) => {
   if (!/^[a-zA-Z0-9_-]+\.(md|png)$/.test(req.params.name)) {
@@ -580,7 +674,7 @@ app.post("/api/copilot", async (req, res) => {
     });
     return;
   }
-  const instructions = `You are Jeeves, a workflow design assistant. Return ONLY a JSON object with "message" (brief explanation) and "workflow" (the FULL updated workflow). Preserve the current workflow id. Use this JSON Schema: ${JSON.stringify(z.toJSONSchema(workflowSchema))}. Workflow kinds: input, agent, browser, handoff, decision, action, workflow, output. Browser nodes use url, prompt, provider, browserMode observe/interact and browserSteps. They control a separate Google Chrome session; recommend manual review before purchases or publishing. HTTP action URL and JSON string values support {{input.field}} placeholders; authEnv is a named Bearer credential stored separately in Settings. Never invent real credentials. Exactly one input. DAG only. Every node must be reachable from input. Include output. Jev decision nodes use decisionEngine jev, with questionType noul/choice/score, question instructions, and JSON-encoded criteria. Noul routes pass/fail/review by probability thresholds, Choice routes to named criteria keys or review if confidence is low, Score routes pass/fail/review by score and confidence. Connect EVERY decision route, including review. Choice keys may not be review. Deterministic rules use decisionEngine rule with pass/fail ports. Decision edge sourceHandle must match a route. Other edges have no sourceHandle. Position nodes left to right at least 310px apart. Each agent has a narrow task. Handoffs carry context. Avoid HTTP actions unless explicitly requested. Never insert credentials. Do not invent saved workflow IDs. Configured agent providers: ${JSON.stringify(
+  const instructions = `You are Jeeves, a workflow design assistant. Return ONLY a JSON object with "message" (brief explanation) and "workflow" (the FULL updated workflow). Preserve the current workflow id. Use this JSON Schema: ${JSON.stringify(z.toJSONSchema(workflowSchema))}. Workflow kinds: input, user-input, agent, browser, handoff, decision, action, workflow, output. Use user-input to ask the user for missing details or a choice during execution. Configure inputFields with key, label, type (text/longtext/list/number/boolean/choice), required, help, options, min/max and optional format us_zip. The run pauses durably; submitted answers become that node output for downstream context.parents and context.previous. Do not ask for passwords, payment details or MFA in these forms; use browser sign-in. Place input requests in the root workflow, not nested workflows. Browser nodes use url, prompt, provider, browserMode observe/interact and browserSteps. They control a separate Google Chrome session; recommend manual review before purchases or publishing. HTTP action URL and JSON string values support {{input.field}} placeholders; authEnv is a named Bearer credential stored separately in Settings. Never invent real credentials. Exactly one input. DAG only. Every node must be reachable from input. Include output. Jev decision nodes use decisionEngine jev, with questionType noul/choice/score, question instructions, and JSON-encoded criteria. Noul routes pass/fail/review by probability thresholds, Choice routes to named criteria keys or review if confidence is low, Score routes pass/fail/review by score and confidence. Connect EVERY decision route, including review. Choice keys may not be review. Deterministic rules use decisionEngine rule with pass/fail ports. Decision edge sourceHandle must match a route. Other edges have no sourceHandle. Position nodes left to right at least 310px apart. Each agent has a narrow task. Handoffs carry context. Avoid HTTP actions unless explicitly requested. Never insert credentials. Do not invent saved workflow IDs. Configured agent providers: ${JSON.stringify(
     Object.entries(capabilities())
       .filter(
         ([key, value]) =>

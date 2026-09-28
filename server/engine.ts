@@ -1,3 +1,4 @@
+import { validateAnswers } from "../shared/input-request";
 import { resolveSkills } from "./skills";
 import { randomUUID } from "node:crypto";
 import { decide } from "./jev";
@@ -61,6 +62,10 @@ export async function snapshotWorkflowTree(
     if (stack.includes(current.id) || stack.length >= 5)
       throw new Error(
         "Recursive workflows or nesting beyond five levels are not supported.",
+      );
+    if (stack.length && current.nodes.some((n) => n.data.kind === "user-input"))
+      throw new Error(
+        "Place Ask for input in the parent workflow before the nested workflow.",
       );
     const errors = validateGraph(current);
     if (errors.length) throw new Error(`${current.name}: ${errors.join(" ")}`);
@@ -260,7 +265,7 @@ async function executeNode(
   throw new Error("Unsupported node kind.");
 }
 export function resumeRun(previous: Run, id: string): Run {
-  if (previous.status === "running" || previous.status === "completed")
+  if (!["failed", "cancelled"].includes(previous.status))
     throw new Error("Only stopped or failed runs can be resumed.");
   const run = createRun(structuredClone(previous.workflow), previous.mode, id);
   const inputNode = previous.workflow.nodes.find(
@@ -348,7 +353,7 @@ export async function executeRun(
     const errors = validateGraph(run.workflow);
     if (errors.length) throw new Error(errors.join(" "));
     emit(
-      `${run.mode === "demo" ? "Demo" : "Live"} run ${run.resumedFrom ? "resumed from checkpoint" : "started"}`,
+      `${run.mode === "demo" ? "Demo" : "Live"} run ${run.events.length ? "continued from saved progress" : run.resumedFrom ? "resumed from checkpoint" : "started"}`,
     );
     await checkpoint();
     const pending = new Set(
@@ -396,6 +401,23 @@ export async function executeRun(
             state.startedAt = new Date().toISOString();
             emit(`${node.data.label} started`, node.id);
             await checkpoint();
+            if (node.data.kind === "user-input") {
+              state.status = "waiting";
+              state.requestId = randomUUID();
+              // Keep a durable request; no worker or timeout waits for a person.
+              const source =
+                input && typeof input === "object" && !Array.isArray(input)
+                  ? (input as Record<string, unknown>)
+                  : {};
+              state.inputDraft = Object.fromEntries(
+                node.data.inputFields
+                  .filter((f) => Object.hasOwn(source, f.key))
+                  .map((f) => [f.key, source[f.key]]),
+              );
+              emit(`${node.data.label} is waiting for your input`, node.id);
+              await checkpoint();
+              return;
+            }
             if (run.mode === "demo")
               await delay(350, undefined, { signal: executionSignal });
             const parents = Object.fromEntries(
@@ -435,6 +457,14 @@ export async function executeRun(
         }),
       );
       if (firstError !== undefined) throw firstError;
+      executionSignal.throwIfAborted();
+      if (Object.values(run.nodes).some((n) => n.status === "waiting")) {
+        run.status = "waiting";
+        delete run.finishedAt;
+        emit("Waiting for your input. Completed work is saved.");
+        await checkpoint();
+        return;
+      }
     }
     run.status = "completed";
     emit("Run completed");
@@ -447,9 +477,42 @@ export async function executeRun(
         : String(error);
     emit(run.error);
     for (const state of Object.values(run.nodes))
-      if (state.status === "pending" || state.status === "running")
+      if (["pending", "running", "waiting"].includes(state.status))
         state.status = "cancelled";
   }
   run.finishedAt = new Date().toISOString();
   await checkpoint();
+}
+
+export function answerInput(
+  run: Run,
+  nodeId: string,
+  requestId: string,
+  values: unknown,
+) {
+  const node = run.workflow.nodes.find(
+    (n) => n.id === nodeId && n.data.kind === "user-input",
+  );
+  const state = run.nodes[nodeId];
+  if (
+    run.status !== "waiting" ||
+    !node ||
+    state?.status !== "waiting" ||
+    state.requestId !== requestId
+  )
+    throw new Error(
+      "This input request is no longer waiting. Refresh the run to see its current state.",
+    );
+  const result = validateAnswers(node.data.inputFields, values);
+  if (Object.keys(result.errors).length) return result;
+  state.status = "completed";
+  state.output = result.answers;
+  state.finishedAt = new Date().toISOString();
+  delete state.inputDraft;
+  run.events.push({
+    time: state.finishedAt,
+    nodeId,
+    message: `${node.data.label}: answers received`,
+  });
+  return result;
 }

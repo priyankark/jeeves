@@ -7,7 +7,7 @@ import type { Page, BrowserContext } from "playwright-core";
 import type { NodeData } from "../shared/schema";
 import type { SkillBundle } from "../shared/automation";
 import { dataDir, generate } from "./providers";
-import { allowedOrigins } from "./integrations";
+import { isOriginAllowed } from "./integrations";
 import { interpolate } from "./action-context";
 
 const busyProfiles = new Set<string>();
@@ -116,7 +116,7 @@ export function checkBrowserURL(value: string) {
     !["http:", "https:"].includes(url.protocol) ||
     url.username ||
     url.password ||
-    !allowedOrigins().includes(url.origin)
+    !isOriginAllowed(url.origin)
   )
     throw new Error(
       `Allow ${url.origin} in Settings → Websites & API access before opening this browser task.`,
@@ -276,6 +276,14 @@ export async function runBrowserTask(
     handedOff = true;
   };
   let blocked = "";
+  const blockedAssets = new Set<string>();
+  const checkPageAccess = () => {
+    if (blocked) throw new Error(blocked);
+    if (blockedAssets.size)
+      throw new Error(
+        `Allow ${[...blockedAssets][0]} in Settings → Websites & API access to load this website’s scripts and styles. The page cannot work correctly without them.`,
+      );
+  };
   const stop = () => {
     void browser.close().catch(() => {});
   };
@@ -289,9 +297,15 @@ export async function runBrowserTask(
     await browser.route("**/*", async (route) => {
       const request = route.request();
       const target = new URL(request.url());
-      if (!allowedOrigins().includes(target.origin)) {
-        if (request.isNavigationRequest())
+      const mainNavigation =
+        request.isNavigationRequest() && request.frame() === page?.mainFrame();
+      const criticalAsset =
+        request.frame() === page?.mainFrame() &&
+        ["stylesheet", "script"].includes(request.resourceType());
+      if (!isOriginAllowed(target.origin)) {
+        if (mainNavigation)
           blocked = `Navigation to ${target.origin} needs permission in Settings → Websites & API access.`;
+        else if (criticalAsset) blockedAssets.add(target.origin);
         await route.abort();
         return;
       }
@@ -307,8 +321,10 @@ export async function runBrowserTask(
         const location = response.headers()["location"];
         if (response.status() >= 300 && response.status() < 400 && location) {
           const destination = new URL(location, request.url());
-          if (!allowedOrigins().includes(destination.origin)) {
-            blocked = `Navigation to ${destination.origin} needs permission in Settings → Websites & API access.`;
+          if (!isOriginAllowed(destination.origin)) {
+            if (mainNavigation)
+              blocked = `Navigation to ${destination.origin} needs permission in Settings → Websites & API access.`;
+            else if (criticalAsset) blockedAssets.add(destination.origin);
             await route.abort();
             return;
           }
@@ -316,9 +332,10 @@ export async function runBrowserTask(
         await route.fulfill({ response });
       } catch (e) {
         if (!signal.aborted) {
-          blocked =
-            blocked ||
-            `Website request failed: ${(e as Error).message.split("\n")[0]}`;
+          if (mainNavigation)
+            blocked =
+              blocked ||
+              `Website request failed: ${(e as Error).message.split("\n")[0]}`;
           await route.abort().catch(() => {});
         }
       }
@@ -328,6 +345,7 @@ export async function runBrowserTask(
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
     for (let step = 0; step < d.browserSteps; step++) {
       signal.throwIfAborted();
+      checkPageAccess();
       if (options.loginOnly) {
         const authentication = page.locator(
           'input[type="password"], input[autocomplete="one-time-code"], input[type="email"], input[autocomplete="username"], iframe[src*="captcha"], iframe[title*="challenge" i]',
@@ -359,6 +377,8 @@ export async function runBrowserTask(
         path.join(dataDir, "artifacts", screenshot),
         step,
       );
+      // Resource requests can finish while the observation is captured.
+      checkPageAccess();
       emit(
         `Browser step ${step + 1}: observing ${new URL(page.url()).hostname}`,
       );
@@ -378,6 +398,7 @@ export async function runBrowserTask(
             d.provider === "codex" ? [observation.screenshot] : [],
           );
       signal.throwIfAborted();
+      checkPageAccess();
       let action: Action;
       try {
         action = actionSchema.parse(
@@ -526,7 +547,7 @@ export async function runBrowserTask(
       artifact,
       page &&
         /^https?:\/\//.test(page.url()) &&
-        allowedOrigins().includes(new URL(page.url()).origin)
+        isOriginAllowed(new URL(page.url()).origin)
         ? page.url()
         : url,
     );

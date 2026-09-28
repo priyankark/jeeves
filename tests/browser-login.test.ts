@@ -6,7 +6,12 @@ import path from "node:path";
 import type { BrowserContext } from "playwright-core";
 import { saveIntegrations } from "../server/integrations";
 import { runBrowserTask } from "../server/browser";
-import { startLogin, finishLogin, loginStatus } from "../server/browser-login";
+import {
+  startLogin,
+  finishLogin,
+  focusLogin,
+  loginStatus,
+} from "../server/browser-login";
 import { makeNode } from "../shared/schema";
 import { blank } from "../shared/templates";
 import { dataDir } from "../server/providers";
@@ -123,10 +128,13 @@ it("login coordinator deduplicates sessions, waits for handoff, and reports user
       session.id,
     );
     await expect(finishLogin(session.id)).rejects.toThrow("Wait for Jeeves");
+    await expect(focusLogin(session.id)).rejects.toThrow("no longer waiting");
     await expect
       .poll(() => loginStatus(session.id).status, { timeout: 10000 })
       .toBe("waiting");
+    await expect(focusLogin(session.id)).resolves.toEqual({ focused: true });
     const finished = await finishLogin(session.id);
+    await expect(focusLogin(session.id)).rejects.toThrow("no longer waiting");
     expect(finished.status).toBe("completed");
     expect(finished.message).toContain("You confirmed sign-in");
     await runBrowserTask(

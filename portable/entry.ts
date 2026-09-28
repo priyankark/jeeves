@@ -1,3 +1,4 @@
+import type { Run } from "../shared/schema";
 import path from "node:path";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -17,12 +18,13 @@ async function main() {
       provider: { type: "string" },
       model: { type: "string" },
       resume: { type: "string" },
+      answers: { type: "string" },
       "retry-actions": { type: "boolean" },
     },
   });
   if (values.help) {
     console.log(
-      `Jeeves portable workflow runner\n\nnode scripts/run.cjs --check\nnode scripts/run.cjs --mode demo|live --input input.json --output ./results\n\nOptions: --json '{"task":"..."}' instead of --input; --provider openai|openrouter|local|codex and --model ID explicitly override all agent nodes. --resume path/to/run.json continues a failed checkpoint; --retry-actions permits replaying possibly delivered HTTP or browser actions after checking their destinations. Credentials are read from environment or .env in the current working directory. No Jeeves installation or npm install required.`,
+      `Jeeves portable workflow runner\n\nnode scripts/run.cjs --check\nnode scripts/run.cjs --mode demo|live --input input.json --output ./results\n\nOptions: --json '{"task":"..."}' instead of --input; --provider openai|openrouter|local|codex and --model ID explicitly override all agent nodes. --resume path/to/run.json continues a failed checkpoint; add --answers answers.json for a waiting input request (JSON object mapping node IDs to answer objects); --retry-actions permits replaying possibly delivered HTTP or browser actions after checking their destinations. Credentials are read from environment or .env in the current working directory. No Jeeves installation or npm install required.`,
     );
     return;
   }
@@ -36,7 +38,7 @@ async function main() {
   );
   process.env.JEEVES_DATA_DIR = outputDir;
   const { validatePackage, requirements } = await import("../server/packages");
-  const { createRun, executeRun, resumeRun, uncertainActions } =
+  const { createRun, executeRun, resumeRun, uncertainActions, answerInput } =
     await import("../server/engine");
   const { providerSchema } = await import("../shared/schema");
   const file = values.package
@@ -79,20 +81,44 @@ async function main() {
     process.exitCode = needed.missing.length ? 2 : 0;
     return;
   }
-  let run;
+  let run: Run;
   if (values.resume) {
     if (values.provider || values.model || values.input || values.json)
       throw new Error(
         "Checkpoint recovery preserves the original inputs, model, and provider.",
       );
-    const prior = JSON.parse(
+    const prior: Run = JSON.parse(
       await readFile(path.resolve(values.resume), "utf8"),
     );
     if (uncertainActions(prior).length && !values["retry-actions"])
       throw new Error(
         "An HTTP or browser action may already have changed external data. Check its destination before using --retry-actions.",
       );
-    run = resumeRun(prior, randomUUID());
+    if (prior.status === "waiting") {
+      run = prior;
+      if (values.answers) {
+        const answers = JSON.parse(
+          await readFile(path.resolve(values.answers), "utf8"),
+        );
+        for (const [nodeId, state] of Object.entries(run.nodes) as [
+          string,
+          import("../shared/schema").NodeResult,
+        ][]) {
+          if (state.status !== "waiting" || !Object.hasOwn(answers, nodeId))
+            continue;
+          const result = answerInput(
+            run,
+            nodeId,
+            state.requestId!,
+            answers[nodeId],
+          );
+          if (Object.keys(result.errors).length)
+            throw new Error(JSON.stringify(result.errors));
+        }
+      }
+      if (!Object.values(run.nodes).some((n) => n.status === "waiting"))
+        run.status = "running";
+    } else run = resumeRun(prior, randomUUID());
   } else {
     const input = values.input
       ? JSON.parse(await readFile(path.resolve(values.input), "utf8"))
@@ -116,7 +142,12 @@ async function main() {
   const controller = new AbortController();
   process.once("SIGINT", () => controller.abort());
   process.once("SIGTERM", () => controller.abort());
-  await executeRun(run, run.input, controller.signal);
+  if (values.answers && !values.resume)
+    throw new Error("Use --answers with --resume and a waiting checkpoint.");
+  if (run.status === "waiting") {
+    const { saveJson } = await import("../server/storage");
+    await saveJson("runs", run.id, run);
+  } else await executeRun(run, run.input, controller.signal);
   const results = Object.fromEntries(
     run.workflow.nodes
       .filter((n) => n.data.kind === "output")
@@ -130,6 +161,14 @@ async function main() {
     checkpoint: path.join(outputDir, "runs", `${run.id}.json`),
     artifacts: path.join(outputDir, "artifacts"),
     results,
+    inputRequests: run.workflow.nodes
+      .filter((n) => run.nodes[n.id].status === "waiting")
+      .map((n) => ({
+        nodeId: n.id,
+        message: n.data.prompt,
+        fields: n.data.inputFields,
+        values: run.nodes[n.id].inputDraft,
+      })),
   };
   await writeFile(
     path.join(outputDir, "result.json"),
@@ -137,7 +176,8 @@ async function main() {
     { mode: 0o600 },
   );
   console.log(JSON.stringify(report, null, 2));
-  if (run.status !== "completed") process.exitCode = 1;
+  if (run.status !== "completed" && run.status !== "waiting")
+    process.exitCode = 1;
 }
 main().catch((error) => {
   console.error(JSON.stringify({ status: "error", error: error.message }));

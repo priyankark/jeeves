@@ -1,3 +1,4 @@
+import { shoppingInputFields } from "./input-request";
 import { makeNode, type Workflow } from "./schema";
 export const starter: Workflow = {
   id: "research-brief",
@@ -171,28 +172,37 @@ export const groceryCart: Workflow = {
   input: JSON.stringify(
     {
       task: "Prepare a grocery cart with oat milk and rolled oats. No nut products or substitutions. Keep the total under $15. Stop before checkout.",
-      budget: 15,
-      dietary_constraints:
-        "No nut products. Do not substitute unavailable items.",
+      budget_usd: 15,
+      grocery_list: [],
+      delivery_zip: "",
+      dietary_constraints: ["No nut products"],
+      substitutions: false,
     },
     null,
     2,
   ),
   nodes: [
     makeNode("input", "input", 30, 140),
-    makeNode("browser", "shop", 350, 140, {
+    makeNode("user-input", "shopping-details", 350, 140, {
+      label: "Your grocery trip",
+      prompt:
+        "What should I shop for? Confirm your list and constraints before I open the store. I will stop before checkout.",
+      inputFields: shoppingInputFields,
+    }),
+    makeNode("browser", "shop", 680, 140, {
       label: "Prepare grocery cart",
       provider: "codex",
       url: "https://groceries.example",
       browserMode: "interact",
       browserSteps: 12,
       prompt:
-        "Read the shopping task and dietary/budget constraints. Find exact matching products, inspect prices and stock, and add only suitable items. Never substitute allergenic products. If a budget or constraint cannot be met, report the blocker. Summarize exact items, quantities, prices and total from the cart, then return review before checkout. Never place an order. The user must configure a real grocery website and sign in through Open workflow browser before running if needed.",
+        "Use the submitted shopping-details answers from connected context as the authoritative grocery list, budget_usd, delivery_zip, dietary_constraints and substitutions preference. These answers replace any earlier example task details. Find exact matching products, inspect prices and stock, and add only suitable items. Never substitute allergenic products. If a budget or constraint cannot be met, report the blocker. Summarize exact items, quantities, prices and total from the cart, then return review before checkout. Never place an order. The user must configure a real grocery website and sign in through Open workflow browser before running if needed.",
     }),
-    makeNode("output", "output", 700, 140, { label: "Review prepared cart" }),
+    makeNode("output", "output", 1010, 140, { label: "Review prepared cart" }),
   ],
   edges: [
-    { id: "shop-1", source: "input", target: "shop" },
+    { id: "shop-input", source: "input", target: "shopping-details" },
+    { id: "shop-1", source: "shopping-details", target: "shop" },
     { id: "shop-2", source: "shop", target: "output" },
   ],
 };

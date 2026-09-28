@@ -20,6 +20,12 @@ export function useDialogFocus(open: boolean, onClose: () => void) {
       focusable()[0];
     first?.focus();
     const key = (e: KeyboardEvent) => {
+      if (
+        e.defaultPrevented ||
+        Array.from(document.querySelectorAll('[role="dialog"]')).at(-1) !==
+          dialog
+      )
+        return;
       if (e.key === "Escape") {
         e.preventDefault();
         e.stopPropagation();

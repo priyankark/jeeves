@@ -112,6 +112,18 @@ export function startLogin(
     .finally(() => clearTimeout(timer));
   return { ...session.state };
 }
+export async function focusLogin(id: string) {
+  const session = sessions.get(id);
+  if (!session?.browser || session.state.status !== "waiting")
+    throw new Error(
+      "This sign-in browser is no longer waiting. Start sign-in again.",
+    );
+  const page = session.browser.pages()[0];
+  if (!page)
+    throw new Error("The sign-in browser has closed. Start sign-in again.");
+  await page.bringToFront();
+  return { focused: true };
+}
 export async function finishLogin(id: string, cancel = false) {
   const session = sessions.get(id);
   if (!session) throw new Error("Sign-in session not found.");

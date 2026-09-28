@@ -1,0 +1,27 @@
+[
+  {
+    "id": "launch-wide",
+    "width": 1200,
+    "height": 630
+  },
+  {
+    "id": "launch-square",
+    "width": 1080,
+    "height": 1080
+  },
+  {
+    "id": "portable-wide",
+    "width": 1200,
+    "height": 630
+  },
+  {
+    "id": "workflow-portrait",
+    "width": 1080,
+    "height": 1350
+  },
+  {
+    "id": "repository-preview",
+    "width": 1280,
+    "height": 640
+  }
+]

@@ -3,10 +3,12 @@ export function TaskInput({
   value,
   onChange,
   disabled,
+  sourceLabel = "Workflow input for chat run",
 }: {
   value: string;
   onChange: (value: string) => void;
   disabled: boolean;
+  sourceLabel?: string;
 }) {
   const [source, setSource] = useState(false);
   let fields: Record<string, unknown> | null = null;
@@ -16,8 +18,10 @@ export function TaskInput({
       parsed &&
       typeof parsed === "object" &&
       !Array.isArray(parsed) &&
-      Object.values(parsed).every((v) =>
-        ["string", "number", "boolean"].includes(typeof v),
+      Object.values(parsed).every(
+        (v) =>
+          ["string", "number", "boolean"].includes(typeof v) ||
+          (Array.isArray(v) && v.every((item) => typeof item === "string")),
       )
     )
       fields = parsed;
@@ -43,7 +47,25 @@ export function TaskInput({
               <span>
                 {key.replace(/[_-]/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2")}
               </span>
-              {typeof item === "boolean" ? (
+              {Array.isArray(item) ? (
+                <>
+                  <textarea
+                    aria-label={`Task input: ${key}`}
+                    rows={3}
+                    value={item.join("\n")}
+                    disabled={disabled}
+                    onChange={(e) =>
+                      update(
+                        key,
+                        e.target.value ? e.target.value.split("\n") : [],
+                      )
+                    }
+                  />
+                  <small className="task-list-hint">
+                    One item per line. Include quantities where needed.
+                  </small>
+                </>
+              ) : typeof item === "boolean" ? (
                 <input
                   aria-label={`Task input: ${key}`}
                   type="checkbox"
@@ -74,7 +96,7 @@ export function TaskInput({
         </div>
       ) : (
         <textarea
-          aria-label="Workflow input for chat run"
+          aria-label={sourceLabel}
           rows={5}
           disabled={disabled}
           value={value}

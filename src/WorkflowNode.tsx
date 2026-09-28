@@ -19,6 +19,7 @@ import {
   Loader2,
   AlertCircle,
   Circle,
+  MessageSquare,
 } from "lucide-react";
 import {
   decisionPorts,
@@ -32,6 +33,7 @@ export const icons = {
   browser: Monitor,
   decision: GitBranch,
   handoff: FileText,
+  "user-input": MessageSquare,
   action: Globe,
   workflow: Workflow,
   output: ArrowUpRight,
@@ -42,6 +44,7 @@ export const kindLabels: Record<Kind, string> = {
   browser: "Browser task",
   decision: "Jev decision",
   handoff: "Handoff",
+  "user-input": "Ask for input",
   action: "Action",
   workflow: "Workflow",
   output: "Output",
@@ -114,6 +117,8 @@ export function WorkflowNode({ id, data, selected }: NodeProps<CanvasNode>) {
                   : "Local model"}
             <span className="node-model">{data.model || "default model"}</span>
           </>
+        ) : data.kind === "user-input" ? (
+          `${data.inputFields.length} questions · pauses for you`
         ) : data.kind === "handoff" ? (
           <>
             <FileText size={11} />

@@ -1,0 +1,98 @@
+{
+  "createdAt": "2026-09-27T17:40:21.458Z",
+  "artwork": [
+    {
+      "file": "launch-wide.png",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "launch-square.png",
+      "width": 1080,
+      "height": 1080
+    },
+    {
+      "file": "portable-wide.png",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "workflow-portrait.png",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "file": "repository-preview.png",
+      "width": 1280,
+      "height": 640
+    }
+  ],
+  "pdf": [
+    {
+      "file": "jeeves-product-deck.pdf",
+      "expectedPages": 8,
+      "format": "16:9"
+    },
+    {
+      "file": "jeeves-one-pager.pdf",
+      "expectedPages": 1,
+      "format": "A4"
+    }
+  ],
+  "checks": [
+    "launch-wide: exact authored dimensions",
+    "launch-square: exact authored dimensions",
+    "portable-wide: exact authored dimensions",
+    "workflow-portrait: exact authored dimensions",
+    "repository-preview: exact authored dimensions",
+    "Deck contains eight slides",
+    "Deck keyboard navigation works",
+    "Deck button navigation works",
+    "Slide 1: no container overflow",
+    "Slide 2: no container overflow",
+    "Slide 3: no container overflow",
+    "Slide 4: no container overflow",
+    "Slide 5: no container overflow",
+    "Slide 6: no container overflow",
+    "Slide 7: no container overflow",
+    "Slide 8: no container overflow",
+    "One-pager body clears footer",
+    "Landing illustration selects normal",
+    "Landing illustration selects needs_information",
+    "Landing illustration selects urgent",
+    "Landing has no horizontal overflow at 390px",
+    "landing.html: local link index.html resolves",
+    "landing.html: anchor #work exists",
+    "landing.html: anchor #portable exists",
+    "landing.html: local link exports/jeeves-one-pager.pdf resolves",
+    "landing.html: anchor #work exists",
+    "landing.html: local link deck.html resolves",
+    "landing.html: local link exports/jeeves-one-pager.pdf resolves",
+    "index.html: local link index.html resolves",
+    "index.html: local link landing.html resolves",
+    "index.html: local link deck.html resolves",
+    "index.html: local link exports/jeeves-one-pager.pdf resolves",
+    "index.html: local link exports/jeeves-product-deck.pdf resolves",
+    "index.html: local link copy/launch-copy.md resolves",
+    "index.html: local link copy/demo-script.md resolves",
+    "index.html: local link exports/launch-wide.png resolves",
+    "index.html: local link exports/launch-square.png resolves",
+    "index.html: local link exports/portable-wide.png resolves",
+    "index.html: local link exports/workflow-portrait.png resolves",
+    "index.html: local link exports/repository-preview.png resolves",
+    "index.html: local link brand/guide.md resolves",
+    "index.html: local link README.md resolves",
+    "index.html: local link copy/facts-and-claims.md resolves",
+    "one-pager.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link index.html resolves",
+    "deck.html: local link exports/jeeves-product-deck.pdf resolves",
+    "No browser JavaScript errors during rendering"
+  ]
+}

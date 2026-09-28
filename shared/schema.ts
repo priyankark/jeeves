@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { inputFieldSchema, defaultInputFields } from "./input-request";
 export const idSchema = z.string().regex(/^[a-zA-Z0-9_-]{1,80}$/);
 export const kinds = [
   "input",
@@ -6,6 +7,7 @@ export const kinds = [
   "browser",
   "decision",
   "handoff",
+  "user-input",
   "action",
   "workflow",
   "output",
@@ -21,6 +23,7 @@ export const dataSchema = z.object({
   kind: z.enum(kinds),
   label: z.string().min(1).max(100),
   description: z.string().max(1000).default(""),
+  inputFields: z.array(inputFieldSchema).max(30).default(defaultInputFields),
   prompt: z.string().max(20000).default(""),
   provider: providerSchema.default("openai"),
   model: z.string().max(120).default(""),
@@ -93,7 +96,13 @@ export type Workflow = z.infer<typeof workflowSchema>;
 export type WNode = Workflow["nodes"][number];
 export type Provider = z.infer<typeof providerSchema>;
 export type NodeStatus =
-  "pending" | "running" | "completed" | "skipped" | "failed" | "cancelled";
+  | "pending"
+  | "running"
+  | "waiting"
+  | "completed"
+  | "skipped"
+  | "failed"
+  | "cancelled";
 export type NodeResult = {
   status: NodeStatus;
   startedAt?: string;
@@ -104,13 +113,15 @@ export type NodeResult = {
   browserUrl?: string;
   durationMs?: number;
   reusedFrom?: string;
+  requestId?: string;
+  inputDraft?: Record<string, unknown>;
 };
 export type Run = {
   id: string;
   workflowId: string;
   workflowName: string;
   mode: "demo" | "live";
-  status: "running" | "completed" | "failed" | "cancelled";
+  status: "running" | "waiting" | "completed" | "failed" | "cancelled";
   startedAt: string;
   finishedAt?: string;
   nodes: Record<string, NodeResult>;
@@ -182,6 +193,27 @@ export function validateGraph(workflow: Workflow): string[] {
         )
           errors.push(`${n.data.label}: connect the “${port}” branch.`);
     }
+  for (const n of workflow.nodes.filter((n) => n.data.kind === "user-input")) {
+    const fields = n.data.inputFields;
+    if (!fields.length)
+      errors.push(`${n.data.label}: add at least one question.`);
+    if (new Set(fields.map((f) => f.key)).size !== fields.length)
+      errors.push(`${n.data.label}: each field needs a unique key.`);
+    for (const field of fields) {
+      if (
+        field.type === "choice" &&
+        (!field.options.length ||
+          new Set(field.options).size !== field.options.length)
+      )
+        errors.push(`${field.label}: add unique choices.`);
+      if (
+        field.min !== undefined &&
+        field.max !== undefined &&
+        field.min > field.max
+      )
+        errors.push(`${field.label}: minimum must not exceed maximum.`);
+    }
+  }
   const visited = new Set<string>(),
     visiting = new Set<string>();
   const visit = (id: string) => {
@@ -226,6 +258,7 @@ export function makeNode(
     browser: "Browser task",
     decision: "Jev decision",
     handoff: "Context handoff",
+    "user-input": "Ask for input",
     action: "HTTP request",
     workflow: "Nested workflow",
     output: "Final output",

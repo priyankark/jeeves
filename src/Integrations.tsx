@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { api } from "./api";
 type Status = {
+  allowAllWebsites: boolean;
+  environmentAllowsAll: boolean;
   origins: string[];
   environmentOrigins: string[];
   secrets: { name: string; origin: string }[];
 };
 export function Integrations({ onChange }: { onChange: () => void }) {
   const [status, setStatus] = useState<Status>({
+    allowAllWebsites: false,
+    environmentAllowsAll: false,
     origins: [],
     environmentOrigins: [],
     secrets: [],
@@ -15,7 +19,7 @@ export function Integrations({ onChange }: { onChange: () => void }) {
   const [name, setName] = useState("GITHUB_TOKEN"),
     [origin, setOrigin] = useState("https://api.github.com"),
     [value, setValue] = useState("");
-  const [busy, setBusy] = useState(false),
+  const [busy, setBusy] = useState(true),
     [message, setMessage] = useState(""),
     [error, setError] = useState("");
   useEffect(() => {
@@ -24,7 +28,8 @@ export function Integrations({ onChange }: { onChange: () => void }) {
         setStatus(s);
         setOrigins(s.origins.join("\n"));
       })
-      .catch((e) => setError(e.message));
+      .catch((e) => setError(e.message))
+      .finally(() => setBusy(false));
   }, []);
   async function save(body: unknown) {
     setBusy(true);
@@ -40,8 +45,10 @@ export function Integrations({ onChange }: { onChange: () => void }) {
       setValue("");
       setMessage("Saved on this device.");
       onChange();
+      return true;
     } catch (e) {
       setError((e as Error).message);
+      return false;
     } finally {
       setBusy(false);
     }
@@ -60,6 +67,35 @@ export function Integrations({ onChange }: { onChange: () => void }) {
         </p>
       )}
       {message && <p role="status">{message}</p>}
+      <label className="access-mode">
+        <input
+          type="checkbox"
+          checked={status.allowAllWebsites || status.environmentAllowsAll}
+          disabled={busy || status.environmentAllowsAll}
+          onChange={(e) => {
+            const next = e.target.checked;
+            const previous = status.allowAllWebsites;
+            setStatus((s) => ({ ...s, allowAllWebsites: next }));
+            void save({ allowAllWebsites: next }).then((ok) => {
+              if (!ok) setStatus((s) => ({ ...s, allowAllWebsites: previous }));
+            });
+          }}
+        />
+        <span>
+          <strong>Allow all websites & APIs</strong>
+          <small>
+            Applies to every workflow on this device, including browser requests
+            and redirects. API credentials stay restricted to their saved
+            websites. Sign-ins and checkout still require you.
+          </small>
+        </span>
+      </label>
+      {status.environmentAllowsAll && (
+        <p className="field-note">
+          Enabled by ACTION_ALLOWED_ORIGINS=*. Remove the wildcard from the
+          environment to restrict access here.
+        </p>
+      )}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -78,15 +114,28 @@ export function Integrations({ onChange }: { onChange: () => void }) {
             rows={3}
             placeholder="https://api.github.com"
             value={origins}
+            disabled={
+              busy || status.allowAllWebsites || status.environmentAllowsAll
+            }
             onChange={(e) => setOrigins(e.target.value)}
           />
         </label>
+        {(status.allowAllWebsites || status.environmentAllowsAll) && (
+          <p className="field-note">
+            Your website list is kept for when you turn off unrestricted access.
+          </p>
+        )}
         {status.environmentOrigins.length > 0 && (
           <p>
             Also allowed by environment: {status.environmentOrigins.join(", ")}
           </p>
         )}
-        <button className="subtle-button" disabled={busy}>
+        <button
+          className="subtle-button"
+          disabled={
+            busy || status.allowAllWebsites || status.environmentAllowsAll
+          }
+        >
           Save website access
         </button>
       </form>

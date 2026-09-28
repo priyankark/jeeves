@@ -1,0 +1,150 @@
+{
+  "id": "63d474f9-e8c7-4f4d-b001-69e75aa04431",
+  "name": "Amazon grocery shopper",
+  "description": "Shop Amazon Fresh using browser controls, add requested groceries within the supplied budget, and report verified cart changes without checking out.",
+  "skillIds": [],
+  "nodes": [
+    {
+      "id": "input",
+      "type": "workflowNode",
+      "position": {
+        "x": 100,
+        "y": 180
+      },
+      "data": {
+        "kind": "input",
+        "label": "Grocery shopping input",
+        "description": "Supply grocery_list with quantities, a positive budget_usd, and delivery_zip before items can be added.",
+        "prompt": "",
+        "provider": "codex",
+        "model": "",
+        "skillIds": [],
+        "field": "input.approved",
+        "operator": "equals",
+        "value": "true",
+        "filename": "handoff.md",
+        "method": "GET",
+        "url": "",
+        "body": "",
+        "paginate": false,
+        "maxPages": 5,
+        "authEnv": "",
+        "browserMode": "observe",
+        "browserSteps": 12,
+        "workflowId": "",
+        "decisionEngine": "jev",
+        "questionType": "noul",
+        "question": "Does the provided context contain enough specific, supported information to complete the task?",
+        "criteria": "{}",
+        "jevModel": "jev-latest",
+        "threshold": 0.8,
+        "failThreshold": 0.2,
+        "minConfidence": 0.7,
+        "scoreThreshold": 1.5,
+        "demoValue": 0.9,
+        "demoConfidence": 0.9,
+        "demoChoice": "pass",
+        "direction": "right"
+      }
+    },
+    {
+      "id": "browser",
+      "type": "workflowNode",
+      "position": {
+        "x": 470,
+        "y": 180
+      },
+      "data": {
+        "kind": "browser",
+        "label": "Shop Amazon Fresh",
+        "description": "Use CUA on real Amazon Fresh to add verified groceries within budget and report blockers for human review.",
+        "prompt": "Use screenshots and browser controls in the real Amazon website to shop Amazon Fresh. Read input.grocery_list, input.budget_usd, input.delivery_zip, input.dietary_constraints, input.substitutions, and input.task. Before adding any items, require a nonempty grocery_list, a numeric budget_usd greater than 0, and a nonempty delivery_zip. Require clear requested quantities; do not invent missing quantities. If required information is missing or invalid, stop and return a human-review handoff identifying the exact missing information.\n\nVerify that the active grocery service is Amazon Fresh and that its delivery location matches delivery_zip and has service availability. Preserve existing cart items, account settings, and saved delivery addresses. Do not modify saved addresses or account settings. If verifying the requested location requires such changes, stop for human review. Inspect the existing cart and record its items, quantities, and observed merchandise subtotal before making changes. Treat budget_usd as the maximum total grocery merchandise subtotal including existing items; never remove or reduce existing items to meet it. If the existing subtotal cannot be established or already exceeds the budget, report the exact blocker for human review.\n\nSearch each requested grocery item. Inspect its exact size or pack count, actual displayed price, stock status, and match to dietary constraints before adding it. Add only the explicitly requested quantity, counting only newly added units against the requested additions and preserving preexisting quantities. Keep the resulting total grocery merchandise subtotal within budget_usd. Do not subscribe. Do not substitute unless input.substitutions explicitly authorizes that substitution. If size, quantity, dietary suitability, price, or substitution permission cannot be established, leave the item unresolved and explain why. Do not assume conditional discounts apply.\n\nAfter each addition, use screenshots to confirm the cart reflects the correct item, quantity change, and price. Avoid duplicate additions when an action's outcome is uncertain; inspect the cart before retrying. Stop adding items when the remaining budget or browser-step limit prevents safe verified progress.\n\nIf login, CAPTCHA, missing input, delivery availability, or another barrier blocks progress, stop and return a human-review handoff with the exact blocker, verified changes already made, and the next human action required. Do not bypass authentication or CAPTCHA.\n\nNever place an order, proceed to checkout, or use Buy Now, regardless of input.task. Recommend manual review of the cart before any purchase. Report itemized cart changes with product names, sizes, quantities added, actual observed unit or pack prices, and line totals; report the subtotal of new additions and the resulting observed grocery cart merchandise subtotal. Include unresolved items, any discrepancies, and taxes or delivery fees that remain unknown. Do not present an estimated total as an observed total. Do not claim an addition or overall success unless the cart confirms it.",
+        "provider": "codex",
+        "model": "",
+        "skillIds": [],
+        "field": "input.approved",
+        "operator": "equals",
+        "value": "true",
+        "filename": "handoff.md",
+        "method": "GET",
+        "url": "https://www.amazon.com/alm/storefront?almBrandId=QW1hem9uIEZyZXNo",
+        "body": "",
+        "paginate": false,
+        "maxPages": 5,
+        "authEnv": "",
+        "browserMode": "interact",
+        "browserSteps": 30,
+        "workflowId": "",
+        "decisionEngine": "jev",
+        "questionType": "noul",
+        "question": "Does the provided context contain enough specific, supported information to complete the task?",
+        "criteria": "{}",
+        "jevModel": "jev-latest",
+        "threshold": 0.8,
+        "failThreshold": 0.2,
+        "minConfidence": 0.7,
+        "scoreThreshold": 1.5,
+        "demoValue": 0.9,
+        "demoConfidence": 0.9,
+        "demoChoice": "pass",
+        "direction": "right"
+      }
+    },
+    {
+      "id": "output",
+      "type": "workflowNode",
+      "position": {
+        "x": 840,
+        "y": 180
+      },
+      "data": {
+        "kind": "output",
+        "label": "Cart report and human review",
+        "description": "Verified itemized cart changes, observed prices and subtotals, unresolved items, unknown fees, and exact blockers requiring human review.",
+        "prompt": "",
+        "provider": "codex",
+        "model": "",
+        "skillIds": [],
+        "field": "input.approved",
+        "operator": "equals",
+        "value": "true",
+        "filename": "handoff.md",
+        "method": "GET",
+        "url": "",
+        "body": "",
+        "paginate": false,
+        "maxPages": 5,
+        "authEnv": "",
+        "browserMode": "observe",
+        "browserSteps": 12,
+        "workflowId": "",
+        "decisionEngine": "jev",
+        "questionType": "noul",
+        "question": "Does the provided context contain enough specific, supported information to complete the task?",
+        "criteria": "{}",
+        "jevModel": "jev-latest",
+        "threshold": 0.8,
+        "failThreshold": 0.2,
+        "minConfidence": 0.7,
+        "scoreThreshold": 1.5,
+        "demoValue": 0.9,
+        "demoConfidence": 0.9,
+        "demoChoice": "pass",
+        "direction": "right"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "input-browser",
+      "source": "input",
+      "target": "browser"
+    },
+    {
+      "id": "browser-output",
+      "source": "browser",
+      "target": "output"
+    }
+  ],
+  "input": "{\n  \"grocery_list\": [],\n  \"budget_usd\": 0,\n  \"delivery_zip\": \"\",\n  \"dietary_constraints\": [],\n  \"substitutions\": false,\n  \"task\": \"Add the requested groceries to the Amazon Fresh cart within budget. Preserve existing cart items. Report verified changes and blockers for human review. Never proceed to checkout or place an order.\"\n}"
+}

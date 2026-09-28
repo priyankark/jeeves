@@ -140,6 +140,10 @@ test("shopper can discover a browser starter and simulate without touching the s
     .fill("Prepare a grocery cart");
   await page.getByRole("button", { name: "Send to Jeeves" }).click();
   await page.getByRole("button", { name: "Run demo", exact: true }).click();
+  const form = page.getByRole("form", { name: "Your grocery trip" });
+  await form.getByLabel("Groceries and quantities").fill("2 cartons oat milk");
+  await form.getByLabel("Delivery ZIP code", { exact: true }).fill("02139");
+  await form.getByRole("button", { name: "Submit & continue" }).click();
   await expect(
     page.getByRole("region", { name: "Chat run result" }),
   ).toContainText("no browser was opened", { timeout: 15000 });

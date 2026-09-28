@@ -1,5 +1,13 @@
+import { InputFieldEditor, RunInputRequests } from "./InputRequest";
 import { useDialogFocus } from "./useDialogFocus";
 import { Home } from "./Home";
+import { TaskInput } from "./TaskInput";
+import {
+  AttentionCenter,
+  NotificationSettings,
+  useAttention,
+} from "./Attention";
+import { FriendlyError } from "./FriendlyError";
 import { WorkflowMarket } from "./WorkflowMarket";
 import { WorkflowLibrary } from "./WorkflowLibrary";
 import { ShareWorkflow } from "./ShareWorkflow";
@@ -26,6 +34,7 @@ import {
   applyEdgeChanges,
   addEdge,
   useReactFlow,
+  useNodesInitialized,
   MarkerType,
   type Edge,
   type NodeChange,
@@ -47,6 +56,13 @@ import {
   ChevronRight,
   ArrowUpRight,
   ArrowUp,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Maximize2,
+  Minimize2,
+  Menu,
+  Focus,
+  Bell,
   PanelRightClose,
   PanelRightOpen,
   Sparkles,
@@ -91,6 +107,7 @@ import {
 } from "../shared/schema";
 import { starter, blank, templates } from "../shared/templates";
 import { insertStep, executionOrder } from "../shared/graph-edit";
+import { WebsiteAccess } from "./WebsiteAccess";
 import { api, download, ApiError } from "./api";
 const nodeTypes = { workflowNode: WorkflowNode };
 const initialProviders: Providers = {
@@ -101,6 +118,14 @@ const initialProviders: Providers = {
   codex: false,
   models: { openai: "", openrouter: "", local: "", codex: "" },
 };
+function layoutPreference(key: string, fallback: boolean) {
+  try {
+    const value = localStorage.getItem(`jeeves-layout:${key}`);
+    return value === null ? fallback : value === "true";
+  } catch {
+    return fallback;
+  }
+}
 const uid = () => crypto.randomUUID();
 const clone = <T,>(v: T): T => structuredClone(v);
 const pretty = (value: unknown) =>
@@ -112,6 +137,7 @@ const descriptions: Record<Kind, string> = {
     "Give an agent a website task with screenshots and browser controls.",
   decision: "Ask Jev for a typed, confidence-aware decision.",
   handoff: "Write context for the next agent.",
+  "user-input": "Pause for answers, then continue with the submitted details.",
   action: "Call an API without an agent loop.",
   workflow: "Compose a saved workflow.",
   output: "Collect the results that matter.",
@@ -153,8 +179,6 @@ export default function App() {
       else window.history.replaceState(null, "", hash);
     }
     routeReady.current = true;
-    if (page === "editor")
-      setTimeout(() => flow.fitView({ padding: 0.18 }), 80);
   }, [page]);
   const [workflow, setWorkflow] = useState<Workflow>(clone(starter));
   const [saved, setSaved] = useState<Workflow[]>([]);
@@ -163,7 +187,34 @@ export default function App() {
   const [runSnapshot, setRunSnapshot] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [panel, setPanel] = useState<"copilot" | "node" | "run">("copilot");
-  const [panelOpen, setPanelOpen] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(() =>
+    layoutPreference("panel", true),
+  );
+  const [sidebarOpen, setSidebarOpen] = useState(() =>
+    layoutPreference("sidebar", window.innerWidth > 1000),
+  );
+  const [railOpen, setRailOpen] = useState(() =>
+    layoutPreference("rail", true),
+  );
+  const [focusMode, setFocusMode] = useState(false);
+  const [panelExpanded, setPanelExpanded] = useState(false);
+  const copilotEnd = useRef<HTMLDivElement>(null);
+  const {
+    publishRun,
+    open: attentionOpen,
+    setOpen: setAttentionOpen,
+    notices,
+  } = useAttention();
+  useEffect(() => {
+    try {
+      for (const [key, value] of Object.entries({
+        sidebar: sidebarOpen,
+        rail: railOpen,
+        panel: panelOpen,
+      }))
+        localStorage.setItem(`jeeves-layout:${key}`, String(value));
+    } catch {}
+  }, [sidebarOpen, railOpen, panelOpen]);
   const [modal, setModal] = useState<
     | "nodes"
     | "settings"
@@ -211,8 +262,26 @@ export default function App() {
     setOutputOpen(false);
     setResumeWarning("");
   });
+  useDialogFocus(
+    panelExpanded && !modal && !outputOpen && !resumeWarning && !attentionOpen,
+    () => setPanelExpanded(false),
+  );
+  useEffect(() => {
+    if (run) publishRun(run);
+  }, [run, publishRun]);
+  useEffect(() => {
+    copilotEnd.current?.scrollIntoView({ block: "end", behavior: "instant" });
+  }, [messages.length, thinking, proposal, panel]);
+  useEffect(() => {
+    if (page !== "editor") {
+      setPanelExpanded(false);
+      setFocusMode(false);
+    }
+  }, [page]);
   const flow = useReactFlow<CanvasNode>();
-  const busy = starting || run?.status === "running";
+  const nodesInitialized = useNodesInitialized();
+  const busy =
+    starting || run?.status === "running" || run?.status === "waiting";
   const edits = useWorkflowHistory(
     workflow,
     setWorkflow,
@@ -309,7 +378,7 @@ export default function App() {
     };
   }, [workflow, ready, runSnapshot]);
   useEffect(() => {
-    if (!run || run.status !== "running") return;
+    if (!run || !["running", "waiting"].includes(run.status)) return;
     let stopped = false;
     const poll = async () => {
       try {
@@ -342,9 +411,23 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [toast]);
   useEffect(() => {
-    if (ready)
-      setTimeout(() => flow.fitView({ padding: 0.18, duration: 300 }), 80);
-  }, [workflow.id, ready]);
+    if (!ready || !nodesInitialized || page !== "editor" || panelExpanded)
+      return;
+    const frame = requestAnimationFrame(() => {
+      void flow.fitView({ padding: 0.1, maxZoom: 1 });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [
+    workflow.id,
+    ready,
+    nodesInitialized,
+    page,
+    sidebarOpen,
+    railOpen,
+    focusMode,
+    panelOpen,
+    panelExpanded,
+  ]);
   const update = (patch: Partial<Workflow>) => {
     setRunSnapshot(false);
     setWorkflow((w) => ({ ...w, ...patch }));
@@ -363,9 +446,12 @@ export default function App() {
       setWorkflow({
         ...clone(full.workflow),
         id: uid(),
-        name: `${full.workflowName.replace(/(?:\s*·\s*replay)+$/i, "")} · replay`,
+        name: ["running", "waiting"].includes(full.status)
+          ? full.workflowName
+          : `${full.workflowName.replace(/(?:\s*·\s*replay)+$/i, "")} · replay`,
       });
       setRun(full);
+      setMode(full.mode);
       setSelected(null);
       setProposal(null);
       setMessages([]);
@@ -619,32 +705,40 @@ export default function App() {
     selected: n.id === selected,
     data: { ...n.data, status: run?.nodes[n.id]?.status },
   }));
-  const shownEdges = workflow.edges.map((e) => ({
-    ...e,
-    label: undefined,
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-      width: 15,
-      height: 15,
-      color: "#9dac8d",
-    },
-    type: "smoothstep",
-    animated: run?.nodes[e.source]?.status === "running",
-    style: {
-      stroke:
-        e.sourceHandle === "fail"
-          ? "#b8a688"
-          : run?.nodes[e.source]?.status === "completed"
-            ? "#719779"
-            : "#aeb7ac",
-      strokeWidth: 1.5,
-    },
-    labelStyle: { fill: "#7b8577", fontSize: 11 },
-    labelBgStyle: { fill: "#f7f8f4" },
-  }));
+  const shownEdges = workflow.edges.map((e) => {
+    const color = (e as Edge).selected
+      ? "#b94d22"
+      : e.sourceHandle === "fail"
+        ? "#91623b"
+        : run?.nodes[e.source]?.status === "completed"
+          ? "#387348"
+          : "#687863";
+    return {
+      ...e,
+      label: undefined,
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 20,
+        height: 20,
+        color,
+      },
+      type: "smoothstep",
+      animated: run?.nodes[e.source]?.status === "running",
+      style: {
+        stroke: color,
+      },
+      labelStyle: { fill: "#7b8577", fontSize: 11 },
+      labelBgStyle: { fill: "#f7f8f4" },
+    };
+  });
   return (
-    <div className="app-shell">
-      <nav className="rail" aria-label="Main navigation">
+    <div className={`app-shell ${focusMode ? "focus-mode" : ""}`}>
+      <nav
+        className="rail"
+        aria-label="Main navigation"
+        hidden={!railOpen || focusMode}
+        inert={panelExpanded || undefined}
+      >
         <button
           className="brand"
           title="Jeeves home"
@@ -752,7 +846,12 @@ export default function App() {
           </div>
         </div>
       </nav>
-      <aside className="sidebar">
+      <aside
+        className="sidebar"
+        aria-label="Workspace sidebar"
+        hidden={!sidebarOpen || focusMode}
+        inert={panelExpanded || undefined}
+      >
         <div className="workspace-heading">
           <span className="workspace-icon">
             <Command size={16} />
@@ -760,7 +859,14 @@ export default function App() {
           <div>
             Personal workspace<small>Local workspace</small>
           </div>
-          <ChevronDown size={14} />
+          <button
+            className="icon-button"
+            aria-label="Hide workspace sidebar"
+            title="Hide workspace sidebar"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <PanelLeftClose size={16} />
+          </button>
         </div>
         <div className="sidebar-section-label">WORKSPACE</div>
         <button
@@ -832,11 +938,7 @@ export default function App() {
             <WorkflowIcon size={18} />
           </span>
           <strong>Small tasks. Big possibilities.</strong>
-          <p>
-            Build with focused agents.
-            <br />
-            Let the workflow connect the dots.
-          </p>
+          <p>Build with focused agents. Let the workflow connect the dots.</p>
           <button onClick={() => setModal("templates")}>
             Explore templates <ArrowUpRight size={13} />
           </button>
@@ -847,582 +949,792 @@ export default function App() {
           <span>v0.1</span>
         </div>
       </aside>
-      {page === "home" && (
-        <Home
-          workflows={saved}
-          mode={mode}
-          onMode={setMode}
-          provider={copilotProvider}
-          model={copilotModel}
-          connected={!!providers[copilotProvider]}
-          connectionVersion={JSON.stringify(providers)}
-          onEdit={(w) => void chooseWorkflow(w)}
-          onExplore={() => setPage("explore")}
-          onNew={() => newWorkflow()}
-          onSettings={() => setModal("settings")}
-          onInspect={(r) => void inspectRun(r)}
-        />
-      )}
-      {page === "explore" && (
-        <WorkflowMarket
-          onInstalled={() => {
-            void api<Workflow[]>("/workflows").then(setSaved);
-            void reloadSkills();
-          }}
-          onEdit={(w) => void chooseWorkflow(w)}
-          onContribute={() => setModal("share")}
-        />
-      )}
-      {page === "workflows" && (
-        <WorkflowLibrary
-          workflows={saved}
-          ready={ready}
-          busy={busy}
-          onOpen={(w) => void chooseWorkflow(w)}
-          onNew={() => newWorkflow()}
-          onExplore={() => setPage("explore")}
-        />
-      )}
-      <main
-        className="main"
-        style={page !== "editor" ? { display: "none" } : undefined}
-      >
-        <header className="topbar">
-          <div className="breadcrumbs">
-            <WorkflowIcon size={15} />
-            <button
-              className="breadcrumb-link"
-              onClick={() => setPage("workflows")}
-            >
-              Workflows
-            </button>
-            <ChevronRight size={13} />
-            <strong>{workflow.name}</strong>
-          </div>
-          <div className="topbar-actions">
-            <span className="save-state">
-              {saveState === "Saved locally" ? (
-                <Check size={13} />
-              ) : (
-                <Clock3 size={13} />
-              )}{" "}
-              {saveState}
-            </span>
-            {runSnapshot && (
-              <button
-                className="subtle-button"
-                onClick={() => setRunSnapshot(false)}
-              >
-                Save a copy
-              </button>
-            )}
-            <button
-              className="subtle-button"
-              title="Share or export"
-              aria-label="Share or export"
-              onClick={() => setModal("share")}
-            >
-              <Share2 size={16} />
-              Share / Export
-            </button>
+      <div className="workspace-content">
+        <div className="workspace-bar" inert={panelExpanded || undefined}>
+          <div className="workspace-layout-controls">
             <button
               className="icon-button"
-              title="Export workflow"
-              aria-label="Export workflow"
-              onClick={() =>
-                download(
-                  `${workflow.id}.json`,
-                  JSON.stringify(workflow, null, 2),
-                )
+              aria-label={
+                railOpen && !focusMode
+                  ? "Hide navigation rail"
+                  : "Show navigation rail"
               }
+              title={
+                railOpen && !focusMode
+                  ? "Hide navigation rail"
+                  : "Show navigation rail"
+              }
+              aria-pressed={railOpen && !focusMode}
+              onClick={() => {
+                if (focusMode) {
+                  setFocusMode(false);
+                  setRailOpen(true);
+                } else setRailOpen((v) => !v);
+              }}
             >
-              <Download size={17} />
+              <Menu size={18} />
             </button>
             <button
               className="icon-button"
-              title="Import workflow"
-              aria-label="Import workflow"
-              disabled={busy}
-              onClick={() => importRef.current?.click()}
+              aria-label={
+                sidebarOpen && !focusMode
+                  ? "Collapse workspace sidebar"
+                  : "Show workspace sidebar"
+              }
+              title={
+                sidebarOpen && !focusMode
+                  ? "Collapse workspace sidebar"
+                  : "Show workspace sidebar"
+              }
+              aria-pressed={sidebarOpen && !focusMode}
+              onClick={() => {
+                if (focusMode) {
+                  setFocusMode(false);
+                  setSidebarOpen(true);
+                } else setSidebarOpen((v) => !v);
+              }}
             >
-              <Upload size={17} />
-            </button>
-            <button
-              className="icon-button"
-              title="Toggle side panel"
-              aria-label="Toggle side panel"
-              onClick={() => setPanelOpen((v) => !v)}
-            >
-              {panelOpen ? (
-                <PanelRightClose size={18} />
+              {sidebarOpen && !focusMode ? (
+                <PanelLeftClose size={18} />
               ) : (
-                <PanelRightOpen size={18} />
+                <PanelLeftOpen size={18} />
               )}
             </button>
-          </div>
-        </header>
-        <div className="editor-heading">
-          <div>
-            <div className="title-line">
-              <input
-                aria-label="Workflow name"
-                value={workflow.name}
-                disabled={busy}
-                onChange={(e) => update({ name: e.target.value })}
-              />
-              <span className="draft-badge">LOCAL</span>
-            </div>
-            <input
-              className="workflow-description"
-              aria-label="Workflow description"
-              value={workflow.description}
-              disabled={busy}
-              onChange={(e) => update({ description: e.target.value })}
-            />
-          </div>
-          <div className="run-actions">
-            <div className="mode-select">
-              <span className={`tiny-dot ${mode === "live" ? "live" : ""}`} />
-              <select
-                aria-label="Run mode"
-                disabled={busy}
-                value={mode}
-                onChange={(e) => setMode(e.target.value as "demo" | "live")}
-              >
-                <option value="demo">Demo mode</option>
-                <option value="live">Live mode</option>
-              </select>
-            </div>
-            {busy ? (
+            {page === "editor" && (
               <button
-                className="run-button stop"
+                className={`focus-button ${focusMode ? "active" : ""}`}
+                aria-pressed={focusMode}
+                onClick={() => setFocusMode((v) => !v)}
+              >
+                <Focus size={16} />
+                {focusMode ? "Exit focus" : "Focus canvas"}
+              </button>
+            )}
+          </div>
+          <div className="workspace-attention">
+            <AttentionCenter
+              workflows={saved}
+              onSettings={() => setModal("settings")}
+              onReview={async (notice) => {
+                if (
+                  run?.status === "running" &&
+                  notice.workflowId !== run.workflowId
+                )
+                  throw new Error(
+                    "Wait for the current run to finish before switching workflows.",
+                  );
+                if (notice.runId) {
+                  const requestedRun = await api<Run>(`/runs/${notice.runId}`);
+                  await inspectRun(requestedRun);
+                  if (requestedRun.status === "waiting") setPanelExpanded(true);
+                } else {
+                  if (notice.workflowId !== workflow.id) {
+                    const items = await api<Workflow[]>("/workflows");
+                    const target = items.find(
+                      (w) => w.id === notice.workflowId,
+                    );
+                    if (!target)
+                      throw new Error(
+                        "This workflow is no longer in your library.",
+                      );
+                    await chooseWorkflow(target);
+                  }
+                  setPage("editor");
+                  setSelected(notice.nodeId || null);
+                  setPanel("node");
+                  setPanelOpen(true);
+                  setTimeout(
+                    () =>
+                      document
+                        .querySelector(".inspector .browser-login")
+                        ?.scrollIntoView({ block: "center" }),
+                    100,
+                  );
+                }
+                setFocusMode(false);
+              }}
+            />
+            <button
+              className="icon-button"
+              aria-label="Workspace preferences"
+              title="Workspace preferences"
+              onClick={() => setModal("settings")}
+            >
+              <Settings2 size={17} />
+            </button>
+          </div>
+        </div>
+        {page === "home" && (
+          <Home
+            workflows={saved}
+            mode={mode}
+            onMode={setMode}
+            provider={copilotProvider}
+            model={copilotModel}
+            connected={!!providers[copilotProvider]}
+            connectionVersion={JSON.stringify(providers)}
+            onEdit={(w) => void chooseWorkflow(w)}
+            onExplore={() => setPage("explore")}
+            onNew={() => newWorkflow()}
+            onSettings={() => setModal("settings")}
+            onInspect={(r) => void inspectRun(r)}
+          />
+        )}
+        {page === "explore" && (
+          <WorkflowMarket
+            onInstalled={() => {
+              void api<Workflow[]>("/workflows").then(setSaved);
+              void reloadSkills();
+            }}
+            onEdit={(w) => void chooseWorkflow(w)}
+            onContribute={() => setModal("share")}
+          />
+        )}
+        {page === "workflows" && (
+          <WorkflowLibrary
+            workflows={saved}
+            ready={ready}
+            busy={busy}
+            onOpen={(w) => void chooseWorkflow(w)}
+            onNew={() => newWorkflow()}
+            onExplore={() => setPage("explore")}
+          />
+        )}
+        <main
+          className="main"
+          style={page !== "editor" ? { display: "none" } : undefined}
+        >
+          <header className="topbar" inert={panelExpanded || undefined}>
+            <div className="breadcrumbs">
+              <WorkflowIcon size={15} />
+              <button
+                className="breadcrumb-link"
+                onClick={() => setPage("workflows")}
+              >
+                Workflows
+              </button>
+              <ChevronRight size={13} />
+              <strong>{workflow.name}</strong>
+            </div>
+            <div className="topbar-actions">
+              <span className="save-state">
+                {saveState === "Saved locally" ? (
+                  <Check size={13} />
+                ) : (
+                  <Clock3 size={13} />
+                )}{" "}
+                {saveState}
+              </span>
+              {runSnapshot && !busy && (
+                <button
+                  className="subtle-button"
+                  onClick={() => setRunSnapshot(false)}
+                >
+                  Save a copy
+                </button>
+              )}
+              <button
+                className="subtle-button"
+                title="Share or export"
+                aria-label="Share or export"
+                onClick={() => setModal("share")}
+              >
+                <Share2 size={16} />
+                Share / Export
+              </button>
+              <button
+                className="icon-button"
+                title="Export workflow"
+                aria-label="Export workflow"
                 onClick={() =>
-                  run &&
-                  api(`/runs/${run.id}/cancel`, { method: "POST" }).catch((e) =>
-                    setError(e.message),
+                  download(
+                    `${workflow.id}.json`,
+                    JSON.stringify(workflow, null, 2),
                   )
                 }
               >
-                <Square size={13} /> Stop run
+                <Download size={17} />
               </button>
-            ) : (
               <button
-                className="run-button"
-                disabled={!ready}
-                onClick={startRun}
+                className="icon-button"
+                title="Import workflow"
+                aria-label="Import workflow"
+                disabled={busy}
+                onClick={() => importRef.current?.click()}
               >
-                <Play size={14} fill="currentColor" /> Run workflow
+                <Upload size={17} />
               </button>
-            )}
+              <button
+                className="icon-button"
+                title="Toggle side panel"
+                aria-label="Toggle side panel"
+                onClick={() => setPanelOpen((v) => !v)}
+              >
+                {panelOpen ? (
+                  <PanelRightClose size={18} />
+                ) : (
+                  <PanelRightOpen size={18} />
+                )}
+              </button>
+            </div>
+          </header>
+          <div className="editor-heading" inert={panelExpanded || undefined}>
+            <div>
+              <div className="title-line">
+                <input
+                  aria-label="Workflow name"
+                  value={workflow.name}
+                  disabled={busy}
+                  onChange={(e) => update({ name: e.target.value })}
+                />
+                <span className="draft-badge">LOCAL</span>
+              </div>
+              <input
+                className="workflow-description"
+                aria-label="Workflow description"
+                value={workflow.description}
+                disabled={busy}
+                onChange={(e) => update({ description: e.target.value })}
+              />
+            </div>
+            <div className="run-actions">
+              <div className="mode-select">
+                <span className={`tiny-dot ${mode === "live" ? "live" : ""}`} />
+                <select
+                  aria-label="Run mode"
+                  disabled={busy}
+                  value={mode}
+                  onChange={(e) => setMode(e.target.value as "demo" | "live")}
+                >
+                  <option value="demo">Demo mode</option>
+                  <option value="live">Live mode</option>
+                </select>
+              </div>
+              {busy ? (
+                <button
+                  className="run-button stop"
+                  onClick={() =>
+                    run &&
+                    api(`/runs/${run.id}/cancel`, { method: "POST" }).catch(
+                      (e) => setError(e.message),
+                    )
+                  }
+                >
+                  <Square size={13} /> Stop run
+                </button>
+              ) : (
+                <button
+                  className="run-button"
+                  disabled={!ready}
+                  onClick={startRun}
+                >
+                  <Play size={14} fill="currentColor" /> Run workflow
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="editor-toolbar">
-          <div className="editor-tab">
-            <WorkflowIcon size={15} /> Editor{" "}
-            <span>{workflow.nodes.length}</span>
-          </div>
-          <button
-            className="toolbar-button"
-            onClick={() => setShowInput((v) => !v)}
-          >
-            <SlidersHorizontal size={14} /> Run input
-          </button>
-          <div className="toolbar-spacer" />
-          <div className="history-controls">
+          <div className="editor-toolbar" inert={panelExpanded || undefined}>
+            <div className="editor-tab">
+              <WorkflowIcon size={15} /> Editor{" "}
+              <span>{workflow.nodes.length}</span>
+            </div>
             <button
-              className="icon-button"
-              aria-label="Undo edit"
-              title="Undo · ⌘Z"
-              disabled={!edits.canUndo || busy}
-              onClick={edits.undo}
+              className="toolbar-button"
+              onClick={() => setShowInput((v) => !v)}
             >
-              <Undo2 size={15} />
+              <SlidersHorizontal size={14} /> Run input
             </button>
+            <div className="toolbar-spacer" />
+            <div className="history-controls">
+              <button
+                className="icon-button"
+                aria-label="Undo edit"
+                title="Undo · ⌘Z"
+                disabled={!edits.canUndo || busy}
+                onClick={edits.undo}
+              >
+                <Undo2 size={15} />
+              </button>
+              <button
+                className="icon-button"
+                aria-label="Redo edit"
+                title="Redo · ⇧⌘Z"
+                disabled={!edits.canRedo || busy}
+                onClick={edits.redo}
+              >
+                <Redo2 size={15} />
+              </button>
+            </div>
             <button
-              className="icon-button"
-              aria-label="Redo edit"
-              title="Redo · ⇧⌘Z"
-              disabled={!edits.canRedo || busy}
-              onClick={edits.redo}
-            >
-              <Redo2 size={15} />
-            </button>
-          </div>
-          <button
-            className="toolbar-button"
-            onClick={() => {
-              const errors = validateGraph(workflow);
-              if (errors.length) setError(errors.join(" "));
-              else setToast("Workflow is valid and ready to run.");
-            }}
-          >
-            <CheckCircle2 size={14} /> Validate
-          </button>
-          <button
-            className="add-node-button"
-            disabled={busy}
-            onClick={() => setModal("nodes")}
-          >
-            <Plus size={15} /> Add node
-          </button>
-        </div>
-        {error && (
-          <div className="error-banner" role="alert">
-            <AlertCircle size={16} />
-            <span>{error}</span>
-            <button aria-label="Dismiss error" onClick={() => setError("")}>
-              <X size={16} />
-            </button>
-          </div>
-        )}
-        <div className="editor-body">
-          <section className="canvas-section" aria-label="Workflow canvas">
-            <ReactFlow<CanvasNode>
-              nodes={shownNodes}
-              edges={shownEdges}
-              nodeTypes={nodeTypes}
-              onNodesChange={busy ? undefined : onNodesChange}
-              onEdgesChange={busy ? undefined : onEdgesChange}
-              onConnect={busy ? undefined : onConnect}
-              onNodeClick={(_, n) => {
-                setSelected(n.id);
-                setPanel("node");
-                setPanelOpen(true);
+              className="toolbar-button"
+              onClick={() => {
+                const errors = validateGraph(workflow);
+                if (errors.length) setError(errors.join(" "));
+                else setToast("Workflow is valid and ready to run.");
               }}
-              onPaneClick={() => setSelected(null)}
-              onEdgeClick={() => setSelected(null)}
-              nodesDraggable={!busy}
-              nodesConnectable={!busy}
-              deleteKeyCode={busy ? null : ["Backspace", "Delete"]}
-              fitView
-              fitViewOptions={{ padding: 0.18 }}
-              minZoom={0.25}
-              maxZoom={1.6}
-              proOptions={{ hideAttribution: true }}
             >
-              <Background
-                variant={BackgroundVariant.Dots}
-                gap={22}
-                size={1}
-                color="#d5dbd0"
-              />
-              <Controls showInteractive={false} />
-              <MiniMap
-                nodeColor={(n) =>
-                  n.data.kind === "decision"
-                    ? "#d9c495"
-                    : n.data.kind === "handoff"
-                      ? "#bec8dd"
-                      : "#bbcab2"
+              <CheckCircle2 size={14} /> Validate
+            </button>
+            <button
+              className="add-node-button"
+              disabled={busy}
+              onClick={() => setModal("nodes")}
+            >
+              <Plus size={15} /> Add node
+            </button>
+          </div>
+          {error && (
+            <div className="error-banner" role="alert">
+              <AlertCircle size={16} />
+              <div>
+                <FriendlyError message={error} />
+                <WebsiteAccess message={error} />
+              </div>
+              <button aria-label="Dismiss error" onClick={() => setError("")}>
+                <X size={16} />
+              </button>
+            </div>
+          )}
+          <div className="editor-body">
+            <section
+              className="canvas-section"
+              aria-label="Workflow canvas"
+              inert={panelExpanded || undefined}
+            >
+              <ReactFlow<CanvasNode>
+                nodes={shownNodes}
+                edges={shownEdges}
+                nodeTypes={nodeTypes}
+                onNodesChange={busy ? undefined : onNodesChange}
+                onEdgesChange={busy ? undefined : onEdgesChange}
+                onConnect={busy ? undefined : onConnect}
+                onNodeClick={(_, n) => {
+                  setFocusMode(false);
+                  setSelected(n.id);
+                  setPanel("node");
+                  setPanelOpen(true);
+                }}
+                onPaneClick={() => setSelected(null)}
+                onEdgeClick={() => setSelected(null)}
+                nodesDraggable={!busy}
+                nodesConnectable={!busy}
+                deleteKeyCode={busy ? null : ["Backspace", "Delete"]}
+                fitView
+                fitViewOptions={{ padding: 0.18 }}
+                minZoom={0.25}
+                maxZoom={1.6}
+                proOptions={{ hideAttribution: true }}
+              >
+                <Background
+                  variant={BackgroundVariant.Dots}
+                  gap={22}
+                  size={1}
+                  color="#d5dbd0"
+                />
+                <Controls showInteractive={false} />
+                <MiniMap
+                  nodeColor={(n) =>
+                    n.data.kind === "decision"
+                      ? "#d9c495"
+                      : n.data.kind === "handoff"
+                        ? "#bec8dd"
+                        : "#bbcab2"
+                  }
+                  maskColor="rgba(247,248,244,.75)"
+                  pannable
+                  zoomable
+                />
+              </ReactFlow>
+              <div className="canvas-label">
+                <span className="tiny-dot" />{" "}
+                {mode === "demo"
+                  ? "SANDBOX · NO API CALLS"
+                  : "LIVE · CONNECTED PROVIDERS"}
+              </div>
+              <div className="canvas-hint">
+                Drag to arrange <span>·</span> Connect ports to build{" "}
+                <span>·</span> Scroll to zoom
+              </div>
+              {showInput && (
+                <div className="input-popover">
+                  <div className="panel-title">
+                    <strong>Workflow input</strong>
+                    <button
+                      className="icon-button"
+                      aria-label="Close run input"
+                      onClick={() => setShowInput(false)}
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                  <p>The task and context passed into this run.</p>
+                  <TaskInput
+                    value={workflow.input}
+                    onChange={(input) => update({ input })}
+                    disabled={!!busy}
+                    sourceLabel="Workflow input JSON"
+                  />
+                </div>
+              )}
+            </section>
+            {panelOpen && !focusMode && (
+              <aside
+                className={`right-panel ${panelExpanded ? "panel-expanded" : ""}`}
+                role={panelExpanded ? "dialog" : "complementary"}
+                aria-modal={panelExpanded || undefined}
+                aria-label={
+                  panelExpanded ? "Expanded workspace panel" : "Workspace panel"
                 }
-                maskColor="rgba(247,248,244,.75)"
-                pannable
-                zoomable
-              />
-            </ReactFlow>
-            <div className="canvas-label">
-              <span className="tiny-dot" />{" "}
-              {mode === "demo"
-                ? "SANDBOX · NO API CALLS"
-                : "LIVE · CONNECTED PROVIDERS"}
-            </div>
-            <div className="canvas-hint">
-              Drag to arrange <span>·</span> Connect ports to build{" "}
-              <span>·</span> Scroll to zoom
-            </div>
-            {showInput && (
-              <div className="input-popover">
-                <div className="panel-title">
-                  <strong>Workflow input</strong>
+              >
+                <div className="panel-window-controls">
+                  <span>
+                    {panelExpanded ? workflow.name : "Workspace tools"}
+                  </span>
+                  {panelExpanded && (
+                    <button
+                      className="activity-button"
+                      onClick={() => setAttentionOpen(true)}
+                    >
+                      <Bell size={17} />
+                      Activity
+                      {notices.some((n) => !n.read) && (
+                        <b>{notices.filter((n) => !n.read).length}</b>
+                      )}
+                    </button>
+                  )}
                   <button
                     className="icon-button"
-                    aria-label="Close run input"
-                    onClick={() => setShowInput(false)}
+                    aria-label={
+                      panelExpanded
+                        ? "Restore side panel"
+                        : "Expand panel to full screen"
+                    }
+                    title={
+                      panelExpanded
+                        ? "Restore side panel · Escape"
+                        : "Expand panel to full screen"
+                    }
+                    onClick={() => setPanelExpanded((v) => !v)}
                   >
-                    <X size={16} />
+                    {panelExpanded ? (
+                      <Minimize2 size={17} />
+                    ) : (
+                      <Maximize2 size={17} />
+                    )}
+                  </button>
+                  <button
+                    className="icon-button"
+                    aria-label="Close workspace panel"
+                    title="Close workspace panel"
+                    onClick={() => {
+                      setPanelExpanded(false);
+                      setPanelOpen(false);
+                    }}
+                  >
+                    <X size={17} />
                   </button>
                 </div>
-                <p>The task and context passed into this run.</p>
-                <textarea
-                  aria-label="Workflow input JSON"
-                  spellCheck={false}
-                  disabled={busy}
-                  value={workflow.input}
-                  onChange={(e) => update({ input: e.target.value })}
-                />
-                <span className="input-tip">
-                  In Demo mode, set <code>demo_jev_value</code> to{" "}
-                  <code>0.5</code> to test Jev’s uncertainty branch.
-                </span>
-              </div>
-            )}
-          </section>
-          {panelOpen && (
-            <aside className="right-panel">
-              <div className="panel-tabs">
-                <button
-                  className={panel === "copilot" ? "active" : ""}
-                  onClick={() => setPanel("copilot")}
-                >
-                  <Sparkles size={15} /> Copilot
-                </button>
-                <button
-                  className={panel === "node" ? "active" : ""}
-                  onClick={() => setPanel("node")}
-                >
-                  <Settings2 size={14} /> Inspector
-                </button>
-                <button
-                  className={panel === "run" ? "active" : ""}
-                  onClick={() => setPanel("run")}
-                >
-                  <Clock3 size={14} /> Run
-                </button>
-              </div>
-              {panel === "copilot" && (
-                <>
-                  <div className="copilot-content">
-                    <div className="copilot-mark">
-                      <Sparkles size={23} />
-                    </div>
-                    <div className="eyebrow">
-                      A LITTLE HELP, A LOT OF POSSIBILITY
-                    </div>
-                    <h2>
-                      From an idea
-                      <br />
-                      to a working flow.
-                    </h2>
-                    <p className="copilot-intro">
-                      Tell me what you want to accomplish. We’ll give every
-                      agent a clear role, and connect the steps.
-                    </p>
-                    {messages.length === 0 && (
-                      <div className="suggestions">
-                        <span>START WITH AN IDEA</span>
-                        {[
-                          "Research a topic and write a brief",
-                          "Draft something, then have it reviewed",
-                        ].map((text) => (
-                          <button
-                            key={text}
-                            disabled={busy || !ready}
-                            onClick={() => askCopilot(text)}
-                          >
-                            {text}
-                            <ArrowUpRight size={15} />
-                          </button>
+                <div className="panel-tabs">
+                  <button
+                    className={panel === "copilot" ? "active" : ""}
+                    onClick={() => setPanel("copilot")}
+                  >
+                    <Sparkles size={15} /> Copilot
+                  </button>
+                  <button
+                    className={panel === "node" ? "active" : ""}
+                    onClick={() => setPanel("node")}
+                  >
+                    <Settings2 size={14} /> Inspector
+                  </button>
+                  <button
+                    className={panel === "run" ? "active" : ""}
+                    onClick={() => setPanel("run")}
+                  >
+                    <Clock3 size={14} /> Run
+                  </button>
+                </div>
+                {panel === "copilot" && (
+                  <>
+                    <div className="copilot-content">
+                      {messages.length === 0 && (
+                        <>
+                          <div className="copilot-mark">
+                            <Sparkles size={23} />
+                          </div>
+                          <div className="eyebrow">
+                            A LITTLE HELP, A LOT OF POSSIBILITY
+                          </div>
+                          <h2>From an idea to a working flow.</h2>
+                          <p className="copilot-intro">
+                            Tell me what you want to accomplish. We’ll give
+                            every agent a clear role, and connect the steps.
+                          </p>
+                        </>
+                      )}
+                      {messages.length === 0 && (
+                        <div className="suggestions">
+                          <span>START WITH AN IDEA</span>
+                          {[
+                            "Research a topic and write a brief",
+                            "Draft something, then have it reviewed",
+                          ].map((text) => (
+                            <button
+                              key={text}
+                              disabled={busy || !ready}
+                              onClick={() => askCopilot(text)}
+                            >
+                              {text}
+                              <ArrowUpRight size={15} />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      <div className="chat-messages">
+                        {messages.map((m, i) => (
+                          <div key={i} className={`chat-message ${m.role}`}>
+                            <span>{m.role === "user" ? "You" : "Jeeves"}</span>
+                            <p>{m.text}</p>
+                          </div>
                         ))}
-                      </div>
-                    )}
-                    <div className="chat-messages">
-                      {messages.map((m, i) => (
-                        <div key={i} className={`chat-message ${m.role}`}>
-                          <span>{m.role === "user" ? "You" : "Jeeves"}</span>
-                          <p>{m.text}</p>
-                        </div>
-                      ))}
-                      {thinking && (
-                        <div className="thinking" role="status">
-                          <Loader2 size={15} className="spin" /> Designing your
-                          workflow… This can take up to two minutes.
-                        </div>
-                      )}
-                      {proposal && (
-                        <div className="proposal">
-                          <span>
-                            <WorkflowIcon size={16} /> Workflow proposal
-                          </span>
-                          <strong>{proposal.name}</strong>
-                          <small>
-                            {proposal.nodes.length} nodes ·{" "}
-                            {proposal.edges.length} connections
-                          </small>
-                          <button
-                            className="primary-button"
-                            disabled={busy}
-                            onClick={() => {
-                              setRunSnapshot(false);
-                              setWorkflow(proposal);
-                              setProposal(null);
-                              setRun(null);
-                              setToast("Proposal applied to the canvas.");
-                              setTimeout(
-                                () =>
-                                  flow.fitView({
-                                    padding: 0.18,
-                                    duration: 400,
-                                  }),
-                                100,
-                              );
-                            }}
-                          >
-                            Apply to canvas <ArrowUpRight size={14} />
-                          </button>
-                          <button
-                            className="text-button"
-                            onClick={() => setProposal(null)}
-                          >
-                            Dismiss
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="copilot-composer">
-                    <div className="compose-box">
-                      <textarea
-                        aria-label="Message copilot"
-                        placeholder="What should your workflow do?"
-                        value={chat}
-                        disabled={thinking || busy}
-                        onChange={(e) => setChat(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && !e.shiftKey) {
-                            e.preventDefault();
-                            askCopilot();
-                          }
-                        }}
-                      />
-                      <div>
-                        <span>
-                          {mode === "demo"
-                            ? "Local template assistant"
-                            : `${copilotProvider} copilot`}
-                        </span>
-                        {thinking ? (
-                          <button
-                            aria-label="Stop designing"
-                            title="Stop designing"
-                            onClick={() => {
-                              copilotRequest.current?.abort();
-                              copilotRequest.current = null;
-                              setThinking(false);
-                              setChat(
-                                [...messages]
-                                  .reverse()
-                                  .find((m) => m.role === "user")?.text || "",
-                              );
-                              setMessages((m) => [
-                                ...m,
-                                {
-                                  role: "assistant",
-                                  text: "Stopped designing. Your request is ready to edit and try again.",
-                                },
-                              ]);
-                            }}
-                          >
-                            <Square size={17} />
-                          </button>
-                        ) : (
-                          <button
-                            aria-label="Send message"
-                            disabled={
-                              !chat.trim() || thinking || busy || !ready
-                            }
-                            onClick={() => askCopilot()}
-                          >
-                            <ArrowUp size={17} />
-                          </button>
+                        {thinking && (
+                          <div className="thinking" role="status">
+                            <Loader2 size={15} className="spin" /> Designing
+                            your workflow… This can take up to two minutes.
+                          </div>
+                        )}
+                        {proposal && (
+                          <div className="proposal">
+                            <span>
+                              <WorkflowIcon size={16} /> Workflow proposal
+                            </span>
+                            <strong>{proposal.name}</strong>
+                            <small>
+                              {proposal.nodes.length} nodes ·{" "}
+                              {proposal.edges.length} connections
+                            </small>
+                            <button
+                              className="primary-button"
+                              disabled={busy}
+                              onClick={() => {
+                                setRunSnapshot(false);
+                                setWorkflow(proposal);
+                                setProposal(null);
+                                setRun(null);
+                                setToast("Proposal applied to the canvas.");
+                                setTimeout(
+                                  () =>
+                                    flow.fitView({
+                                      padding: 0.18,
+                                      duration: 400,
+                                    }),
+                                  100,
+                                );
+                              }}
+                            >
+                              Apply to canvas <ArrowUpRight size={14} />
+                            </button>
+                            <button
+                              className="text-button"
+                              onClick={() => setProposal(null)}
+                            >
+                              Dismiss
+                            </button>
+                          </div>
                         )}
                       </div>
+                      <div ref={copilotEnd} />
                     </div>
-                    <small>
-                      {mode === "demo"
-                        ? "Demo uses templates. Live uses your configured model."
-                        : "Proposals are reviewed before they change your canvas."}
-                    </small>
-                  </div>
-                </>
-              )}
-              {panel === "node" && (
-                <div className="inspector panel-scroll">
-                  {node ? (
-                    <>
-                      <div className="inspector-heading">
-                        <span className={`node-icon ${node.data.kind}`}>
-                          {(() => {
-                            const Icon = icons[node.data.kind];
-                            return <Icon size={20} />;
-                          })()}
-                        </span>
+                    <div className="copilot-composer">
+                      <div className="compose-box">
+                        <textarea
+                          aria-label="Message copilot"
+                          placeholder="What should your workflow do?"
+                          value={chat}
+                          disabled={thinking || busy}
+                          onChange={(e) => setChat(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                              e.preventDefault();
+                              askCopilot();
+                            }
+                          }}
+                        />
                         <div>
-                          <span className="eyebrow">
-                            {kindLabels[node.data.kind]}
+                          <span>
+                            {mode === "demo"
+                              ? "Local template assistant"
+                              : `${copilotProvider} copilot`}
                           </span>
-                          <h2>{node.data.label}</h2>
+                          {thinking ? (
+                            <button
+                              aria-label="Stop designing"
+                              title="Stop designing"
+                              onClick={() => {
+                                copilotRequest.current?.abort();
+                                copilotRequest.current = null;
+                                setThinking(false);
+                                setChat(
+                                  [...messages]
+                                    .reverse()
+                                    .find((m) => m.role === "user")?.text || "",
+                                );
+                                setMessages((m) => [
+                                  ...m,
+                                  {
+                                    role: "assistant",
+                                    text: "Stopped designing. Your request is ready to edit and try again.",
+                                  },
+                                ]);
+                              }}
+                            >
+                              <Square size={17} />
+                            </button>
+                          ) : (
+                            <button
+                              aria-label="Send message"
+                              disabled={
+                                !chat.trim() || thinking || busy || !ready
+                              }
+                              onClick={() => askCopilot()}
+                            >
+                              <ArrowUp size={17} />
+                            </button>
+                          )}
                         </div>
                       </div>
-                      <p>{descriptions[node.data.kind]}</p>
-                      <fieldset disabled={busy}>
-                        <label>
-                          Node name
-                          <input
-                            value={node.data.label}
-                            onChange={(e) =>
-                              patchNode({ label: e.target.value })
-                            }
-                          />
-                        </label>
-                        <label>
-                          Description
-                          <input
-                            value={node.data.description}
-                            onChange={(e) =>
-                              patchNode({ description: e.target.value })
-                            }
-                          />
-                        </label>
-                        {(node.data.kind === "agent" ||
-                          node.data.kind === "browser") && (
-                          <>
-                            <label>
-                              Harness / provider
-                              <select
-                                value={node.data.provider}
-                                onChange={(e) =>
-                                  patchNode({
-                                    provider: e.target.value as Provider,
-                                    model: "",
-                                  })
-                                }
-                              >
-                                {(
-                                  [
-                                    "openai",
-                                    "openrouter",
-                                    "local",
-                                    "codex",
-                                  ] as const
-                                ).map((p) => (
-                                  <option key={p} value={p}>
-                                    {p === "codex"
-                                      ? "Codex CLI"
-                                      : p === "local"
-                                        ? "Local / open-source"
-                                        : p === "openai"
-                                          ? "OpenAI"
-                                          : "OpenRouter"}
-                                    {providers[p] ? " · configured" : ""}
-                                  </option>
-                                ))}
-                              </select>
-                            </label>
-                            <label>
-                              Model
-                              <input
-                                placeholder={
-                                  providers.models[node.data.provider] ||
-                                  "Provider model ID"
-                                }
-                                value={node.data.model}
-                                onChange={(e) =>
-                                  patchNode({ model: e.target.value })
-                                }
-                              />
-                            </label>
+                      <small>
+                        {mode === "demo"
+                          ? "Demo uses templates. Live uses your configured model."
+                          : "Proposals are reviewed before they change your canvas."}
+                      </small>
+                    </div>
+                  </>
+                )}
+                {panel === "node" && (
+                  <div className="inspector panel-scroll">
+                    {node ? (
+                      <>
+                        <div className="inspector-heading">
+                          <span className={`node-icon ${node.data.kind}`}>
+                            {(() => {
+                              const Icon = icons[node.data.kind];
+                              return <Icon size={20} />;
+                            })()}
+                          </span>
+                          <div>
+                            <span className="eyebrow">
+                              {kindLabels[node.data.kind]}
+                            </span>
+                            <h2>{node.data.label}</h2>
+                          </div>
+                        </div>
+                        <p>{descriptions[node.data.kind]}</p>
+                        <fieldset disabled={busy}>
+                          <label>
+                            Node name
+                            <input
+                              value={node.data.label}
+                              onChange={(e) =>
+                                patchNode({ label: e.target.value })
+                              }
+                            />
+                          </label>
+                          <label>
+                            Description
+                            <input
+                              value={node.data.description}
+                              onChange={(e) =>
+                                patchNode({ description: e.target.value })
+                              }
+                            />
+                          </label>
+                          {(node.data.kind === "agent" ||
+                            node.data.kind === "browser") && (
+                            <>
+                              <label>
+                                Harness / provider
+                                <select
+                                  value={node.data.provider}
+                                  onChange={(e) =>
+                                    patchNode({
+                                      provider: e.target.value as Provider,
+                                      model: "",
+                                    })
+                                  }
+                                >
+                                  {(
+                                    [
+                                      "openai",
+                                      "openrouter",
+                                      "local",
+                                      "codex",
+                                    ] as const
+                                  ).map((p) => (
+                                    <option key={p} value={p}>
+                                      {p === "codex"
+                                        ? "Codex CLI"
+                                        : p === "local"
+                                          ? "Local / open-source"
+                                          : p === "openai"
+                                            ? "OpenAI"
+                                            : "OpenRouter"}
+                                      {providers[p] ? " · configured" : ""}
+                                    </option>
+                                  ))}
+                                </select>
+                              </label>
+                              <label>
+                                Model
+                                <input
+                                  placeholder={
+                                    providers.models[node.data.provider] ||
+                                    "Provider model ID"
+                                  }
+                                  value={node.data.model}
+                                  onChange={(e) =>
+                                    patchNode({ model: e.target.value })
+                                  }
+                                />
+                              </label>
+                              <div>
+                                <h3>Agent skills</h3>
+                                <SkillPicker
+                                  skills={skills}
+                                  selected={node.data.skillIds || []}
+                                  inherited={workflow.skillIds || []}
+                                  disabled={busy}
+                                  onChange={(skillIds) =>
+                                    patchNode({ skillIds })
+                                  }
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => setModal("skills")}
+                                >
+                                  Browse skills
+                                </button>
+                              </div>
+                              <label>
+                                Instructions
+                                <textarea
+                                  rows={7}
+                                  placeholder="Give this agent one focused task…"
+                                  value={node.data.prompt}
+                                  onChange={(e) =>
+                                    patchNode({ prompt: e.target.value })
+                                  }
+                                />
+                              </label>
+                              <div className="field-note">
+                                Receives the run input and outputs from directly
+                                connected upstream nodes.
+                              </div>
+                            </>
+                          )}
+                          {node.data.kind === "workflow" && (
                             <div>
-                              <h3>Agent skills</h3>
+                              <h3>Skills for nested agents</h3>
                               <SkillPicker
                                 skills={skills}
                                 selected={node.data.skillIds || []}
@@ -1430,574 +1742,609 @@ export default function App() {
                                 disabled={busy}
                                 onChange={(skillIds) => patchNode({ skillIds })}
                               />
-                              <button
-                                type="button"
-                                onClick={() => setModal("skills")}
-                              >
-                                Browse skills
-                              </button>
                             </div>
-                            <label>
-                              Instructions
-                              <textarea
-                                rows={7}
-                                placeholder="Give this agent one focused task…"
-                                value={node.data.prompt}
-                                onChange={(e) =>
-                                  patchNode({ prompt: e.target.value })
-                                }
-                              />
-                            </label>
-                            <div className="field-note">
-                              Receives the run input and outputs from directly
-                              connected upstream nodes.
-                            </div>
-                          </>
-                        )}
-                        {node.data.kind === "workflow" && (
-                          <div>
-                            <h3>Skills for nested agents</h3>
-                            <SkillPicker
-                              skills={skills}
-                              selected={node.data.skillIds || []}
-                              inherited={workflow.skillIds || []}
-                              disabled={busy}
-                              onChange={(skillIds) => patchNode({ skillIds })}
-                            />
-                          </div>
-                        )}
-                        {node.data.kind === "browser" && (
-                          <>
-                            <label>
-                              Starting website
-                              <input
-                                aria-label="Starting website"
-                                value={node.data.url}
-                                placeholder="https://example.com"
-                                onChange={(e) =>
-                                  patchNode({ url: e.target.value })
-                                }
-                              />
-                            </label>
-                            <label>
-                              Browser access
-                              <select
-                                aria-label="Browser access"
-                                value={node.data.browserMode}
-                                onChange={(e) =>
-                                  patchNode({
-                                    browserMode: e.target.value as
-                                      "observe" | "interact",
-                                  })
-                                }
-                              >
-                                <option value="observe">
-                                  Observe page only
-                                </option>
-                                <option value="interact">
-                                  Interact · clicks and form entry
-                                </option>
-                              </select>
-                            </label>
-                            <label>
-                              Maximum browser steps
-                              <input
-                                type="number"
-                                min={1}
-                                max={30}
-                                value={node.data.browserSteps}
-                                onChange={(e) =>
-                                  patchNode({
-                                    browserSteps: Math.max(
-                                      1,
-                                      Math.min(30, Number(e.target.value) || 1),
-                                    ),
-                                  })
-                                }
-                              />
-                            </label>
-                            <p className="field-note">
-                              Requires Google Chrome and website access in
-                              Settings. Codex sees screenshots; other providers
-                              use page text and controls. Checkout, payment,
-                              publishing and sensitive forms are handed back for
-                              manual review. The browser keeps a separate local
-                              profile for this step.
-                            </p>
-                            <BrowserLogin
-                              key={`${workflow.id}-${node.id}`}
-                              workflowId={workflow.id}
-                              nodeId={node.id}
-                              label={node.data.label}
-                              input={workflow.input}
-                              disabled={busy}
-                              beforeStart={() =>
-                                api(`/workflows/${workflow.id}`, {
-                                  method: "PUT",
-                                  body: JSON.stringify(workflow),
-                                })
-                              }
-                            />
-                            <button
-                              type="button"
-                              disabled={busy}
-                              onClick={() =>
-                                void api(`/workflows/${workflow.id}`, {
-                                  method: "PUT",
-                                  body: JSON.stringify(workflow),
-                                })
-                                  .then(() =>
-                                    api("/browser/open", {
-                                      method: "POST",
-                                      body: JSON.stringify({
-                                        workflowId: workflow.id,
-                                        nodeId: node.id,
-                                      }),
-                                    }),
-                                  )
-                                  .catch((e) => setError(e.message))
-                              }
-                            >
-                              Open workflow browser for login or review
-                            </button>
-                          </>
-                        )}
-                        {node.data.kind === "decision" && (
-                          <DecisionFields
-                            data={node.data}
-                            onChange={patchNode}
-                          />
-                        )}
-                        {node.data.kind === "handoff" && (
-                          <>
-                            <label>
-                              Markdown filename
-                              <input
-                                value={node.data.filename}
-                                onChange={(e) =>
-                                  patchNode({ filename: e.target.value })
-                                }
-                              />
-                            </label>
-                            <div className="field-note">
-                              Each run writes a separate file with the task and
-                              connected context. Downstream nodes receive the
-                              filename and contents.
-                            </div>
-                          </>
-                        )}
-                        {node.data.kind === "action" && (
-                          <>
-                            <label>
-                              Method
-                              <select
-                                aria-label="HTTP method"
-                                value={node.data.method}
-                                onChange={(e) =>
-                                  patchNode({
-                                    method: e.target.value as "GET" | "POST",
-                                    ...(e.target.value === "POST"
-                                      ? { paginate: false }
-                                      : {}),
-                                  })
-                                }
-                              >
-                                <option>GET</option>
-                                <option>POST</option>
-                              </select>
-                            </label>
-                            <label>
-                              Endpoint URL
-                              <input
-                                placeholder="https://api.example.com/resource"
-                                value={node.data.url}
-                                onChange={(e) =>
-                                  patchNode({ url: e.target.value })
-                                }
-                              />
-                            </label>
-                            <label>
-                              Bearer credential name
-                              <input
-                                aria-label="Bearer credential name"
-                                value={node.data.authEnv}
-                                placeholder="Optional · GITHUB_TOKEN"
-                                onChange={(e) =>
-                                  patchNode({ authEnv: e.target.value })
-                                }
-                              />
-                            </label>
-                            {node.data.method === "GET" && (
-                              <>
-                                <label className="pagination-toggle">
-                                  <input
-                                    type="checkbox"
-                                    checked={node.data.paginate || false}
-                                    onChange={(e) =>
-                                      patchNode({ paginate: e.target.checked })
-                                    }
-                                  />
-                                  Follow API pagination
-                                </label>
-                                {node.data.paginate && (
-                                  <label>
-                                    Maximum pages
-                                    <input
-                                      type="number"
-                                      min={1}
-                                      max={20}
-                                      value={node.data.maxPages || 5}
-                                      onChange={(e) =>
-                                        patchNode({
-                                          maxPages: Math.max(
-                                            1,
-                                            Math.min(
-                                              20,
-                                              Number(e.target.value) || 1,
-                                            ),
-                                          ),
-                                        })
-                                      }
-                                    />
-                                  </label>
-                                )}
-                                {node.data.paginate && (
-                                  <p className="field-note">
-                                    Follows same-site Link headers. Output
-                                    includes items and pagination details;
-                                    reaching the limit is marked as a partial
-                                    result.
-                                  </p>
-                                )}
-                              </>
-                            )}
-                            {node.data.method === "POST" && (
+                          )}
+                          {node.data.kind === "user-input" && (
+                            <>
                               <label>
-                                JSON body
+                                Request message
                                 <textarea
-                                  rows={5}
-                                  placeholder="Leave empty to send connected context"
-                                  value={node.data.body}
+                                  rows={3}
+                                  value={node.data.prompt}
+                                  placeholder="What do you need to know before continuing?"
                                   onChange={(e) =>
-                                    patchNode({ body: e.target.value })
+                                    patchNode({ prompt: e.target.value })
                                   }
                                 />
                               </label>
-                            )}
-                            <div className="field-note">
-                              Configure website access and named credentials in
-                              Settings. Use {"{{input.owner}}"} in URLs or JSON
-                              strings to insert task input. URL values are
-                              encoded; JSON preserves types. Demo makes no
-                              requests.
-                            </div>
-                          </>
-                        )}
-                        {node.data.kind === "workflow" && (
-                          <>
-                            <label>
-                              Saved workflow
-                              <select
-                                value={node.data.workflowId}
-                                onChange={(e) =>
-                                  patchNode({ workflowId: e.target.value })
+                              <InputFieldEditor
+                                fields={node.data.inputFields}
+                                onChange={(inputFields) =>
+                                  patchNode({ inputFields })
+                                }
+                              />
+                            </>
+                          )}
+                          {node.data.kind === "browser" && (
+                            <>
+                              <label>
+                                Starting website
+                                <input
+                                  aria-label="Starting website"
+                                  value={node.data.url}
+                                  placeholder="https://example.com"
+                                  onChange={(e) =>
+                                    patchNode({ url: e.target.value })
+                                  }
+                                />
+                              </label>
+                              <label>
+                                Browser access
+                                <select
+                                  aria-label="Browser access"
+                                  value={node.data.browserMode}
+                                  onChange={(e) =>
+                                    patchNode({
+                                      browserMode: e.target.value as
+                                        "observe" | "interact",
+                                    })
+                                  }
+                                >
+                                  <option value="observe">
+                                    Observe page only
+                                  </option>
+                                  <option value="interact">
+                                    Interact · clicks and form entry
+                                  </option>
+                                </select>
+                              </label>
+                              <label>
+                                Maximum browser steps
+                                <input
+                                  type="number"
+                                  min={1}
+                                  max={30}
+                                  value={node.data.browserSteps}
+                                  onChange={(e) =>
+                                    patchNode({
+                                      browserSteps: Math.max(
+                                        1,
+                                        Math.min(
+                                          30,
+                                          Number(e.target.value) || 1,
+                                        ),
+                                      ),
+                                    })
+                                  }
+                                />
+                              </label>
+                              <p className="field-note">
+                                Requires Google Chrome and website access in
+                                Settings. Codex sees screenshots; other
+                                providers use page text and controls. Checkout,
+                                payment, publishing and sensitive forms are
+                                handed back for manual review. The browser keeps
+                                a separate local profile for this step.
+                              </p>
+                              <BrowserLogin
+                                key={`${workflow.id}-${node.id}`}
+                                workflowId={workflow.id}
+                                nodeId={node.id}
+                                label={node.data.label}
+                                input={workflow.input}
+                                disabled={busy}
+                                beforeStart={() =>
+                                  api(`/workflows/${workflow.id}`, {
+                                    method: "PUT",
+                                    body: JSON.stringify(workflow),
+                                  })
+                                }
+                              />
+                              <button
+                                type="button"
+                                disabled={busy}
+                                onClick={() =>
+                                  void api(`/workflows/${workflow.id}`, {
+                                    method: "PUT",
+                                    body: JSON.stringify(workflow),
+                                  })
+                                    .then(() =>
+                                      api("/browser/open", {
+                                        method: "POST",
+                                        body: JSON.stringify({
+                                          workflowId: workflow.id,
+                                          nodeId: node.id,
+                                        }),
+                                      }),
+                                    )
+                                    .catch((e) => setError(e.message))
                                 }
                               >
-                                <option value="">Choose a workflow</option>
-                                {saved
-                                  .filter((w) => w.id !== workflow.id)
-                                  .map((w) => (
-                                    <option key={w.id} value={w.id}>
-                                      {w.name}
-                                    </option>
-                                  ))}
-                              </select>
-                            </label>
-                            <div className="field-note">
-                              The child receives <code>input</code>,{" "}
-                              <code>parents</code>, and <code>previous</code>{" "}
-                              from this node. Child runs appear in history.
+                                Open workflow browser for login or review
+                              </button>
+                            </>
+                          )}
+                          {node.data.kind === "decision" && (
+                            <DecisionFields
+                              data={node.data}
+                              onChange={patchNode}
+                            />
+                          )}
+                          {node.data.kind === "handoff" && (
+                            <>
+                              <label>
+                                Markdown filename
+                                <input
+                                  value={node.data.filename}
+                                  onChange={(e) =>
+                                    patchNode({ filename: e.target.value })
+                                  }
+                                />
+                              </label>
+                              <div className="field-note">
+                                Each run writes a separate file with the task
+                                and connected context. Downstream nodes receive
+                                the filename and contents.
+                              </div>
+                            </>
+                          )}
+                          {node.data.kind === "action" && (
+                            <>
+                              <label>
+                                Method
+                                <select
+                                  aria-label="HTTP method"
+                                  value={node.data.method}
+                                  onChange={(e) =>
+                                    patchNode({
+                                      method: e.target.value as "GET" | "POST",
+                                      ...(e.target.value === "POST"
+                                        ? { paginate: false }
+                                        : {}),
+                                    })
+                                  }
+                                >
+                                  <option>GET</option>
+                                  <option>POST</option>
+                                </select>
+                              </label>
+                              <label>
+                                Endpoint URL
+                                <input
+                                  placeholder="https://api.example.com/resource"
+                                  value={node.data.url}
+                                  onChange={(e) =>
+                                    patchNode({ url: e.target.value })
+                                  }
+                                />
+                              </label>
+                              <label>
+                                Bearer credential name
+                                <input
+                                  aria-label="Bearer credential name"
+                                  value={node.data.authEnv}
+                                  placeholder="Optional · GITHUB_TOKEN"
+                                  onChange={(e) =>
+                                    patchNode({ authEnv: e.target.value })
+                                  }
+                                />
+                              </label>
+                              {node.data.method === "GET" && (
+                                <>
+                                  <label className="pagination-toggle">
+                                    <input
+                                      type="checkbox"
+                                      checked={node.data.paginate || false}
+                                      onChange={(e) =>
+                                        patchNode({
+                                          paginate: e.target.checked,
+                                        })
+                                      }
+                                    />
+                                    Follow API pagination
+                                  </label>
+                                  {node.data.paginate && (
+                                    <label>
+                                      Maximum pages
+                                      <input
+                                        type="number"
+                                        min={1}
+                                        max={20}
+                                        value={node.data.maxPages || 5}
+                                        onChange={(e) =>
+                                          patchNode({
+                                            maxPages: Math.max(
+                                              1,
+                                              Math.min(
+                                                20,
+                                                Number(e.target.value) || 1,
+                                              ),
+                                            ),
+                                          })
+                                        }
+                                      />
+                                    </label>
+                                  )}
+                                  {node.data.paginate && (
+                                    <p className="field-note">
+                                      Follows same-site Link headers. Output
+                                      includes items and pagination details;
+                                      reaching the limit is marked as a partial
+                                      result.
+                                    </p>
+                                  )}
+                                </>
+                              )}
+                              {node.data.method === "POST" && (
+                                <label>
+                                  JSON body
+                                  <textarea
+                                    rows={5}
+                                    placeholder="Leave empty to send connected context"
+                                    value={node.data.body}
+                                    onChange={(e) =>
+                                      patchNode({ body: e.target.value })
+                                    }
+                                  />
+                                </label>
+                              )}
+                              <div className="field-note">
+                                Configure website access and named credentials
+                                in Settings. Use {"{{input.owner}}"} in URLs or
+                                JSON strings to insert task input. URL values
+                                are encoded; JSON preserves types. Demo makes no
+                                requests.
+                              </div>
+                            </>
+                          )}
+                          {node.data.kind === "workflow" && (
+                            <>
+                              <label>
+                                Saved workflow
+                                <select
+                                  value={node.data.workflowId}
+                                  onChange={(e) =>
+                                    patchNode({ workflowId: e.target.value })
+                                  }
+                                >
+                                  <option value="">Choose a workflow</option>
+                                  {saved
+                                    .filter((w) => w.id !== workflow.id)
+                                    .map((w) => (
+                                      <option key={w.id} value={w.id}>
+                                        {w.name}
+                                      </option>
+                                    ))}
+                                </select>
+                              </label>
+                              <div className="field-note">
+                                The child receives <code>input</code>,{" "}
+                                <code>parents</code>, and <code>previous</code>{" "}
+                                from this node. Child runs appear in history.
+                              </div>
+                            </>
+                          )}
+                          {node.data.kind === "input" && (
+                            <div>
+                              <h3>Run input</h3>
+                              <TaskInput
+                                value={workflow.input}
+                                onChange={(input) => update({ input })}
+                                disabled={!!busy}
+                                sourceLabel="Run input (JSON)"
+                              />
                             </div>
-                          </>
-                        )}
-                        {node.data.kind === "input" && (
-                          <label>
-                            Run input (JSON)
-                            <textarea
-                              rows={10}
-                              spellCheck={false}
-                              value={workflow.input}
-                              onChange={(e) =>
-                                update({ input: e.target.value })
-                              }
-                            />
-                          </label>
-                        )}
-                      </fieldset>
-                      {nodeResult && (
-                        <div className="node-result">
-                          <div className="section-heading">
-                            LAST RUN{" "}
-                            <span
-                              className={`status-badge ${nodeResult.status}`}
-                            >
-                              {nodeResult.status}
-                            </span>
+                          )}
+                        </fieldset>
+                        {nodeResult && (
+                          <div className="node-result">
+                            <div className="section-heading">
+                              LAST RUN{" "}
+                              <span
+                                className={`status-badge ${nodeResult.status}`}
+                              >
+                                {nodeResult.status}
+                              </span>
+                            </div>
+                            {nodeResult.error && (
+                              <>
+                                <FriendlyError message={nodeResult.error} />
+                                <WebsiteAccess
+                                  key={run?.id}
+                                  message={nodeResult.error}
+                                  onRetry={
+                                    run &&
+                                    ["failed", "cancelled"].includes(run.status)
+                                      ? () => resumeExecution()
+                                      : undefined
+                                  }
+                                />
+                              </>
+                            )}
+                            <JevResult value={nodeResult.output} />
+                            {nodeResult.output !== undefined && (
+                              <ResultView
+                                value={nodeResult.output}
+                                name={node?.id || "output"}
+                              />
+                            )}
+                            {nodeResult.artifact && (
+                              <a
+                                className="artifact-link"
+                                href={`/api/artifacts/${nodeResult.artifact}`}
+                              >
+                                <Download size={14} />{" "}
+                                {nodeResult.artifact.endsWith(".png")
+                                  ? "Download browser screenshot"
+                                  : "Download handoff"}
+                              </a>
+                            )}
                           </div>
-                          {nodeResult.error && (
-                            <p className="error-text">{nodeResult.error}</p>
-                          )}
-                          <JevResult value={nodeResult.output} />
-                          {nodeResult.output !== undefined && (
-                            <ResultView
-                              value={nodeResult.output}
-                              name={node?.id || "output"}
-                            />
-                          )}
-                          {nodeResult.artifact && (
-                            <a
-                              className="artifact-link"
-                              href={`/api/artifacts/${nodeResult.artifact}`}
-                            >
-                              <Download size={14} />{" "}
-                              {nodeResult.artifact.endsWith(".png")
-                                ? "Download browser screenshot"
-                                : "Download handoff"}
-                            </a>
-                          )}
+                        )}
+                        <div className="inspector-actions">
+                          <button
+                            className="secondary-button"
+                            disabled={busy || node.data.kind === "input"}
+                            onClick={() => {
+                              const copy = {
+                                ...clone(node),
+                                id: uid(),
+                                position: {
+                                  x: node.position.x + 35,
+                                  y: node.position.y + 170,
+                                },
+                                data: {
+                                  ...node.data,
+                                  label: `${node.data.label} copy`,
+                                },
+                              };
+                              update({ nodes: [...workflow.nodes, copy] });
+                              setSelected(copy.id);
+                            }}
+                          >
+                            <Copy size={14} /> Duplicate
+                          </button>
+                          <button
+                            className="danger-button"
+                            disabled={busy}
+                            onClick={() => {
+                              update({
+                                nodes: workflow.nodes.filter(
+                                  (n) => n.id !== node.id,
+                                ),
+                                edges: workflow.edges.filter(
+                                  (e) =>
+                                    e.source !== node.id &&
+                                    e.target !== node.id,
+                                ),
+                              });
+                              setSelected(null);
+                            }}
+                          >
+                            <Trash2 size={14} /> Delete
+                          </button>
                         </div>
-                      )}
-                      <div className="inspector-actions">
+                      </>
+                    ) : (
+                      <div className="empty-panel">
+                        <Settings2 size={30} />
+                        <h3>A place for the details.</h3>
+                        <p>
+                          Select a node on the canvas to configure its role,
+                          model, and context.
+                        </p>
                         <button
                           className="secondary-button"
-                          disabled={busy || node.data.kind === "input"}
-                          onClick={() => {
-                            const copy = {
-                              ...clone(node),
-                              id: uid(),
-                              position: {
-                                x: node.position.x + 35,
-                                y: node.position.y + 170,
-                              },
-                              data: {
-                                ...node.data,
-                                label: `${node.data.label} copy`,
-                              },
-                            };
-                            update({ nodes: [...workflow.nodes, copy] });
-                            setSelected(copy.id);
-                          }}
+                          onClick={() => setModal("nodes")}
                         >
-                          <Copy size={14} /> Duplicate
-                        </button>
-                        <button
-                          className="danger-button"
-                          disabled={busy}
-                          onClick={() => {
-                            update({
-                              nodes: workflow.nodes.filter(
-                                (n) => n.id !== node.id,
-                              ),
-                              edges: workflow.edges.filter(
-                                (e) =>
-                                  e.source !== node.id && e.target !== node.id,
-                              ),
-                            });
-                            setSelected(null);
-                          }}
-                        >
-                          <Trash2 size={14} /> Delete
+                          <Plus size={14} /> Add a node
                         </button>
                       </div>
-                    </>
-                  ) : (
-                    <div className="empty-panel">
-                      <Settings2 size={30} />
-                      <h3>A place for the details.</h3>
-                      <p>
-                        Select a node on the canvas to configure its role,
-                        model, and context.
-                      </p>
-                      <button
-                        className="secondary-button"
-                        onClick={() => setModal("nodes")}
-                      >
-                        <Plus size={14} /> Add a node
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-              {panel === "run" && (
-                <div className="run-panel panel-scroll">
-                  {run ? (
-                    <>
-                      <div className="run-summary">
-                        <div className="eyebrow">
-                          {run.mode.toUpperCase()} EXECUTION
-                        </div>
-                        <h2>
-                          {run.status === "running"
-                            ? "Your flow is running."
-                            : run.status === "completed"
-                              ? "Everything connected."
-                              : run.status === "cancelled"
-                                ? "Run stopped."
-                                : "A step needs attention."}
-                        </h2>
-                        <span className={`status-badge ${run.status}`}>
-                          {run.status === "running" && (
-                            <Loader2 size={12} className="spin" />
-                          )}
-                          {run.status}
-                        </span>
-                        <span className="run-time">
-                          {new Date(run.startedAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </span>
-                      </div>
-                      {run.mode === "demo" && (
-                        <div className="demo-notice">
-                          Agent responses and Jev answers are simulated. Routing
-                          and handoff files are real.
-                        </div>
-                      )}
-                      {run.error && <p className="error-text">{run.error}</p>}
-                      {run.resumedFrom && (
-                        <div className="checkpoint-note">
-                          <RotateCcw size={13} /> Reused completed steps from
-                          the previous run.
-                        </div>
-                      )}
-                      {run.status === "completed" && (
-                        <button
-                          className="primary-button full-width"
-                          onClick={() => setOutputOpen(true)}
-                        >
-                          <FileText size={14} /> Read final output
-                        </button>
-                      )}
-                      <BrowserSessions run={run} />
-                      {(run.status === "failed" ||
-                        run.status === "cancelled") && (
-                        <button
-                          className="primary-button full-width"
-                          disabled={resumeBusy}
-                          onClick={() => resumeExecution()}
-                        >
-                          {resumeBusy ? (
-                            <Loader2 className="spin" size={14} />
-                          ) : (
-                            <RotateCcw size={14} />
-                          )}
-                          Resume from checkpoint
-                        </button>
-                      )}
-                      <div className="section-heading">EXECUTION TRACE</div>
-                      <div className="trace">
-                        {executionOrder(run.workflow).map((n) => {
-                          const result = run.nodes[n.id];
-                          return (
-                            <button
-                              className={`trace-item ${result?.status}`}
-                              key={n.id}
-                              onClick={() => {
-                                setSelected(n.id);
-                                setPanel("node");
-                              }}
-                            >
-                              <span className="trace-icon">
-                                {result?.status === "completed" ? (
-                                  <Check size={14} />
-                                ) : result?.status === "running" ? (
-                                  <Loader2 size={14} className="spin" />
-                                ) : result?.status === "failed" ? (
-                                  <AlertCircle size={14} />
-                                ) : (
-                                  <span />
-                                )}
-                              </span>
-                              <span>
-                                <strong>{n.data.label}</strong>
-                                <small>
-                                  {result?.status || "pending"}
-                                  {result?.reusedFrom
-                                    ? " · checkpoint"
-                                    : result?.durationMs !== undefined
-                                      ? ` · ${(result.durationMs / 1000).toFixed(1)}s`
-                                      : ""}
-                                </small>
-                              </span>
-                              <ChevronRight size={13} />
-                            </button>
-                          );
-                        })}
-                      </div>
-                      <div className="run-events">
-                        {run.events.slice(-6).map((e, i) => (
-                          <div key={i}>
-                            <time>
-                              {new Date(e.time).toLocaleTimeString([], {
-                                hour12: false,
-                              })}
-                            </time>
-                            <span>{e.message}</span>
+                    )}
+                  </div>
+                )}
+                {panel === "run" && (
+                  <div className="run-panel panel-scroll">
+                    {run ? (
+                      <>
+                        <div className="run-summary">
+                          <div className="eyebrow">
+                            {run.mode.toUpperCase()} EXECUTION
                           </div>
-                        ))}
-                      </div>
-                      {run.status !== "running" && (
+                          <h2>
+                            {run.status === "running"
+                              ? "Your flow is running."
+                              : run.status === "waiting"
+                                ? "Your input is needed."
+                                : run.status === "completed"
+                                  ? "Everything connected."
+                                  : run.status === "cancelled"
+                                    ? "Run stopped."
+                                    : "A step needs attention."}
+                          </h2>
+                          <span className={`status-badge ${run.status}`}>
+                            {run.status === "running" && (
+                              <Loader2 size={12} className="spin" />
+                            )}
+                            {run.status}
+                          </span>
+                          <span className="run-time">
+                            {new Date(run.startedAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </span>
+                        </div>
+                        <RunInputRequests run={run} onUpdate={setRun} />
+                        {run.status === "waiting" && (
+                          <button
+                            className="text-button"
+                            onClick={async () => {
+                              try {
+                                await api(`/runs/${run.id}/cancel`, {
+                                  method: "POST",
+                                });
+                                setRun(await api<Run>(`/runs/${run.id}`));
+                              } catch (e) {
+                                setError((e as Error).message);
+                              }
+                            }}
+                          >
+                            Stop this run
+                          </button>
+                        )}
+                        {run.mode === "demo" && (
+                          <div className="demo-notice">
+                            Agent responses and Jev answers are simulated.
+                            Routing and handoff files are real.
+                          </div>
+                        )}
+                        {run.error && (
+                          <>
+                            <FriendlyError message={run.error} />
+                            <WebsiteAccess
+                              key={run.id}
+                              message={run.error}
+                              onRetry={() => resumeExecution()}
+                            />
+                          </>
+                        )}
+                        {run.resumedFrom && (
+                          <div className="checkpoint-note">
+                            <RotateCcw size={13} /> Reused completed steps from
+                            the previous run.
+                          </div>
+                        )}
+                        {run.status === "completed" && (
+                          <button
+                            className="primary-button full-width"
+                            onClick={() => setOutputOpen(true)}
+                          >
+                            <FileText size={14} /> Read final output
+                          </button>
+                        )}
+                        <BrowserSessions run={run} />
+                        {(run.status === "failed" ||
+                          run.status === "cancelled") && (
+                          <button
+                            className="primary-button full-width"
+                            disabled={resumeBusy}
+                            onClick={() => resumeExecution()}
+                          >
+                            {resumeBusy ? (
+                              <Loader2 className="spin" size={14} />
+                            ) : (
+                              <RotateCcw size={14} />
+                            )}
+                            Resume from checkpoint
+                          </button>
+                        )}
+                        <div className="section-heading">EXECUTION TRACE</div>
+                        <div className="trace">
+                          {executionOrder(run.workflow).map((n) => {
+                            const result = run.nodes[n.id];
+                            return (
+                              <button
+                                className={`trace-item ${result?.status}`}
+                                key={n.id}
+                                onClick={() => {
+                                  setSelected(n.id);
+                                  setPanel("node");
+                                }}
+                              >
+                                <span className="trace-icon">
+                                  {result?.status === "completed" ? (
+                                    <Check size={14} />
+                                  ) : result?.status === "running" ? (
+                                    <Loader2 size={14} className="spin" />
+                                  ) : result?.status === "failed" ? (
+                                    <AlertCircle size={14} />
+                                  ) : (
+                                    <span />
+                                  )}
+                                </span>
+                                <span>
+                                  <strong>{n.data.label}</strong>
+                                  <small>
+                                    {result?.status || "pending"}
+                                    {result?.reusedFrom
+                                      ? " · checkpoint"
+                                      : result?.durationMs !== undefined
+                                        ? ` · ${(result.durationMs / 1000).toFixed(1)}s`
+                                        : ""}
+                                  </small>
+                                </span>
+                                <ChevronRight size={13} />
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <div className="run-events">
+                          {run.events.slice(-6).map((e, i) => (
+                            <div key={i}>
+                              <time>
+                                {new Date(e.time).toLocaleTimeString([], {
+                                  hour12: false,
+                                })}
+                              </time>
+                              <span>{e.message}</span>
+                            </div>
+                          ))}
+                        </div>
+                        {run.status !== "running" && (
+                          <button
+                            className="secondary-button full-width"
+                            onClick={() =>
+                              download(
+                                `run-${run.id}.json`,
+                                JSON.stringify(run, null, 2),
+                              )
+                            }
+                          >
+                            <Download size={14} /> Export run
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <div className="empty-panel">
+                        <Play size={30} />
+                        <h3>See your idea in motion.</h3>
+                        <p>
+                          Run your workflow to follow each step, inspect
+                          outputs, and download handoffs.
+                        </p>
                         <button
-                          className="secondary-button full-width"
-                          onClick={() =>
-                            download(
-                              `run-${run.id}.json`,
-                              JSON.stringify(run, null, 2),
-                            )
-                          }
+                          className="primary-button"
+                          disabled={!ready}
+                          onClick={startRun}
                         >
-                          <Download size={14} /> Export run
+                          <Play size={14} /> Run workflow
                         </button>
-                      )}
-                    </>
-                  ) : (
-                    <div className="empty-panel">
-                      <Play size={30} />
-                      <h3>See your idea in motion.</h3>
-                      <p>
-                        Run your workflow to follow each step, inspect outputs,
-                        and download handoffs.
-                      </p>
-                      <button
-                        className="primary-button"
-                        disabled={!ready}
-                        onClick={startRun}
-                      >
-                        <Play size={14} /> Run workflow
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </aside>
-          )}
-        </div>
-        <footer className="editor-footer">
-          <span>
-            <span className="tiny-dot" />
-            {workflow.nodes.length} nodes{" "}
-            <span className="footer-divider">/</span> {workflow.edges.length}{" "}
-            connections
-          </span>
-          <span>
-            {busy
-              ? "Executing workflow…"
-              : "Your context. Your models. Your workflow."}
-            <span className="footer-shortcut">JEEVES</span>
-          </span>
-        </footer>
-      </main>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </aside>
+            )}
+          </div>
+          <footer className="editor-footer">
+            <span>
+              <span className="tiny-dot" />
+              {workflow.nodes.length} nodes{" "}
+              <span className="footer-divider">/</span> {workflow.edges.length}{" "}
+              connections
+            </span>
+            <span>
+              {run?.status === "waiting"
+                ? "Waiting for your input · progress saved"
+                : busy
+                  ? "Executing workflow…"
+                  : "Your context. Your models. Your workflow."}
+              <span className="footer-shortcut">JEEVES</span>
+            </span>
+          </footer>
+        </main>
+      </div>
       <input
         ref={importRef}
         type="file"
@@ -2254,6 +2601,7 @@ export default function App() {
             )}
             {modal === "settings" && (
               <>
+                <NotificationSettings />
                 <Connections providers={providers} onChange={setProviders} />
                 <Integrations
                   onChange={() =>

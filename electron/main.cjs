@@ -7,6 +7,8 @@ const {
   Tray,
   Menu,
   nativeImage,
+  Notification,
+  ipcMain,
 } = require("electron");
 const { spawn } = require("node:child_process");
 const path = require("node:path");
@@ -16,6 +18,47 @@ let backend;
 let tray;
 let mainWindow;
 let quitting = false;
+const notifications = new Map();
+ipcMain.handle("jeeves:notify", (event, notice) => {
+  if (
+    !mainWindow ||
+    event.sender !== mainWindow.webContents ||
+    event.senderFrame !== mainWindow.webContents.mainFrame ||
+    !Notification.isSupported()
+  )
+    return false;
+  if (
+    !notice ||
+    typeof notice.id !== "string" ||
+    typeof notice.title !== "string" ||
+    typeof notice.body !== "string" ||
+    notice.id.length > 160 ||
+    notice.title.length > 120 ||
+    notice.body.length > 300
+  )
+    return false;
+  notifications.get(notice.id)?.close();
+  const notification = new Notification({
+    title: notice.title,
+    body: notice.body,
+    silent: true,
+  });
+  notifications.set(notice.id, notification);
+  if (notifications.size > 30) {
+    const oldest = notifications.keys().next().value;
+    notifications.get(oldest)?.close();
+    notifications.delete(oldest);
+  }
+  notification.on("click", () => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    mainWindow.show();
+    mainWindow.focus();
+    mainWindow.webContents.send("jeeves:notification-click", notice.id);
+  });
+  notification.on("close", () => notifications.delete(notice.id));
+  notification.show();
+  return true;
+});
 if (!app.requestSingleInstanceLock()) app.quit();
 app.on("second-instance", () => {
   mainWindow?.show();
@@ -25,7 +68,7 @@ app.on("activate", () => {
   mainWindow?.show();
 });
 const development = process.argv.includes("--dev");
-const port = 4317;
+const port = Number(process.env.JEEVES_PORT || 4317);
 async function healthy() {
   try {
     const r = await fetch(`http://127.0.0.1:${port}/api/status`, {
@@ -102,6 +145,7 @@ app.whenReady().then(async () => {
       backgroundColor: "#f7f8f5",
       show: false,
       webPreferences: {
+        preload: path.join(__dirname, "preload.cjs"),
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: true,

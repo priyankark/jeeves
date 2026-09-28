@@ -67,7 +67,48 @@ describe("portable workflows and home chat", () => {
           timeout: 30000,
         },
       );
-      const report = JSON.parse(result.stdout);
+      const waiting = JSON.parse(result.stdout);
+      expect(waiting.status).toBe("waiting");
+      expect(waiting.inputRequests[0].nodeId).toBe("shopping-details");
+      expect(fixture.events.filter((e) => e.path === "/cart")).toHaveLength(0);
+      const answers = path.join(root, "answers.json");
+      await writeFile(
+        answers,
+        JSON.stringify({
+          "shopping-details": {
+            grocery_list: ["1 carton oat milk"],
+            budget_usd: 15,
+            delivery_zip: "02139",
+            dietary_constraints: ["No nut products"],
+            substitutions: false,
+          },
+        }),
+      );
+      const continued = await exec(
+        process.execPath,
+        [
+          path.join(root, slug, "scripts/run.cjs"),
+          "--resume",
+          waiting.checkpoint,
+          "--answers",
+          answers,
+          "--output",
+          path.join(root, "results"),
+        ],
+        {
+          cwd: root,
+          env: {
+            ...process.env,
+            LOCAL_MODEL: "fixture-model",
+            LOCAL_BASE_URL: fixture.origin + "/v1",
+            LOCAL_API_KEY: "",
+            ACTION_ALLOWED_ORIGINS: fixture.origin,
+          },
+          timeout: 30000,
+        },
+      );
+      const report = JSON.parse(continued.stdout);
+      expect(report.runId).toBe(waiting.runId);
       expect(report.status).toBe("completed");
       expect(report.results.output.summary).toContain("$4.00");
       expect(fixture.events.filter((e) => e.path === "/cart")).toHaveLength(1);

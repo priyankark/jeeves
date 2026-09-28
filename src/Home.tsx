@@ -1,3 +1,4 @@
+import { RunInputRequests } from "./InputRequest";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowUp,
@@ -22,6 +23,9 @@ import { TaskInput } from "./TaskInput";
 import { BrowserSessions } from "./BrowserSessions";
 import { BrowserLogin } from "./BrowserLogin";
 import { executionOrder } from "../shared/graph-edit";
+import { WebsiteAccess } from "./WebsiteAccess";
+import { useAttention } from "./Attention";
+import { FriendlyError } from "./FriendlyError";
 export function Home({
   workflows,
   mode,
@@ -49,6 +53,7 @@ export function Home({
   onSettings: () => void;
   onInspect: (r: Run) => void;
 }) {
+  const { publishRun } = useAttention();
   const [session, setSession] = useState<ChatSession | null>(null);
   const [chats, setChats] = useState<ChatSession[]>([]);
   const [message, setMessage] = useState("");
@@ -78,10 +83,16 @@ export function Home({
     [error, setError] = useState("");
   const [run, setRun] = useState<Run | null>(null),
     [deleteOpen, setDeleteOpen] = useState(false);
+  useEffect(() => {
+    if (run) publishRun(run);
+  }, [run, publishRun]);
   const request = useRef<AbortController | null>(null),
     composer = useRef<HTMLTextAreaElement>(null),
     end = useRef<HTMLDivElement>(null);
   const refresh = async () => setChats(await api<ChatSession[]>("/chats"));
+  const refreshAccess = async () => {
+    if (session) setSession(await api<ChatSession>(`/chats/${session.id}`));
+  };
   useEffect(() => {
     let alive = true;
     void api<ChatSession[]>("/chats")
@@ -256,15 +267,10 @@ export function Home({
               <WorkflowIcon size={30} />
             </div>
             <span className="eyebrow">A LITTLE DIRECTION. A LOT DONE.</span>
-            <h1>
-              What would you like
-              <br />
-              to set in motion?
-            </h1>
+            <h1>What would you like to set in motion?</h1>
             <p>
-              Describe your task. Jeeves helps you choose a workflow,
-              <br className="wide-only" /> shape its input, and follow the work
-              through.
+              Describe your task. Jeeves helps you choose a workflow, shape its
+              input, and follow the work through.
             </p>
             <div className="home-assurances">
               <span>
@@ -336,6 +342,7 @@ export function Home({
         {error && (
           <div className="home-error" role="alert">
             {error}
+            <WebsiteAccess message={error} onGranted={refreshAccess} />
             <button onClick={() => setError("")}>Dismiss</button>
           </div>
         )}
@@ -409,6 +416,13 @@ export function Home({
                 <div className="home-error">
                   Connect before running live:{" "}
                   {session.plan.requirements.missing.join(", ")}.
+                  {session.plan.requirements.missing.map((missing) => (
+                    <WebsiteAccess
+                      key={missing}
+                      message={missing}
+                      onGranted={refreshAccess}
+                    />
+                  ))}
                   <button onClick={onSettings}>Open settings</button>
                 </div>
               )}
@@ -457,9 +471,11 @@ export function Home({
                 <h2>
                   {activeRun
                     ? "Your workflow is working."
-                    : run.status === "completed"
-                      ? "Your result is ready."
-                      : `Run ${run.status}.`}
+                    : run.status === "waiting"
+                      ? "Your input is needed."
+                      : run.status === "completed"
+                        ? "Your result is ready."
+                        : `Run ${run.status}.`}
                 </h2>
               </div>
               {activeRun ? (
@@ -491,7 +507,28 @@ export function Home({
             {activeRun && (
               <p role="status">{run.events.at(-1)?.message || "Starting"}</p>
             )}
-            {run.error && <p className="home-error">{run.error}</p>}
+            {run.error && (
+              <div className="home-error">
+                <FriendlyError message={run.error} />
+                <WebsiteAccess message={run.error} onGranted={refreshAccess} />
+              </div>
+            )}
+            <RunInputRequests run={run} onUpdate={setRun} />
+            {run.status === "waiting" && (
+              <button
+                className="text-button"
+                onClick={async () => {
+                  try {
+                    await api(`/runs/${run.id}/cancel`, { method: "POST" });
+                    setRun(await api<Run>(`/runs/${run.id}`));
+                  } catch (e) {
+                    setError((e as Error).message);
+                  }
+                }}
+              >
+                Stop this run
+              </button>
+            )}
             <BrowserSessions run={run} />
             {run.status === "completed" &&
               run.workflow.nodes

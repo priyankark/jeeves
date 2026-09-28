@@ -32,6 +32,10 @@ test("research workflow runs both branches, writes artifacts, and persists edits
   expect(await artifact.text()).toContain("Connected context");
   await page.getByRole("button", { name: "Run input", exact: true }).click();
   await page
+    .locator(".input-popover")
+    .getByRole("button", { name: "Edit JSON", exact: true })
+    .click();
+  await page
     .getByRole("textbox", { name: "Workflow input JSON" })
     .fill('{"task":"Review my proposal", "demo_jev_value": 0.5}');
   await page.getByRole("button", { name: "Close run input" }).click();
@@ -122,6 +126,10 @@ test("Jev inspector exposes typed questions and displays uncertainty", async ({
   ).toBeVisible();
   await page.getByLabel("Question type").selectOption("noul");
   await page.getByRole("button", { name: "Run input", exact: true }).click();
+  await page
+    .locator(".input-popover")
+    .getByRole("button", { name: "Edit JSON", exact: true })
+    .click();
   await page
     .getByRole("textbox", { name: "Workflow input JSON" })
     .fill('{"task":"Review evidence", "demo_jev_value":0.5}');

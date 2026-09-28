@@ -1,5 +1,5 @@
 import type { NodeData } from "../shared/schema";
-import { allowedOrigins, actionToken } from "./integrations";
+import { isOriginAllowed, actionToken } from "./integrations";
 import { interpolate, actionBody } from "./action-context";
 
 function nextLink(header: string | null, current: URL): URL | undefined {
@@ -60,7 +60,7 @@ export async function executeHttpAction(
     !["http:", "https:"].includes(url.protocol) ||
     url.username ||
     url.password ||
-    !allowedOrigins().includes(url.origin)
+    !isOriginAllowed(url.origin)
   )
     throw new Error(
       `Allow ${url.origin} in Settings → Websites & API access (or ACTION_ALLOWED_ORIGINS) before running this action.`,
