@@ -87,11 +87,11 @@ test("laptop preview keeps install and open actions visible, and repeated import
     .filter({ hasText: "Draft & review" })
     .click();
   await install.click();
+  await expect(open).toBeInViewport();
   const after = await (await request.get("/api/workflows")).json();
   const added = after.filter(
     (w: any) => !before.some((x: any) => x.id === w.id),
   );
   expect(added).toHaveLength(1);
   expect(before.some((w: any) => w.name === added[0].name)).toBe(false);
-  await expect(open).toBeInViewport();
 });
