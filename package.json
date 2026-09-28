@@ -1,7 +1,7 @@
 {
   "name": "jeeves",
   "private": true,
-  "version": "0.1.0-preview.8",
+  "version": "0.1.0-preview.9",
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n api,web \"tsx watch server/index.ts\" \"vite --host 127.0.0.1\"",

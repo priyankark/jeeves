@@ -1,0 +1,22 @@
+{
+  "url": "https://jeeves-workflows.vercel.app",
+  "testedAt": "2026-09-28T17:44:35.145Z",
+  "checks": [
+    "No horizontal overflow; all three example routes work at 320px",
+    "No horizontal overflow; all three example routes work at 390px",
+    "No horizontal overflow; all three example routes work at 768px",
+    "No horizontal overflow; all three example routes work at 1280px",
+    "No horizontal overflow; all three example routes work at 1440px",
+    "Example selection works from the keyboard",
+    "All local links, media, captions, script, stylesheet, and workflow download return successfully",
+    "1080p MP4 decodes and plays, with a caption track",
+    "Accessible transcript loads",
+    "No browser JavaScript or console errors"
+  ],
+  "media": {
+    "width": 1920,
+    "height": 1080,
+    "duration": 64.832,
+    "captions": 1
+  }
+}

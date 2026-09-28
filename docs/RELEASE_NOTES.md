@@ -2,6 +2,12 @@ Jeeves desktop preview: turn repeat work into a workflow.
 
 Start with **Try the example** to turn sample project notes into a weekly update without an API key. Add your own notes and connect one AI service when ready. Inspect and edit the steps, collect input during a run, and reuse the process.
 
+## Give Jev the decisions
+
+- The builder now uses explicit Jev branches for triage, evidence checks, readiness, and quality, with actionable review paths. Simple transformations can remain linear; human approval remains an input request.
+- A new **Request triage · Jev** starter routes urgent and routine requests to focused agents and pauses for clarification on missing information or low confidence. It is available in Templates and Explore.
+- Verified with three live Jev classifications, the full human-input handoff, and generated workflows that use decisions only where needed.
+
 ## More reliable browser control
 
 - When a retailer replaces or covers a control, Jeeves refreshes its page view and replans up to three times per action instead of failing with a locator timeout.

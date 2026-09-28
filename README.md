@@ -1,5 +1,13 @@
 # Jeeves
 
+**Jev needs Jeeves. So does your to-do list.**
+
+[Watch the 65-second demo](https://jeeves-workflows.vercel.app/#film) · [Visit the website](https://jeeves-workflows.vercel.app/)
+
+[![Watch Jeeves: real Jev decisions, human input, and a finished brief](site/media/demo-poster.png)](https://jeeves-workflows.vercel.app/#film)
+
+Try **Request triage · Jev** from Templates or Explore: a typed Jev decision routes urgent and routine requests to different specialists; missing details or low confidence pause for your input. The builder now uses explicit Jev branches for judgment tasks while keeping simple transformations linear.
+
 Turn repeat work into a workflow. Jeeves is a local-first, MIT-licensed desktop app for people who use AI for recurring work and want a process they can inspect, adjust, and run again. No Jeeves account is required.
 
 Start with **Notes to weekly update**: review project notes, draft an update, check it against the notes, and get text ready to copy. Home offers a labeled sample without API keys. Choose **Use my own notes**, connect one AI service, and apply it to both writing steps from the same screen. You review the result before sharing; Jeeves does not send it for you.

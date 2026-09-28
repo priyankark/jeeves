@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jeeves — Jev needs Jeeves. So does your to-do list.</title>
+    <meta
+      name="description"
+      content="Give your AI work a little direction. Jev makes the judgment. Jeeves runs the workflow, asks when it needs you, and keeps the process for next time."
+    />
+    <link rel="canonical" href="https://jeeves-workflows.vercel.app/" />
+    <meta property="og:url" content="https://jeeves-workflows.vercel.app/" />
+    <meta name="theme-color" content="#f8f4e9" />
+    <meta property="og:title" content="Jev needs Jeeves." />
+    <meta
+      property="og:description"
+      content="The judgment. The follow-through. AI workflows with a little savoir-faire."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://jeeves-workflows.vercel.app/media/social-card.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/jeeves-icon.png" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="nav wrap">
+      <a class="brand" href="#" aria-label="Jeeves home"
+        ><img
+          src="/assets/jeeves-icon.png"
+          width="44"
+          height="44"
+          alt=""
+        />jeeves<span class="edition">THE DESKTOP EDITION</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#how">How it works</a><a href="#film">The moving picture</a
+        ><a class="nav-cta" href="#download"
+          >Meet your Jeeves <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="dot"></span> A LITTLE DIRECTION. A LOT DONE.
+          </p>
+          <h1>Jev needs<br /><em>Jeeves.</em></h1>
+          <p class="hero-aside">So does your to-do list.</p>
+          <p class="lede">
+            Some work needs a brain. All of it needs follow-through. Turn your
+            AI tasks into workflows that decide, do, and know when to ask you.
+          </p>
+          <div class="actions">
+            <a class="button dark" href="#film"
+              ><span aria-hidden="true">▶</span> Watch it at work</a
+            ><a class="text-link" href="#try"
+              >Try a little plot twist <span aria-hidden="true">↓</span></a
+            >
+          </div>
+          <p class="fine">Local-first desktop app · Bring your AI connection</p>
+        </div>
+        <div class="hero-stage" id="try">
+          <div class="stage-top">
+            <span class="eyebrow">THE ART OF KNOWING WHAT’S NEXT</span
+            ><span class="status-pill">Interactive illustration</span>
+          </div>
+          <p class="stage-intro">Same workflow. Different predicament.</p>
+          <div
+            class="scenarios"
+            role="group"
+            aria-label="Choose an example request"
+          >
+            <button type="button" data-case="urgent" aria-pressed="true">
+              An outage</button
+            ><button type="button" data-case="routine" aria-pressed="false">
+              A small fix</button
+            ><button
+              type="button"
+              data-case="needs_information"
+              aria-pressed="false"
+            >
+              A mystery
+            </button>
+          </div>
+          <div class="workflow-illustration">
+            <article class="request-card">
+              <span class="node-icon" aria-hidden="true">↳</span>
+              <div>
+                <small>A REQUEST ARRIVES</small>
+                <p id="example-request">
+                  “Nobody can sign in. Every login returns an error.”
+                </p>
+              </div>
+            </article>
+            <div class="connector" aria-hidden="true"></div>
+            <article class="decision-card">
+              <div class="decision-symbol" aria-hidden="true">j</div>
+              <div>
+                <small>JEV MAKES THE JUDGMENT</small
+                ><strong>What needs attention?</strong
+                ><span id="decision-label">Urgent · a concrete outage</span>
+              </div>
+            </article>
+            <div class="branches" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="route-grid">
+              <div data-route="urgent" class="route active">
+                <span aria-hidden="true">↗</span><strong>Incident brief</strong
+                ><small>Get the facts straight.</small>
+              </div>
+              <div data-route="routine" class="route">
+                <span aria-hidden="true">✎</span><strong>Useful reply</strong
+                ><small>Keep things moving.</small>
+              </div>
+              <div data-route="needs_information" class="route">
+                <span aria-hidden="true">?</span><strong>Ask you</strong
+                ><small>Wait for your answer.</small>
+              </div>
+            </div>
+            <div class="route-result" aria-live="polite">
+              <span class="dot"></span>
+              <p id="example-result">
+                Jeeves sends the request to the incident specialist. A draft
+                comes back for your review.
+              </p>
+            </div>
+          </div>
+          <p class="illustration-note">
+            Illustrates the real Jev workflow below. No model is called here.
+          </p>
+        </div>
+      </section>
+      <div class="marquee" aria-hidden="true">
+        <span>BRIGHT IDEAS.</span><i>Better arrangements.</i
+        ><span>LESS REPEATING YOURSELF.</span
+        ><i>Rather more getting on with it.</i>
+      </div>
+      <section id="how" class="section wrap">
+        <div class="section-heading">
+          <p class="eyebrow">01 / A MOST USEFUL PARTNERSHIP</p>
+          <h2>The brain.<br /><em>The follow-through.</em></h2>
+          <p>
+            Jev is the judgment model. Jeeves is the desktop app that gives its
+            decisions somewhere to go.
+          </p>
+        </div>
+        <div class="partnership">
+          <article>
+            <span class="chapter">JEV</span>
+            <h3>“Which way?”</h3>
+            <p>
+              Classify a request. Check whether the evidence is enough. Score a
+              draft against your criteria. The decision lives in the graph, with
+              its answer and confidence visible.
+            </p>
+            <div class="mini-label">Choices · Yes/no judgments · Rubrics</div>
+          </article>
+          <article>
+            <span class="chapter">JEEVES</span>
+            <h3>“Consider it arranged.”</h3>
+            <p>
+              Send the work down the right branch. Give each agent a focused
+              job. Collect your input when needed, save the progress, and hand
+              you a result you can actually read.
+            </p>
+            <div class="mini-label">Agents · Browser tasks · Human input</div>
+          </article>
+          <article class="you">
+            <span class="chapter">YOU</span>
+            <h3>“I’ll take it from here.”</h3>
+            <p>
+              Set the task. Inspect the steps. Answer a question. Review the
+              result. A request for your input pauses the workflow until you
+              submit it.
+            </p>
+            <div class="mini-label">
+              Your context · Your decisions · Your pace
+            </div>
+          </article>
+        </div>
+      </section>
+      <section id="film" class="film-section">
+        <div class="wrap">
+          <div class="film-heading">
+            <div>
+              <p class="eyebrow">02 / THE MOVING PICTURE</p>
+              <h2>
+                A request. A judgment.<br /><em>A rather good result.</em>
+              </h2>
+            </div>
+            <p>
+              Watch a real workflow route an outage, ask for missing context,
+              and turn an answer into an action brief.
+            </p>
+          </div>
+          <div class="film-frame">
+            <video
+              controls
+              playsinline
+              preload="metadata"
+              poster="/media/demo-poster.png"
+              aria-label="Jeeves product demonstration"
+            >
+              <source src="/media/jeeves-demo.mp4" type="video/mp4" />
+              <track
+                kind="captions"
+                src="/media/jeeves-demo.vtt"
+                srclang="en"
+                label="English"
+              />
+              Your browser does not support video.
+              <a href="/media/jeeves-demo.mp4">Download the demo</a>.
+            </video>
+          </div>
+          <div class="film-notes">
+            <span
+              >Real product footage · Synthetic example requests · Live Jev +
+              Codex</span
+            ><a href="/transcript.html">Read the transcript ↗</a>
+          </div>
+        </div>
+      </section>
+      <section class="section wrap possibilities">
+        <div class="section-heading">
+          <p class="eyebrow">03 / GIVE REPEAT WORK A PERMANENT STAFF</p>
+          <h2>A process worth keeping.<br /><em>For next time, too.</em></h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <span class="feature-number">01</span>
+            <h3>Start with the work.</h3>
+            <p>
+              Choose a workflow, describe what you need, and review the input.
+              Open the canvas when you want to change the process.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">02</span>
+            <h3>Make the judgment visible.</h3>
+            <p>
+              Route urgent work, spot missing evidence, and send uncertainty to
+              review. Let agents concentrate on the work they do best.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">03</span>
+            <h3>Ask. Then actually wait.</h3>
+            <p>
+              Input forms, saved progress, and optional sound alerts. A sign-in
+              or missing detail becomes a pause you can return to.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">04</span>
+            <h3>Take the process with you.</h3>
+            <p>
+              Reuse a saved workflow, schedule it while your engine is running,
+              or export a portable skill with its requirements.
+            </p>
+          </article>
+        </div>
+      </section>
+      <aside class="quote-band">
+        <div class="wrap">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <blockquote>I endeavour to give satisfaction.</blockquote>
+          <p>
+            Jeeves, in P. G. Wodehouse’s
+            <a href="https://www.gutenberg.org/files/59254/59254-h/59254-h.htm"
+              >The Inimitable Jeeves</a
+            >
+            (1923)
+          </p>
+          <span class="quote-foot"
+            >LITERARY INSPIRATION. A RATHER HIGH BAR.</span
+          >
+        </div>
+      </aside>
+      <section id="download" class="section wrap download-section">
+        <div>
+          <p class="eyebrow">04 / AT YOUR SERVICE</p>
+          <h2>Your next workflow<br />could use <em>a Jeeves.</em></h2>
+          <p class="lede">
+            Start with the request-triage workflow. Try the labeled example,
+            then connect your AI services for live work.
+          </p>
+          <div class="actions">
+            <a
+              class="button dark"
+              href="https://github.com/priyankark/jeeves/releases/latest"
+              >Get the desktop preview ↗</a
+            ><a
+              class="text-link"
+              download
+              href="/assets/request-triage.jeeves.json"
+              >Get the demo workflow ↓</a
+            >
+          </div>
+          <p class="access-note">
+            <strong>Collaborator preview:</strong> the GitHub repository and
+            installers currently require repository access. You can watch the
+            demo and try the illustration without an account.
+          </p>
+        </div>
+        <div class="download-meta">
+          <p>
+            <strong>Made for your desktop</strong
+            ><span>macOS · Windows · Linux</span>
+          </p>
+          <p>
+            <strong>A workspace of your own</strong
+            ><span
+              >Workflows and history stay on your computer. Cloud models receive
+              the context you send them.</span
+            >
+          </p>
+          <p>
+            <strong>Bring your connections</strong
+            ><span
+              >Live Jev decisions require TypeSafe. Agent steps use a configured
+              AI provider. Browser steps require Chrome.</span
+            >
+          </p>
+        </div>
+      </section>
+      <section class="wrap faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">A few particulars.</h2>
+        <details>
+          <summary>Is this a finished product?</summary>
+          <p>
+            Jeeves is a desktop preview. Installers are available for Mac,
+            Windows, and Linux; preview builds are not signed with a trusted
+            publisher certificate or notarized. Review the release notes before
+            installing.
+          </p>
+        </details>
+        <details>
+          <summary>Does every workflow need Jev?</summary>
+          <p>
+            No. Jev belongs where the next step depends on a judgment: triage,
+            readiness, evidence, or quality. A simple translation can stay
+            linear. Exact comparisons use rules. Your approval stays yours.
+          </p>
+        </details>
+        <details>
+          <summary>Does local-first mean everything stays offline?</summary>
+          <p>
+            The workspace is local. Live cloud AI steps send task context to the
+            service you connect. Browser tasks visit websites in a separate
+            Chrome session. Scheduled runs need the local engine to be running.
+          </p>
+        </details>
+        <details>
+          <summary>Will it place orders or publish things for me?</summary>
+          <p>
+            The browser stops for manual review before checkout, payments,
+            messages, or publishing. Other workflow integrations have their own
+            configured actions, which you can inspect before running.
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer class="wrap">
+      <a class="brand" href="#"
+        >jeeves<span class="footer-wink">Very good, then.</span></a
+      >
+      <p>
+        An independent software project.<br />Literary references are
+        inspiration, not an endorsement.
+      </p>
+      <a href="https://github.com/priyankark/jeeves"
+        >GitHub · collaborator access ↗</a
+      >
+    </footer>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

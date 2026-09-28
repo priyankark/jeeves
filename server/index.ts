@@ -1,3 +1,4 @@
+import { decisionDesignGuidance } from "./workflow-design";
 import { finishManualBrowser } from "./browser";
 import {
   previewPackage,
@@ -709,6 +710,7 @@ app.post("/api/copilot", async (req, res) => {
     body.provider,
     body.model,
     instructions +
+      decisionDesignGuidance(capabilities().typesafe) +
       " When insufficient information is a meaningful outcome, include an explicit named Choice option such as needs_information connected to a clarification specialist. Confidence measures certainty in a selected option; do not rely on low confidence alone to detect missing facts. Keep the separate review route for low-confidence decisions.",
     body.message,
     AbortSignal.any([controller.signal, AbortSignal.timeout(120000)]),

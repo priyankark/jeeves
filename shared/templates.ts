@@ -1,3 +1,4 @@
+import { requestTriage } from "./triage-workflow";
 import { shoppingInputFields } from "./input-request";
 import { weeklyUpdate } from "./first-workflow";
 import { makeNode, type Workflow } from "./schema";
@@ -208,6 +209,7 @@ export const groceryCart: Workflow = {
   ],
 };
 export const templates = [
+  requestTriage,
   starter,
   review,
   githubTriage,

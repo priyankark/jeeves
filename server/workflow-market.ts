@@ -55,9 +55,16 @@ export function builtinPackages(): WorkflowPackage[] {
         description: w.description,
         author: "Jeeves contributors",
         license: "MIT",
-        tags: w.id.includes("github") ? ["GitHub","Maintenance"] : w.id.includes("grocery") ? ["Browser","Shopping"] : w.id.includes("review")
-          ? ["Writing", "Review"]
-          : ["Research", "Briefs"],
+        tags:
+          w.id === "request-triage"
+            ? ["Jev", "Triage", "Human input"]
+            : w.id.includes("github")
+              ? ["GitHub", "Maintenance"]
+              : w.id.includes("grocery")
+                ? ["Browser", "Shopping"]
+                : w.id.includes("review")
+                  ? ["Writing", "Review"]
+                  : ["Research", "Briefs"],
         rootId: w.id,
         workflows: { [w.id]: w },
         skills: [],

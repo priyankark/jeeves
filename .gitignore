@@ -12,3 +12,7 @@ runtime/
 release/
 release-assets/
 *.jeeves.json
+
+.vercel/
+
+!site/assets/request-triage.jeeves.json

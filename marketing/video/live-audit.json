@@ -1,0 +1,112 @@
+{
+  "testedAt": "2026-09-28",
+  "cases": [
+    {
+      "name": "urgent",
+      "runId": "4fac2699-fb8c-4c3d-bbfd-425b02b4c908",
+      "status": "completed",
+      "route": "urgent",
+      "answer": {
+        "type": "choice",
+        "choice": "urgent",
+        "confidence": 1,
+        "probabilities": {
+          "needs_information": 0,
+          "urgent": 1,
+          "routine": 0
+        }
+      },
+      "model": "jev-1.13.0",
+      "latencyMs": 210,
+      "expected": "urgent",
+      "passed": true
+    },
+    {
+      "name": "routine",
+      "runId": "d54253c1-bb4c-4187-b995-914cb7422327",
+      "status": "completed",
+      "route": "routine",
+      "answer": {
+        "type": "choice",
+        "choice": "routine",
+        "confidence": 0.98,
+        "probabilities": {
+          "routine": 0.99,
+          "urgent": 0,
+          "needs_information": 0.01
+        }
+      },
+      "model": "jev-1.13.0",
+      "latencyMs": 113,
+      "expected": "routine",
+      "passed": true
+    },
+    {
+      "name": "needs_information",
+      "runId": "5a5d5f04-9062-4cb7-8e45-c48e10704cfc",
+      "status": "waiting",
+      "route": "needs_information",
+      "answer": {
+        "type": "choice",
+        "choice": "needs_information",
+        "confidence": 1,
+        "probabilities": {
+          "routine": 0,
+          "needs_information": 1,
+          "urgent": 0
+        }
+      },
+      "model": "jev-1.13.0",
+      "latencyMs": 172,
+      "expected": "needs_information",
+      "passed": true
+    }
+  ],
+  "generation": [
+    {
+      "request": "Build a customer request triage workflow that routes outages to an incident brief, ordinary requests to a reply draft, and asks me when details are missing.",
+      "message": "Jev Choice routes outages to an incident brief, ordinary requests to a reply draft, and missing details to your clarification. A separate low-confidence route asks you to select the handling path; clarified requests are then routed by your choice.",
+      "decisions": [
+        {
+          "engine": "jev",
+          "type": "choice",
+          "label": "Classify customer request"
+        },
+        {
+          "engine": "rule",
+          "type": "noul",
+          "label": "Apply your handling choice"
+        }
+      ],
+      "graphErrors": []
+    },
+    {
+      "request": "Build a workflow that gathers product evidence, checks whether the comparison is supported, and either writes the comparison or asks me what to clarify. Use supplied notes, no web browsing.",
+      "message": "Gather evidence from your supplied notes, then use a Jev Choice decision to route supported comparisons to a writer, missing facts to your clarification form, and low-confidence assessments to a separate human review. Your answers feed a revised response. No web browsing.",
+      "decisions": [
+        {
+          "engine": "jev",
+          "type": "choice",
+          "label": "Does the evidence support comparison?"
+        }
+      ],
+      "graphErrors": []
+    },
+    {
+      "request": "Build a simple workflow that translates supplied text into French and returns the translation. No review or routing needed.",
+      "message": "Created a simple linear workflow: supplied text → French translation → output. No review or routing is needed.",
+      "decisions": [],
+      "graphErrors": []
+    }
+  ],
+  "waitingRunId": "5a5d5f04-9062-4cb7-8e45-c48e10704cfc",
+  "observedIssues": [
+    "Evidence-comparison generation timed out once at 120 seconds; an explicit retry succeeded. Compact-output guidance was added afterward; latency improvement has not been measured."
+  ],
+  "humanHandoff": {
+    "runId": "5a5d5f04-9062-4cb7-8e45-c48e10704cfc",
+    "status": "completed",
+    "followup": "completed",
+    "output": "### Known facts\n- The settings tooltip contains a typo.\n- Nobody is blocked.\n- The user wants a small fix ticket drafted.\n- Missing: the exact tooltip text, intended correction, and where it appears.\n\n### Suggested next step\nPrepare a low-priority ticket:\n\n**Title:** Fix typo in settings tooltip  \n**Description:** Correct the typo in the settings tooltip once the affected text and location are confirmed.  \n**Acceptance criteria:** Tooltip displays the corrected wording.\n\n### Draft reply\n“I can draft this as a low-priority typo fix. What does the tooltip currently say, and where in settings does it appear?”"
+  }
+}
