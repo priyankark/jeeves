@@ -147,6 +147,11 @@ async function launch(
     );
   } catch (e) {
     busyProfiles.delete(profile);
+    if (/ENOSPC|no space left on device/i.test((e as Error).message))
+      throw new Error(
+        "There is not enough disk space to open the browser. Free up space on this device, then try again.",
+        { cause: e },
+      );
     throw new Error(
       `Could not open Google Chrome. Install Chrome and close any existing workflow browser window. ${(e as Error).message.split("\n")[0]}`,
     );
@@ -510,7 +515,7 @@ export async function runBrowserTask(
               "Use the visible form button instead of Enter so its action can be reviewed.",
             );
           await locator.press(action.key);
-        } else await locator.click({ noWaitAfter: true });
+        } else await locator.click();
         emit(`Browser: ${action.action} ${control.name || control.role}`);
       }
       actions.push(

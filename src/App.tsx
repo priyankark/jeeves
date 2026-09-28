@@ -183,6 +183,7 @@ export default function App() {
   const [workflow, setWorkflow] = useState<Workflow>(clone(starter));
   const [saved, setSaved] = useState<Workflow[]>([]);
   const [ready, setReady] = useState(false);
+  const [switchingWorkflow, setSwitchingWorkflow] = useState(false);
   const [saveState, setSaveState] = useState("Connecting…");
   const [runSnapshot, setRunSnapshot] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -193,6 +194,17 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(() =>
     layoutPreference("sidebar", window.innerWidth > 1000),
   );
+  useEffect(() => {
+    const narrow = window.matchMedia("(max-width: 1000px)");
+    const collapse = () => {
+      if (narrow.matches) setSidebarOpen(false);
+    };
+    narrow.addEventListener("change", collapse);
+    return () => narrow.removeEventListener("change", collapse);
+  }, []);
+  useEffect(() => {
+    if (window.innerWidth <= 1000) setSidebarOpen(false);
+  }, [page]);
   const [railOpen, setRailOpen] = useState(() =>
     layoutPreference("rail", true),
   );
@@ -281,7 +293,12 @@ export default function App() {
   const flow = useReactFlow<CanvasNode>();
   const nodesInitialized = useNodesInitialized();
   const busy =
-    starting || run?.status === "running" || run?.status === "waiting";
+    switchingWorkflow ||
+    starting ||
+    run?.status === "running" ||
+    run?.status === "waiting";
+  const navigationBusy =
+    switchingWorkflow || starting || run?.status === "running";
   const edits = useWorkflowHistory(
     workflow,
     setWorkflow,
@@ -410,17 +427,42 @@ export default function App() {
     const timer = setTimeout(() => setToast(""), 3500);
     return () => clearTimeout(timer);
   }, [toast]);
+  const [canvasReady, setCanvasReady] = useState(false);
   useEffect(() => {
-    if (!ready || !nodesInitialized || page !== "editor" || panelExpanded)
+    setCanvasReady(false);
+    if (!ready || switchingWorkflow || page !== "editor" || panelExpanded)
       return;
-    const frame = requestAnimationFrame(() => {
-      void flow.fitView({ padding: 0.1, maxZoom: 1 });
-    });
-    return () => cancelAnimationFrame(frame);
+    let cancelled = false;
+    let frame = 0;
+    const fitMeasuredGraph = () => {
+      const measured = flow.getNodes();
+      if (
+        measured.length !== workflow.nodes.length ||
+        workflow.nodes.some(
+          (n) =>
+            !measured.some(
+              (m) => m.id === n.id && m.measured?.width && m.measured?.height,
+            ),
+        )
+      ) {
+        frame = requestAnimationFrame(fitMeasuredGraph);
+        return;
+      }
+      void flow.fitView({ padding: 0.1, maxZoom: 1 }).then(() => {
+        if (!cancelled) setCanvasReady(true);
+      });
+    };
+    frame = requestAnimationFrame(fitMeasuredGraph);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+    };
   }, [
     workflow.id,
+    workflow.nodes.length,
     ready,
     nodesInitialized,
+    switchingWorkflow,
     page,
     sidebarOpen,
     railOpen,
@@ -464,6 +506,7 @@ export default function App() {
     }
   };
   const chooseWorkflow = async (next: Workflow) => {
+    setSwitchingWorkflow(true);
     copilotRequest.current?.abort();
     setThinking(false);
     try {
@@ -486,6 +529,8 @@ export default function App() {
       } catch {}
     } catch (e) {
       setError((e as Error).message);
+    } finally {
+      setSwitchingWorkflow(false);
     }
   };
   const newWorkflow = (template: Workflow = blank) => {
@@ -571,7 +616,6 @@ export default function App() {
     setPanel("node");
     setPanelOpen(true);
     setModal(null);
-    setTimeout(() => flow.fitView({ padding: 0.18, duration: 250 }), 80);
   };
   async function startRun() {
     setError("");
@@ -906,7 +950,7 @@ export default function App() {
           <button
             title="New workflow"
             aria-label="New workflow"
-            disabled={busy || !ready}
+            disabled={navigationBusy || !ready}
             onClick={() => newWorkflow()}
           >
             <Plus size={15} />
@@ -915,7 +959,7 @@ export default function App() {
         <div className="workflow-list">
           {saved.map((w) => (
             <button
-              disabled={busy}
+              disabled={navigationBusy}
               className={`workflow-link ${w.id === workflow.id && page === "editor" ? "active" : ""}`}
               key={w.id}
               onClick={() => chooseWorkflow(w)}
@@ -928,7 +972,7 @@ export default function App() {
         </div>
         <button
           className="new-workflow"
-          disabled={busy || !ready}
+          disabled={navigationBusy || !ready}
           onClick={() => newWorkflow()}
         >
           <Plus size={15} /> New workflow
@@ -1094,7 +1138,7 @@ export default function App() {
           <WorkflowLibrary
             workflows={saved}
             ready={ready}
-            busy={busy}
+            busy={navigationBusy}
             onOpen={(w) => void chooseWorkflow(w)}
             onNew={() => newWorkflow()}
             onExplore={() => setPage("explore")}
@@ -1301,50 +1345,52 @@ export default function App() {
               aria-label="Workflow canvas"
               inert={panelExpanded || undefined}
             >
-              <ReactFlow<CanvasNode>
-                nodes={shownNodes}
-                edges={shownEdges}
-                nodeTypes={nodeTypes}
-                onNodesChange={busy ? undefined : onNodesChange}
-                onEdgesChange={busy ? undefined : onEdgesChange}
-                onConnect={busy ? undefined : onConnect}
-                onNodeClick={(_, n) => {
-                  setFocusMode(false);
-                  setSelected(n.id);
-                  setPanel("node");
-                  setPanelOpen(true);
-                }}
-                onPaneClick={() => setSelected(null)}
-                onEdgeClick={() => setSelected(null)}
-                nodesDraggable={!busy}
-                nodesConnectable={!busy}
-                deleteKeyCode={busy ? null : ["Backspace", "Delete"]}
-                fitView
-                fitViewOptions={{ padding: 0.18 }}
-                minZoom={0.25}
-                maxZoom={1.6}
-                proOptions={{ hideAttribution: true }}
-              >
-                <Background
-                  variant={BackgroundVariant.Dots}
-                  gap={22}
-                  size={1}
-                  color="#d5dbd0"
-                />
-                <Controls showInteractive={false} />
-                <MiniMap
-                  nodeColor={(n) =>
-                    n.data.kind === "decision"
-                      ? "#d9c495"
-                      : n.data.kind === "handoff"
-                        ? "#bec8dd"
-                        : "#bbcab2"
-                  }
-                  maskColor="rgba(247,248,244,.75)"
-                  pannable
-                  zoomable
-                />
-              </ReactFlow>
+              {ready && !switchingWorkflow && page === "editor" && (
+                <ReactFlow<CanvasNode>
+                  key={workflow.id}
+                  style={{ visibility: canvasReady ? "visible" : "hidden" }}
+                  nodes={shownNodes}
+                  edges={shownEdges}
+                  nodeTypes={nodeTypes}
+                  onNodesChange={busy ? undefined : onNodesChange}
+                  onEdgesChange={busy ? undefined : onEdgesChange}
+                  onConnect={busy ? undefined : onConnect}
+                  onNodeClick={(_, n) => {
+                    setFocusMode(false);
+                    setSelected(n.id);
+                    setPanel("node");
+                    setPanelOpen(true);
+                  }}
+                  onPaneClick={() => setSelected(null)}
+                  onEdgeClick={() => setSelected(null)}
+                  nodesDraggable={!busy}
+                  nodesConnectable={!busy}
+                  deleteKeyCode={busy ? null : ["Backspace", "Delete"]}
+                  minZoom={0.25}
+                  maxZoom={1.6}
+                  proOptions={{ hideAttribution: true }}
+                >
+                  <Background
+                    variant={BackgroundVariant.Dots}
+                    gap={22}
+                    size={1}
+                    color="#d5dbd0"
+                  />
+                  <Controls showInteractive={false} />
+                  <MiniMap
+                    nodeColor={(n) =>
+                      n.data.kind === "decision"
+                        ? "#d9c495"
+                        : n.data.kind === "handoff"
+                          ? "#bec8dd"
+                          : "#bbcab2"
+                    }
+                    maskColor="rgba(247,248,244,.75)"
+                    pannable
+                    zoomable
+                  />
+                </ReactFlow>
+              )}
               <div className="canvas-label">
                 <span className="tiny-dot" />{" "}
                 {mode === "demo"

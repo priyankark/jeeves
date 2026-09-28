@@ -25,15 +25,13 @@ it.each([true, false])(
       local: true,
     });
     const nextInput = { title: "Tooltip typo", impact: "Nobody blocked" };
-    const generate = vi
-      .spyOn(providers, "generate")
-      .mockResolvedValue(
-        JSON.stringify({
-          message: "Prepared typo report",
-          workflowId: workflow.id,
-          input: nextInput,
-        }),
-      );
+    const generate = vi.spyOn(providers, "generate").mockResolvedValue(
+      JSON.stringify({
+        message: "Prepared typo report",
+        workflowId: workflow.id,
+        input: nextInput,
+      }),
+    );
     const chat = await planChat(
       {
         id: randomUUID(),
@@ -94,4 +92,59 @@ it("rejects a model switching away from the user's selected workflow", async () 
       new AbortController().signal,
     ),
   ).rejects.toThrow("changed the selected workflow");
+});
+
+it("refines local task input without losing the request or user-edited fields, and explicitly starts a new task", async () => {
+  const workflow = {
+    ...blank,
+    id: randomUUID(),
+    name: "Study writing",
+    input: JSON.stringify({ task: "Saved example", tone: "warm" }),
+  };
+  await saveJson("workflows", workflow.id, workflow);
+  const id = randomUUID();
+  const signal = new AbortController().signal;
+  const first = await planChat(
+    {
+      id,
+      mode: "demo",
+      workflowId: workflow.id,
+      message: "Invite volunteers to beach cleanup at 9am",
+    },
+    signal,
+  );
+  expect(first.plan?.input).toEqual({
+    task: "Invite volunteers to beach cleanup at 9am",
+    tone: "warm",
+  });
+  const refined = await planChat(
+    {
+      id,
+      mode: "demo",
+      message: "Make it shorter",
+      proposedInput: {
+        task: "Invite volunteers at 10am. Bring gloves.",
+        tone: "friendly",
+      },
+    },
+    signal,
+  );
+  expect(refined.plan?.input).toEqual({
+    task: "Invite volunteers at 10am. Bring gloves.\n\nUpdate:\nMake it shorter",
+    tone: "friendly",
+  });
+  const fresh = await planChat(
+    {
+      id,
+      mode: "demo",
+      workflowId: workflow.id,
+      intent: "new",
+      message: "Write a birthday card",
+    },
+    signal,
+  );
+  expect(fresh.plan?.input).toEqual({
+    task: "Write a birthday card",
+    tone: "warm",
+  });
 });

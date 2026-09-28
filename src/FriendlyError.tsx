@@ -1,5 +1,7 @@
 export function errorSummary(message: string) {
   const clean = message.replace(/\x1b\[[0-9;]*m/g, "");
+  if (/ENOSPC|no space left on device/i.test(clean))
+    return "This device is out of disk space. Free up space, then try again.";
   if (/intercepts pointer events/.test(clean))
     return "Something on the website is covering that control. Review the browser, close any popup, and try again.";
   if (

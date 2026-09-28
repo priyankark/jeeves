@@ -7,5 +7,9 @@ export default defineConfig({
     strictPort: true,
     proxy: { "/api": "http://127.0.0.1:4317" },
   },
-  test: { setupFiles: ["tests/setup.ts"], include: ["tests/**/*.test.ts"] },
+  test: {
+    maxWorkers: 2,
+    setupFiles: ["tests/setup.ts"],
+    include: ["tests/**/*.test.ts"],
+  },
 } as Parameters<typeof defineConfig>[0]);

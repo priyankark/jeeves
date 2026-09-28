@@ -90,7 +90,7 @@ test("Explore previews a workflow and installs a local copy without running it",
     .getByRole("button", { name: "Open workflow", exact: true })
     .click();
   await expect(page.getByLabel("Workflow name", { exact: true })).toHaveValue(
-    "Draft & review",
+    "Draft & review · copy 2",
   );
 });
 test("portable skill and contribution export require review and download actual bundles", async ({

@@ -1,0 +1,21 @@
+
+> jeeves@0.1.0 pretest
+> npm run build:runtime && node --check runtime/server.mjs
+
+
+> jeeves@0.1.0 build:runtime
+> node scripts/build-runtime.mjs
+
+Built standalone desktop engine and portable skill runner.
+
+> jeeves@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.2 /Users/priyankar/jeeves
+
+
+ Test Files  17 passed (17)
+      Tests  109 passed (109)
+   Start at  18:32:26
+   Duration  19.95s (tests 96%, import 3%, transform 1%)

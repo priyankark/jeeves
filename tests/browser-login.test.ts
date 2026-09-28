@@ -18,8 +18,12 @@ import { dataDir } from "../server/providers";
 const server = createServer((req, res) => {
   res.setHeader("Content-Type", "text/html");
   if (req.url === "/login")
-    res.end(
-      "<h1>Sign in</h1><label>Password<input type=\"password\"></label><button onclick=\"localStorage.setItem('signed-in','yes');location.href='/account'\">Sign in</button>",
+    setTimeout(
+      () =>
+        res.end(
+          "<h1>Sign in</h1><label>Password<input type=\"password\"></label><button onclick=\"localStorage.setItem('signed-in','yes');location.href='/account'\">Sign in</button>",
+        ),
+      650,
     );
   else if (req.url === "/account")
     res.end(

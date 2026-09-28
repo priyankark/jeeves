@@ -1,0 +1,18 @@
+[WebServer] (node:26962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:26964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/home.spec.ts:3:1 › home chat prepares, runs, persists, and protects against duplicate execution (3.4s)
+  ✓  2 tests/browser/home.spec.ts:68:1 › Explore previews a workflow and installs a local copy without running it (725ms)
+  ✓  3 tests/browser/home.spec.ts:96:1 › portable skill and contribution export require review and download actual bundles (741ms)
+  ✓  4 tests/browser/study.spec.ts:4:1 › refinement preserves edited task and marks previous output; a different task replaces it (2.1s)
+  ✓  5 tests/browser/study.spec.ts:65:1 › laptop preview keeps install and open actions visible, and repeated imports have distinct names (855ms)
+
+  5 passed (9.9s)

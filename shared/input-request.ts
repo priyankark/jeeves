@@ -83,7 +83,10 @@ export function validateAnswers(fields: InputField[], raw: unknown) {
       (Array.isArray(value) && !value.length);
     if (empty) {
       if (field.required)
-        errors[field.key] = `Please enter ${field.label.toLowerCase()}.`;
+        errors[field.key] =
+          field.type === "boolean" || field.type === "choice"
+            ? `Please choose an answer for “${field.label}”.`
+            : `Please enter ${field.label.toLowerCase()}.`;
       else
         answers[field.key] =
           field.type === "list"

@@ -61,6 +61,12 @@ test("a blocked run can allow all websites, retry, and switch back to the allowl
   await expect(
     page.getByRole("heading", { name: "Everything connected." }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: "A workflow needs attention",
+      exact: true,
+    }),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   const checkbox = page.getByRole("checkbox", {
     name: /Allow all websites & APIs/,

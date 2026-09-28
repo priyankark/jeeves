@@ -20,6 +20,8 @@ export const chatInput = z.object({
   provider: providerSchema.default("openai"),
   model: z.string().max(120).default(""),
   workflowId: idSchema.optional(),
+  intent: z.enum(["refine", "new"]).default("refine"),
+  proposedInput: z.unknown().optional(),
 });
 export const chatLocks = new Map<string, Promise<unknown>>();
 export function chatLock<T>(id: string, fn: () => Promise<T>): Promise<T> {
@@ -87,11 +89,13 @@ export async function planChat(
     (matches.length === 1 || matches[0].score > matches[1].score);
   let chosen = body.workflowId
     ? workflows.find((w) => w.id === body.workflowId)
-    : uniqueMatch
-      ? matches[0].workflow
-      : matches.length === 0
-        ? session.plan?.workflow
-        : undefined;
+    : body.intent === "refine" && session.plan
+      ? workflows.find((w) => w.id === session.plan!.workflow.id)
+      : uniqueMatch
+        ? matches[0].workflow
+        : matches.length === 0
+          ? session.plan?.workflow
+          : undefined;
   if (body.workflowId && !chosen)
     throw new Error("That workflow is no longer in your library.");
   if (
@@ -125,7 +129,7 @@ export async function planChat(
     const result = await generate(
       body.provider,
       body.model,
-      `You are Jeeves, a local workflow assistant. Help the user select and prepare one saved workflow for their task. You cannot execute workflows, send messages, or claim work completed. Return only JSON {"message":string,"workflowId":string|null,"input":unknown}. If essential information is missing, ask one useful question with workflowId null. Choose only supplied IDs. ${body.workflowId ? `The user explicitly selected ${body.workflowId}; use that workflow or ask a question, never switch workflows.` : ""} Map the latest request into the workflow's input fields. Saved workflow input is an EXAMPLE and structural guide, not facts about the new task. Replace conflicting example titles, reports, notes, reproduction steps, impact, and similar task content; do not merely append a task field while retaining an unrelated example. Preserve configuration such as repository, website, limits, and filters unless changed by the user. Do not invent missing facts: use unknown/empty values or ask. If the user explicitly asks to run the saved example, use it. Only preserve prior proposed task data when refining the SAME task; a new case replaces the old case. Selected workflow: ${chosen ? JSON.stringify(chosen) : "none"}. Previous proposed input: ${JSON.stringify(session.plan?.input)}. Available workflows: ${JSON.stringify(workflows.map((w) => ({ id: w.id, name: w.name, description: w.description, input: w.input })))}.`,
+      `You are Jeeves, a local workflow assistant. Help the user select and prepare one saved workflow for their task. You cannot execute workflows, send messages, or claim work completed. Return only JSON {"message":string,"workflowId":string|null,"input":unknown}. If essential information is missing, ask one useful question with workflowId null. Choose only supplied IDs. ${body.workflowId ? `The user explicitly selected ${body.workflowId}; use that workflow or ask a question, never switch workflows.` : ""} Map the latest request into the workflow's input fields. Saved workflow input is an EXAMPLE and structural guide, not facts about the new task. Replace conflicting example titles, reports, notes, reproduction steps, impact, and similar task content; do not merely append a task field while retaining an unrelated example. Preserve configuration such as repository, website, limits, and filters unless changed by the user. Do not invent missing facts: use unknown/empty values or ask. If the user explicitly asks to run the saved example, use it. Only preserve prior proposed task data when refining the SAME task; a new case replaces the old case. Selected workflow: ${chosen ? JSON.stringify(chosen) : "none"}. User intent: ${body.intent === "new" ? "NEW TASK: replace previous task content" : "REFINE: retain the existing request and apply the latest changes"}. Previous proposed input: ${JSON.stringify(body.intent === "new" ? undefined : (body.proposedInput ?? session.plan?.input))}. Available workflows: ${JSON.stringify(workflows.map((w) => ({ id: w.id, name: w.name, description: w.description, input: w.input })))}.`,
       JSON.stringify(history),
       signal,
       `home-${randomUUID()}`,
@@ -162,8 +166,8 @@ export async function planChat(
     let base: unknown;
     try {
       base =
-        session.plan?.workflow.id === chosen.id
-          ? session.plan.input
+        body.intent === "refine" && session.plan?.workflow.id === chosen.id
+          ? (body.proposedInput ?? session.plan.input)
           : JSON.parse(chosen.input);
     } catch {
       base = {};
@@ -174,7 +178,16 @@ export async function planChat(
         ...(base && typeof base === "object" && !Array.isArray(base)
           ? base
           : {}),
-        task: body.message,
+        task:
+          body.intent === "refine" &&
+          session.plan?.workflow.id === chosen.id &&
+          base &&
+          typeof base === "object" &&
+          "task" in base &&
+          typeof base.task === "string" &&
+          base.task.trim()
+            ? `${base.task}\n\nUpdate:\n${body.message}`
+            : body.message,
       };
     }
     reply = `I've prepared “${chosen.name}”. Review the input below, then start ${body.mode === "live" ? "the live run" : "a demo"}.`;

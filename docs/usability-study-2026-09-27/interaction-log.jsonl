@@ -1,0 +1,69 @@
+{"at":"2026-09-28T01:16:13.673Z","shot":"01-fresh-home","text":true}
+{"at":"2026-09-28T01:16:37.137Z","actions":[{"click":[623,488]},{"type":"Use Draft & review to write a warm email to volunteers about Saturday beach cleanup at 9am. Ask them to bring gloves."},{"key":"Enter"}],"shot":"02-writing-plan","text":true}
+{"at":"2026-09-28T01:16:59.138Z","actions":[{"click":[1137,824]},{"wait":1800},{"scroll":[0,608]}],"shot":"03-writing-result","text":true}
+{"at":"2026-09-28T01:17:25.989Z","actions":[{"move":[1000,777]},{"scroll":[0,779]}],"shot":"04-followup-composer"}
+{"at":"2026-09-28T01:17:44.015Z","actions":[{"click":[1221,736]},{"key":"Meta+End"},{"wait":500}],"shot":"05-bottom"}
+{"at":"2026-09-28T01:18:09.283Z","actions":[{"move":[1359,402]},{"down":true},{"move":[1359,886]},{"up":true},{"wait":800}],"shot":"06-scrolled"}
+{"at":"2026-09-28T01:18:41.270Z","actions":[{"click":[737,667]},{"type":"Make it shorter and add a cheerful subject line."},{"key":"Enter"},{"wait":500}],"shot":"07-refinement-loss","text":true}
+{"at":"2026-09-28T01:19:28.113Z","actions":[{"click":[155,187]},{"resize":[960,700]}],"shot":"08-laptop-explore","text":true}
+{"at":"2026-09-28T01:20:36.354Z","actions":[{"click":[134,22]},{"click":[695,573]}],"shot":"09-preview-laptop","text":true}
+{"at":"2026-09-28T01:21:21.953Z","actions":[{"key":"Shift+Tab"}],"shot":"10-preview-action-keyboard"}
+{"at":"2026-09-28T01:23:06.069Z","actions":[{"goto":"http://127.0.0.1:4335/?study=2#explore"},{"click":[690,564]}],"shot":"11-fixed-preview","text":true}
+{"at":"2026-09-28T01:23:34.023Z","actions":[{"click":[690,564]}],"shot":"12-fixed-preview-action","text":true}
+{"at":"2026-09-28T01:23:50.900Z","actions":[{"click":[817,628]},{"wait":500}],"shot":"13-installed-copy","text":true}
+{"at":"2026-09-28T01:24:00.744Z","actions":[{"key":"Escape"},{"goto":"http://127.0.0.1:4335/?study=3#workflows"},{"wait":500}],"shot":"14-library","text":true}
+{"at":"2026-09-28T01:24:13.466Z","actions":[{"click":[254,241]},{"type":"Study grocery"},{"wait":400}],"shot":"15-find-grocery"}
+{"at":"2026-09-28T01:24:26.206Z","actions":[{"click":[480,383]}],"shot":"16-grocery-editor","text":true}
+{"at":"2026-09-28T01:25:11.461Z","actions":[{"click":[890,156]},{"wait":800}],"shot":"17-grocery-waiting","text":true}
+{"at":"2026-09-28T01:25:30.866Z","actions":[{"click":[899,278]}],"shot":"18-expanded-request","text":true}
+{"at":"2026-09-28T01:25:43.917Z","actions":[{"click":[388,504]},{"type":"2 cartons oat milk\n1 bag oats"},{"key":"Tab"},{"type":"0"},{"key":"Tab"},{"type":"bad"},{"key":"Tab"},{"type":"No nuts"},{"key":"Tab"},{"key":"ArrowDown"},{"key":"Enter"},{"key":"Tab"},{"key":"Enter"}],"shot":"19-invalid-shopping","text":true}
+{"at":"2026-09-28T01:26:00.239Z","actions":[{"key":"Meta+a"},{"type":"25"},{"key":"Tab"},{"key":"Meta+a"},{"type":"02139"},{"key":"Escape"},{"click":[74,74]}],"shot":"20-leave-waiting","text":true}
+{"at":"2026-09-28T01:26:13.755Z","actions":[{"click":[370,383]},{"wait":500}],"shot":"21-unrelated-workflow","text":true}
+{"at":"2026-09-28T01:26:21.404Z","actions":[{"goto":"http://127.0.0.1:4335/?study=4#home"},{"wait":500},{"click":[715,23]}],"shot":"22-return-activity","text":true}
+{"at":"2026-09-28T01:26:31.418Z","actions":[{"click":[622,271]},{"wait":400},{"click":[420,504]},{"key":"Tab"},{"key":"Tab"},{"key":"Tab"},{"key":"Tab"}],"shot":"23-draft-restored","text":true}
+{"at":"2026-09-28T01:26:46.985Z","actions":[{"key":"n"},{"key":"Tab"},{"key":"Enter"},{"wait":1000}],"shot":"24-shopping-complete","text":true}
+{"at":"2026-09-28T01:26:58.683Z","actions":[{"key":"Escape"},{"goto":"http://127.0.0.1:4335/?study=5#workflows"},{"wait":400},{"click":[230,240]},{"type":"Study service"}],"shot":"25-recovery-find"}
+{"at":"2026-09-28T01:27:05.771Z","actions":[{"click":[386,383]}],"shot":"26-recovery-editor"}
+{"at":"2026-09-28T01:27:18.068Z","actions":[{"click":[768,157]},{"key":"l"},{"key":"Enter"},{"click":[888,157]},{"wait":700},{"click":[901,278]}],"shot":"27-recovery-permission","text":true}
+{"at":"2026-09-28T01:27:38.869Z","actions":[{"click":[106,277]},{"click":[397,389]},{"wait":500}],"shot":"28-service-unavailable","text":true}
+{"at":"2026-09-28T01:27:56.436Z","actions":[{"click":[470,342]},{"wait":500}],"shot":"29-recovery-completed","text":true}
+{"at":"2026-09-28T01:28:08.195Z","actions":[{"key":"Escape"},{"goto":"http://127.0.0.1:4335/?study=6#workflows"},{"wait":350},{"click":[245,240]},{"type":"Study browser"},{"click":[390,384]}],"shot":"30-login-editor","text":true}
+{"at":"2026-09-28T01:28:33.264Z","actions":[{"click":[330,455]},{"click":[900,278]}],"shot":"31-browser-inspector","text":true}
+{"at":"2026-09-28T01:28:56.058Z","actions":[{"move":[953,262]},{"down":true},{"move":[953,667]},{"up":true}],"shot":"32-signin-controls"}
+{"at":"2026-09-28T01:29:14.059Z","actions":[{"click":[148,517]},{"wait":1800}],"shot":"33-login-handoff","text":true}
+{"at":"2026-09-28T01:29:46.759Z","actions":[{"wait":1500}],"shot":"34-login-waiting","text":true}
+{"at":"2026-09-28T01:30:04.537Z","actions":[{"key":"Escape"},{"click":[74,75]},{"click":[875,22]}],"shot":"35-login-away","text":true}
+{"at":"2026-09-28T01:30:22.409Z","actions":[{"click":[629,290]},{"wait":500}],"shot":"36-return-signin","text":true}
+{"at":"2026-09-28T01:30:41.710Z","actions":[{"click":[900,278]},{"move":[953,504]},{"down":true},{"move":[953,687]},{"up":true}],"shot":"37-cancel-fixture-login"}
+{"at":"2026-09-28T01:31:03.935Z","actions":[{"click":[149,516]},{"key":"Escape"},{"click":[33,22]}],"shot":"38-login-cancelled-navigation","text":true}
+{"at":"2026-09-28T01:31:24.076Z","actions":[{"click":[32,224]}],"shot":"39-schedules","text":true}
+{"at":"2026-09-28T01:32:16.702Z","actions":[{"click":[843,338]}],"shot":"40-new-schedule","text":true}
+{"at":"2026-09-28T01:32:38.716Z","actions":[{"click":[370,334]},{"key":"Meta+a"},{"type":"Study weekday reminder"},{"click":[275,521]},{"key":"d"},{"key":"Enter"},{"move":[917,230]},{"down":true},{"move":[917,510]},{"up":true}],"shot":"41-schedule-details"}
+{"at":"2026-09-28T01:33:09.742Z","shot":"42-resumed-study-home","text":true}
+{"at":"2026-09-28T01:33:17.198Z","actions":[{"click":[615,488]},{"type":"Use Draft & review to invite volunteers to Saturday beach cleanup at 9am. Ask them to bring gloves."},{"key":"Enter"}],"shot":"43-fixed-writing-plan","text":true}
+{"at":"2026-09-28T01:33:35.510Z","actions":[{"click":[1132,802]},{"wait":1800},{"move":[1359,315]},{"down":true},{"move":[1359,887]},{"up":true}],"shot":"44-followup-after-fix"}
+{"at":"2026-09-28T01:34:22.389Z","actions":[{"goto":"http://127.0.0.1:4335/#workflows"},{"wait":400}],"shot":"45-author-library","text":true}
+{"at":"2026-09-28T01:34:36.571Z","actions":[{"click":[156,653]}],"shot":"46-new-workflow","text":true}
+{"at":"2026-09-28T01:35:05.095Z","actions":[{"click":[459,153]},{"key":"Meta+a"},{"type":"Study author input flow"},{"key":"Tab"},{"click":[1297,246]}],"shot":"47-add-input-step","text":true}
+{"at":"2026-09-28T01:35:19.057Z","actions":[{"click":[627,581]},{"click":[1307,293]}],"shot":"48-author-fullscreen","text":true}
+{"at":"2026-09-28T01:35:31.507Z","actions":[{"click":[1130,660]},{"click":[357,302]},{"key":"Meta+a"},{"type":"Plan your grocery trip"},{"key":"Escape"},{"click":[1207,247]},{"click":[448,22]}],"shot":"49-authored-focus-canvas","text":true}
+{"at":"2026-09-28T01:35:41.008Z","actions":[{"click":[154,22]},{"click":[32,224]}],"shot":"50-author-schedule","text":true}
+{"at":"2026-09-28T01:35:52.386Z","actions":[{"click":[1043,437]}],"shot":"51-schedule-form"}
+{"at":"2026-09-28T01:36:06.803Z","actions":[{"click":[505,345]},{"key":"Meta+a"},{"type":"Study weekday grocery reminder"},{"click":[855,742]},{"key":"Meta+a"},{"type":"America/New_York"},{"move":[1124,395]},{"down":true},{"move":[1124,838]},{"up":true}],"shot":"52-schedule-bottom"}
+{"at":"2026-09-28T01:36:27.213Z","actions":[{"click":[351,750]}],"shot":"53-schedule-preview","text":true}
+{"at":"2026-09-28T01:36:33.601Z","actions":[{"key":"Tab"},{"key":"Enter"},{"wait":350}],"shot":"54-schedule-created","text":true}
+{"at":"2026-09-28T01:36:42.676Z","actions":[{"click":[32,224]}],"shot":"55-schedule-list","text":true}
+{"at":"2026-09-28T01:36:57.073Z","actions":[{"click":[1043,437]},{"click":[505,345]},{"key":"Meta+a"},{"type":"Study weekday grocery reminder"},{"click":[855,742]},{"key":"Meta+a"},{"type":"America/New_York"},{"move":[1124,395]},{"down":true},{"move":[1124,838]},{"up":true}],"shot":"56-schedule-ready"}
+{"at":"2026-09-28T01:37:11.902Z","actions":[{"click":[675,806]}],"shot":"57-scheduled","text":true}
+{"at":"2026-09-28T01:37:25.320Z","actions":[{"click":[323,636]},{"click":[469,636]}],"shot":"58-paused-delete","text":true}
+{"at":"2026-09-28T01:37:50.548Z","actions":[{"click":[472,606]}],"shot":"59-delete-confirm"}
+{"at":"2026-09-28T01:38:03.139Z","actions":[{"click":[422,648]},{"key":"Escape"},{"click":[141,139]}],"shot":"60-home-return","text":true}
+{"at":"2026-09-28T01:38:11.214Z","actions":[{"click":[1093,85]},{"key":"ArrowDown"},{"key":"Enter"},{"wait":400}],"shot":"61-open-previous-chat","text":true}
+{"at":"2026-09-28T01:38:24.331Z","actions":[{"key":"Escape"},{"key":"u"},{"key":"Tab"},{"wait":400}],"shot":"62-chat-restored","text":true}
+{"at":"2026-09-28T01:38:30.424Z","actions":[{"move":[1359,299]},{"down":true},{"move":[1359,887]},{"up":true}],"shot":"63-refine-composer"}
+{"at":"2026-09-28T01:38:40.984Z","actions":[{"click":[735,671]},{"type":"Make it shorter and add a cheerful subject line."},{"key":"Enter"}],"shot":"64-refinement-fixed","text":true}
+{"at":"2026-09-28T01:39:00.176Z","actions":[{"click":[811,648]},{"key":"Escape"},{"key":"s"},{"key":"Tab"},{"type":"Write a birthday card for Alex who loves hiking."},{"key":"Enter"}],"shot":"65-new-task","text":true}
+{"at":"2026-09-28T01:39:17.462Z","actions":[{"move":[1359,649]},{"down":true},{"move":[1359,402]},{"up":true}],"shot":"66-new-task-input","errors":true}
+{"at":"2026-09-28T01:40:01.570Z","actions":[{"goto":"http://127.0.0.1:4335/?study=final#home"},{"wait":700}],"shot":"67-review-plan-visible","text":true}
+{"at":"2026-09-28T01:42:44.132Z","actions":[{"goto":"http://127.0.0.1:4335/?study=final-review#home"},{"wait":1000}],"shot":"68-final-review-position","errors":true}
+{"at":"2026-09-28T01:43:12.229Z","actions":[{"goto":"http://127.0.0.1:4335/?study=verified#home"},{"wait":900}],"shot":"69-final-review","errors":true}

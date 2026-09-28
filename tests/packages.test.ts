@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { mkdtemp, writeFile, readFile, mkdir, readdir } from "node:fs/promises";
+import {
+  mkdtemp,
+  writeFile,
+  readFile,
+  mkdir,
+  readdir,
+  rm,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { execFile } from "node:child_process";
@@ -20,7 +27,13 @@ import { randomUUID } from "node:crypto";
 import { groceryCart } from "../shared/templates";
 import { simulationServer } from "./fixtures/simulation-server";
 const exec = promisify(execFile);
-afterEach(() => {
+const temporaryExports: string[] = [];
+afterEach(async () => {
+  await Promise.all(
+    temporaryExports
+      .splice(0)
+      .map((dir) => rm(dir, { recursive: true, force: true })),
+  );
   vi.restoreAllMocks();
   vi.unstubAllEnvs();
 });
@@ -37,6 +50,7 @@ describe("portable workflows and home chat", () => {
         .package;
       const files = unzipSync(await skillArchive(p));
       const root = await mkdtemp(path.join(tmpdir(), "jeeves-browser-export-"));
+      temporaryExports.push(root);
       for (const [name, data] of Object.entries(files)) {
         const file = path.join(root, name);
         await mkdir(path.dirname(file), { recursive: true });
@@ -166,6 +180,7 @@ describe("portable workflows and home chat", () => {
     const zip = await skillArchive(p),
       files = unzipSync(zip);
     const root = await mkdtemp(path.join(tmpdir(), "jeeves-portable-"));
+    temporaryExports.push(root);
     for (const [name, data] of Object.entries(files)) {
       const file = path.join(root, name);
       await mkdir(path.dirname(file), { recursive: true });
@@ -292,4 +307,39 @@ describe("community catalogs", () => {
       marketplacePackage({ id: "fixture", repo, commit }),
     ).rejects.toThrow("checksum");
   });
+});
+
+it("concurrent imports allocate distinct names without replacing existing workflows", async () => {
+  const workflow = {
+    ...blank,
+    id: randomUUID(),
+    name: `Distinct ${randomUUID()}`,
+  };
+  await saveJson("workflows", workflow.id, workflow);
+  const p = (await previewPackage({ workflow, includeInput: true })).package;
+  const copies = await Promise.all([importPackage(p), importPackage(p)]);
+  expect(new Set(copies.map((w) => w.id)).size).toBe(2);
+  expect(copies.map((w) => w.name)).toEqual([
+    `${workflow.name} · copy 2`,
+    `${workflow.name} · copy 3`,
+  ]);
+  expect((await readJson<any>("workflows", workflow.id)).name).toBe(
+    workflow.name,
+  );
+});
+
+it("keeps imported copy names within the workflow schema limit", async () => {
+  const workflow = {
+    ...blank,
+    id: randomUUID(),
+    name: "Long workflow ".repeat(8).slice(0, 100),
+  };
+  await saveJson("workflows", workflow.id, workflow);
+  const p = (await previewPackage({ workflow, includeInput: true })).package;
+  const copy = await importPackage(p);
+  expect(copy.name).toHaveLength(100);
+  expect(copy.name).toMatch(/ · copy 2$/);
+  expect(() =>
+    validatePackage({ ...p, rootId: copy.id, workflows: { [copy.id]: copy } }),
+  ).not.toThrow();
 });

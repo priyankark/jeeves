@@ -1,0 +1,5 @@
+
+> jeeves@0.1.0 check:catalog
+> node --import tsx scripts/check-catalog.mjs
+
+Validated 7 workflow packages.

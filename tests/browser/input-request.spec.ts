@@ -60,6 +60,20 @@ test("collects validated answers, saves a draft across reload, recovers through 
     await (await request.get("/api/input-requests")).json()
   ).find((r: any) => r.workflowId === w.id);
   expect(waiting.nodes.output.status).toBe("pending");
+  await page
+    .getByRole("navigation", { name: "Main navigation" })
+    .getByRole("button", { name: "Workflows", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Open Research to brief", exact: true }),
+  ).toBeEnabled();
+  await page
+    .getByRole("button", { name: "Open Research to brief", exact: true })
+    .click();
+  expect(
+    (await (await request.get(`/api/runs/${waiting.id}`)).json()).status,
+  ).toBe("waiting");
+
   await page.goto("/?reload-input=1#home");
   await page
     .getByRole("button", { name: "Your input is needed", exact: true })

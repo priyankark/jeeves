@@ -1,0 +1,62 @@
+
+> jeeves@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:26113) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 45 tests using 1 worker
+
+(node:26116) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/automation.spec.ts:4:1 › creates a recurring schedule, previews local times, pauses, edits and deletes it (1.4s)
+  ✓   2 tests/browser/automation.spec.ts:50:1 › a due one-time schedule executes and opens its actual run (3.8s)
+  ✓   3 tests/browser/automation.spec.ts:89:1 › marketplace preview, install, workflow assignment and uninstall are usable (2.2s)
+  ✓   4 tests/browser/creation.spec.ts:5:1 › a long choice label does not block dragging its connection handle (485ms)
+  ✓   5 tests/browser/creation.spec.ts:58:1 › a new step is connected, and deleting an edge does not delete the previously selected node (677ms)
+  ✓   6 tests/browser/creation.spec.ts:94:1 › stopping copilot preserves the request and ignores a late proposal (459ms)
+  ✓   7 tests/browser/depth.spec.ts:4:1 › maintainer configures pagination, preserves its limit, and disables it for POST (2.2s)
+  ✓   8 tests/browser/depth.spec.ts:56:1 › failed browser run offers its saved session and last screenshot directly on Home (415ms)
+  ✓   9 tests/browser/edges.spec.ts:4:1 › connections stay visible after Home navigation, reload, and zooming out (889ms)
+  ✓  10 tests/browser/home.spec.ts:3:1 › home chat prepares, runs, persists, and protects against duplicate execution (2.9s)
+  ✓  11 tests/browser/home.spec.ts:68:1 › Explore previews a workflow and installs a local copy without running it (539ms)
+  ✓  12 tests/browser/home.spec.ts:96:1 › portable skill and contribution export require review and download actual bundles (702ms)
+  ✓  13 tests/browser/input-request.spec.ts:26:1 › collects validated answers, saves a draft across reload, recovers through Activity and continues the same run (2.4s)
+  ✓  14 tests/browser/input-request.spec.ts:106:1 › server rejects invalid answers and concurrent submissions cannot execute twice; cancelled requests cannot resume (247ms)
+  ✓  15 tests/browser/input-request.spec.ts:168:1 › workflow authors can add and configure an input step without JSON (1.4s)
+  ✓  16 tests/browser/library.spec.ts:3:1 › Workflows opens the saved library, with search, explicit opening, and back navigation (677ms)
+  ✓  17 tests/browser/login.spec.ts:5:1 › Home CUA sign-in shows handoff, survives reload, and unlocks the workflow after confirmation (801ms)
+  ✓  18 tests/browser/login.spec.ts:71:1 › browser editor offers CUA and manual sign-in with recoverable CUA errors (464ms)
+  ✓  19 tests/browser/personas.spec.ts:10:1 › first-time user can edit a task and run it without writing JSON (503ms)
+  ✓  20 tests/browser/personas.spec.ts:39:1 › maintainer can configure website access and scoped credentials through Settings (667ms)
+  ✓  21 tests/browser/personas.spec.ts:80:1 › maintainer runs an authenticated GitHub-shaped read from Home (1.8s)
+  ✓  22 tests/browser/personas.spec.ts:119:1 › shopper can discover a browser starter and simulate without touching the shop (3.7s)
+  ✓  23 tests/browser/personas.spec.ts:151:1 › workflow designer can add a browser task and see its execution requirements (425ms)
+  ✓  24 tests/browser/personas.spec.ts:179:1 › advanced user gets actionable feedback for malformed JSON without launching a run (552ms)
+  ✓  25 tests/browser/personas.spec.ts:203:1 › blocked live run becomes ready after website setup without losing edited task fields (651ms)
+  ✓  26 tests/browser/personas.spec.ts:257:1 › user can follow page links and go back without reloading the workspace (489ms)
+  ✓  27 tests/browser/study.spec.ts:4:1 › refinement preserves edited task and marks previous output; a different task replaces it (2.2s)
+  ✓  28 tests/browser/study.spec.ts:59:1 › laptop preview keeps install and open actions visible, and repeated imports have distinct names (829ms)
+  ✓  29 tests/browser/website-access.spec.ts:39:1 › a blocked run can allow all websites, retry, and switch back to the allowlist (2.3s)
+  ✓  30 tests/browser/website-access.spec.ts:90:1 › Home can allow only the required website and immediately unblock its preview (762ms)
+  ✓  31 tests/browser/website-access.spec.ts:121:1 › saved-browser permission errors offer inline access and retry without opening Settings (611ms)
+  ✓  32 tests/browser/workspace-experience.spec.ts:18:1 › navigation collapses independently and persists; full-screen editing restores without losing input (853ms)
+  ✓  33 tests/browser/workspace-experience.spec.ts:95:1 › login handoff reaches Activity away from the inspector, chimes once, and navigates back to the right step (5.5s)
+  ✓  34 tests/browser/workspace-experience.spec.ts:209:1 › notification preferences are opt-in, persist, and handle a denied desktop permission (765ms)
+  ✓  35 tests/browser/workspace-experience.spec.ts:244:1 › raw browser failures become actionable errors without overflowing the inspector (509ms)
+  ✓  36 tests/browser/workspace-experience.spec.ts:278:1 › editor task fields support shopping lists without JSON (1.4s)
+  ✓  37 tests/browser/workspace.spec.ts:3:1 › research workflow runs both branches, writes artifacts, and persists edits (7.4s)
+  ✓  38 tests/browser/workspace.spec.ts:59:1 › adds and configures nodes, applies a copilot proposal, and cancels a run (1.6s)
+  ✓  39 tests/browser/workspace.spec.ts:89:1 › rejects cross-origin requests and malformed graphs (13ms)
+  ✓  40 tests/browser/workspace.spec.ts:102:1 › Jev inspector exposes typed questions and displays uncertainty (3.7s)
+  ✓  41 tests/browser/workspace.spec.ts:150:1 › undo and redo recover a deleted node without losing its connections (694ms)
+  ✓  42 tests/browser/workspace.spec.ts:170:1 › stopped runs resume from checkpoints and final output is readable (3.4s)
+  ✓  43 tests/browser/workspace.spec.ts:232:1 › provider settings save and verify credentials without storing secrets in browser preferences (563ms)
+  ✓  44 tests/browser/workspace.spec.ts:281:1 › retrying a possibly completed POST requires an explicit decision (1.5s)
+  ✓  45 tests/browser/workspace.spec.ts:321:1 › JSON emitted as text is presented as readable fields with a raw view (1.5s)
+
+  45 passed (1.2m)

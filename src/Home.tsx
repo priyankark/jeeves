@@ -58,6 +58,7 @@ export function Home({
   const [chats, setChats] = useState<ChatSession[]>([]);
   const [message, setMessage] = useState("");
   const [selected, setSelected] = useState("");
+  const [intent, setIntent] = useState<"refine" | "new">("refine");
   const suggestionNames = new Set<string>();
   const suggestions = workflows
     .filter((w) => w.nodes.length > 2)
@@ -88,7 +89,8 @@ export function Home({
   }, [run, publishRun]);
   const request = useRef<AbortController | null>(null),
     composer = useRef<HTMLTextAreaElement>(null),
-    end = useRef<HTMLDivElement>(null);
+    end = useRef<HTMLDivElement>(null),
+    preview = useRef<HTMLElement>(null);
   const refresh = async () => setChats(await api<ChatSession[]>("/chats"));
   const refreshAccess = async () => {
     if (session) setSession(await api<ChatSession>(`/chats/${session.id}`));
@@ -129,6 +131,7 @@ export function Home({
       setRun(null);
       return;
     }
+    setRun(null);
     let active = true;
     const poll = () =>
       api<Run>(`/runs/${id}`)
@@ -146,7 +149,18 @@ export function Home({
     };
   }, [session?.id, session?.runIds.length]);
   useEffect(() => {
-    end.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const target = session?.plan && !thinking ? preview.current : end.current;
+    const container = target?.closest<HTMLElement>(".home-page");
+    if (target && container && (session?.messages.length || thinking)) {
+      container.scrollTo({
+        top:
+          container.scrollTop +
+          target.getBoundingClientRect().top -
+          container.getBoundingClientRect().top -
+          16,
+        behavior: "smooth",
+      });
+    }
   }, [session?.messages.length, thinking]);
   async function send(text = message, workflowId = selected) {
     if (!text.trim() || thinking) return;
@@ -164,11 +178,16 @@ export function Home({
           mode,
           provider,
           model,
+          intent,
+          ...(session?.plan && intent === "refine"
+            ? { proposedInput: JSON.parse(input) }
+            : {}),
           ...(workflowId ? { workflowId } : {}),
         }),
       });
       setSession(next);
       setMessage("");
+      setIntent("refine");
       await refresh();
     } catch (e) {
       if (!controller.signal.aborted) setError((e as Error).message);
@@ -217,11 +236,16 @@ export function Home({
     setError("");
     setMessage("");
     setSelected("");
+    setIntent("refine");
     localStorage.removeItem("jeeves-chat");
     composer.current?.focus();
   };
   const activeRun = run?.status === "running",
     used = !!session?.executions?.[session.revision];
+  const previousRun =
+    !!run &&
+    !!session?.plan &&
+    session.executions?.[session.revision] !== run.id;
   return (
     <main className="home-page">
       <header className="home-top">
@@ -347,14 +371,18 @@ export function Home({
           </div>
         )}
         {session?.plan && (
-          <section className="chat-plan" aria-label="Workflow run preview">
+          <section
+            ref={preview}
+            className="chat-plan"
+            aria-label="Workflow run preview"
+          >
             <div className="plan-heading">
               <span className="plan-icon">
                 <WorkflowIcon size={21} />
               </span>
               <div>
                 <span className="eyebrow">
-                  {used ? "RUN PREPARED" : "READY FOR YOUR REVIEW"}
+                  {used ? "RUN STARTED" : "READY FOR YOUR REVIEW"}
                 </span>
                 <h2>{session.plan.workflow.name}</h2>
               </div>
@@ -467,14 +495,19 @@ export function Home({
                 )}
               </span>
               <div>
-                <span className="eyebrow">{run.mode.toUpperCase()} RUN</span>
+                <span className="eyebrow">
+                  {previousRun ? "PREVIOUS " : ""}
+                  {run.mode.toUpperCase()} RUN
+                </span>
                 <h2>
                   {activeRun
                     ? "Your workflow is working."
                     : run.status === "waiting"
                       ? "Your input is needed."
                       : run.status === "completed"
-                        ? "Your result is ready."
+                        ? previousRun
+                          ? "Result from the earlier task."
+                          : "Your result is ready."
                         : `Run ${run.status}.`}
                 </h2>
               </div>
@@ -495,6 +528,16 @@ export function Home({
                 </button>
               )}
             </div>
+            {previousRun && (
+              <p className="previous-run-note" role="status">
+                This run used an earlier version of your task. Your latest
+                changes have not been run yet.
+              </p>
+            )}
+            <details className="run-input-provenance">
+              <summary>Task used for this run</summary>
+              <pre>{JSON.stringify(run.input, null, 2)}</pre>
+            </details>
             <div className="run-progress" aria-label="Run progress">
               {executionOrder(run.workflow).map((n) => (
                 <span
@@ -547,6 +590,20 @@ export function Home({
           </section>
         )}
         <div ref={end} />
+        {session?.plan && (
+          <label className="chat-intent">
+            This message should
+            <select
+              aria-label="Message intent"
+              value={intent}
+              onChange={(e) => setIntent(e.target.value as "refine" | "new")}
+              disabled={thinking}
+            >
+              <option value="refine">Refine the current task</option>
+              <option value="new">Start a different task</option>
+            </select>
+          </label>
+        )}
         <form
           className="home-composer"
           aria-label="Chat with Jeeves"
@@ -566,7 +623,9 @@ export function Home({
             rows={3}
             placeholder={
               session
-                ? "Refine the task, or prepare another run…"
+                ? intent === "refine"
+                  ? "What would you like to change about this task?"
+                  : "Describe the new task…"
                 : "Try “Run Research to brief on local AI tools for small teams”"
             }
             disabled={thinking}

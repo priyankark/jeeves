@@ -1,0 +1,27 @@
+
+> jeeves@0.1.0 build
+> tsc --noEmit && vite build && node scripts/build-runtime.mjs
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 2413 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                              0.70 kB │ gzip:   0.38 kB
+dist/assets/manrope-vietnamese-wght-normal-usUDDRr7.woff2    8.52 kB
+dist/assets/manrope-greek-wght-normal-DL7QRZyv.woff2         9.44 kB
+dist/assets/manrope-cyrillic-wght-normal-Dvxsihut.woff2     14.50 kB
+dist/assets/manrope-latin-ext-wght-normal-Ch3YOpNY.woff2    15.12 kB
+dist/assets/dm-sans-latin-ext-wght-normal-BOFOeGcA.woff2    18.22 kB
+dist/assets/manrope-latin-wght-normal-DHIcAJRg.woff2        24.83 kB
+dist/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2        36.93 kB
+dist/assets/index-nubqb3NG.css                              85.03 kB │ gzip:  20.33 kB
+dist/assets/index-DWmkkFjZ.js                              814.98 kB │ gzip: 245.57 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 367ms
+Built standalone desktop engine and portable skill runner.

@@ -1,0 +1,36 @@
+[WebServer] (node:23835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 15 tests using 1 worker
+
+(node:23837) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/creation.spec.ts:5:1 › a long choice label does not block dragging its connection handle (673ms)
+  ✓   2 tests/browser/creation.spec.ts:58:1 › a new step is connected, and deleting an edge does not delete the previously selected node (738ms)
+  ✓   3 tests/browser/creation.spec.ts:94:1 › stopping copilot preserves the request and ignores a late proposal (481ms)
+(node:23858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/browser/creation.spec.ts:5:1 › a long choice label does not block dragging its connection handle (630ms)
+  ✓   5 tests/browser/creation.spec.ts:58:1 › a new step is connected, and deleting an edge does not delete the previously selected node (813ms)
+  ✓   6 tests/browser/creation.spec.ts:94:1 › stopping copilot preserves the request and ignores a late proposal (477ms)
+(node:23879) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 tests/browser/creation.spec.ts:5:1 › a long choice label does not block dragging its connection handle (692ms)
+  ✓   8 tests/browser/creation.spec.ts:58:1 › a new step is connected, and deleting an edge does not delete the previously selected node (721ms)
+  ✓   9 tests/browser/creation.spec.ts:94:1 › stopping copilot preserves the request and ignores a late proposal (464ms)
+(node:23902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 tests/browser/creation.spec.ts:5:1 › a long choice label does not block dragging its connection handle (676ms)
+  ✓  11 tests/browser/creation.spec.ts:58:1 › a new step is connected, and deleting an edge does not delete the previously selected node (735ms)
+  ✓  12 tests/browser/creation.spec.ts:94:1 › stopping copilot preserves the request and ignores a late proposal (503ms)
+(node:23922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 tests/browser/creation.spec.ts:5:1 › a long choice label does not block dragging its connection handle (679ms)
+  ✓  14 tests/browser/creation.spec.ts:58:1 › a new step is connected, and deleting an edge does not delete the previously selected node (732ms)
+  ✓  15 tests/browser/creation.spec.ts:94:1 › stopping copilot preserves the request and ignores a late proposal (465ms)
+
+  15 passed (14.1s)

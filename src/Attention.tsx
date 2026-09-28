@@ -283,6 +283,21 @@ export function AttentionProvider({ children }: { children: ReactNode }) {
     (run: Run) => {
       const previous = runStates.current.get(run.id);
       runStates.current.set(run.id, run.status);
+      if (run.resumedFrom) {
+        setNotices((items) =>
+          items.map((notice) =>
+            notice.runId === run.resumedFrom
+              ? {
+                  ...notice,
+                  urgent: false,
+                  read: true,
+                  title: "Run retried from saved progress",
+                }
+              : notice,
+          ),
+        );
+      }
+
       if (run.status === "waiting") {
         for (const [nodeId, state] of Object.entries(run.nodes)) {
           if (state.status !== "waiting" || !state.requestId) continue;

@@ -259,7 +259,7 @@ export function WorkflowMarket({
             role="dialog"
             aria-modal="true"
             aria-label="Workflow marketplace preview"
-            className="modal automation-modal"
+            className="modal automation-modal workflow-preview-modal"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-heading">
@@ -339,10 +339,17 @@ export function WorkflowMarket({
                   author to remove them.
                 </p>
               )}
+            </div>
+            <footer className="workflow-preview-actions">
+              {error && (
+                <p role="alert" className="automation-error">
+                  {error}
+                </p>
+              )}
               {installed ? (
                 <>
                   <p className="automation-notice" role="status">
-                    Added to your local library.
+                    Added to your local library as “{installed.name}”.
                   </p>
                   <button
                     className="primary-button"
@@ -381,7 +388,7 @@ export function WorkflowMarket({
                   Add to my library
                 </button>
               )}
-            </div>
+            </footer>
           </section>
         </div>
       )}

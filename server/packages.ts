@@ -19,7 +19,7 @@ import {
   actionToken,
   integrationSecrets,
 } from "./integrations";
-import { saveJson } from "./storage";
+import { saveJson, listJson } from "./storage";
 export const slugify = (name: string) =>
   name
     .toLowerCase()
@@ -267,7 +267,13 @@ export async function previewPackage(raw: unknown): Promise<PackagePreview> {
     bytes: Buffer.byteLength(JSON.stringify(p)),
   };
 }
-export async function importPackage(raw: unknown) {
+let importQueue: Promise<unknown> = Promise.resolve();
+export function importPackage(raw: unknown) {
+  const next = importQueue.catch(() => {}).then(() => installPackage(raw));
+  importQueue = next;
+  return next;
+}
+async function installPackage(raw: unknown) {
   const p = validatePackage(raw);
   const mapping = new Map(
     Object.keys(p.workflows).map((id) => [id, randomUUID()]),
@@ -301,6 +307,20 @@ export async function importPackage(raw: unknown) {
       },
     })),
   }));
+  const names = new Set(
+    (await listJson<Workflow>("workflows")).map((w) =>
+      w.name.toLocaleLowerCase(),
+    ),
+  );
+  for (const workflow of imported) {
+    const original = workflow.name;
+    let copy = 2;
+    while (names.has(workflow.name.toLocaleLowerCase())) {
+      const suffix = ` · copy ${copy++}`;
+      workflow.name = `${original.slice(0, 100 - suffix.length)}${suffix}`;
+    }
+    names.add(workflow.name.toLocaleLowerCase());
+  }
   // Install children before exposing the root in the library.
   for (const w of imported.filter((w) => w.id !== mapping.get(p.rootId)))
     await saveJson("workflows", w.id, w);
