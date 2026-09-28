@@ -16,6 +16,12 @@ const site = createServer((req, res) => {
     return;
   }
   res.setHeader("Content-Type", "text/html");
+  if (req.url === "/covered-center") {
+    res.end(
+      `<div style="position:relative;width:320px;height:260px"><a id="search" href="#product" style="display:block;width:320px;height:260px"><span style="position:absolute;bottom:15px;left:20px">Find prices</span></a><div style="position:absolute;inset:0 0 65px;background:white">Price box covering the link center</div></div><p id="result"></p><script>document.querySelector('#search').addEventListener('click',()=>{document.querySelector('#result').textContent='Prices found';fetch('/clicked')})</script>`,
+    );
+    return;
+  }
   res.end(`<h1>Changing store</h1><div id="controls"><button id="search">Find prices</button></div><p id="result"></p><script>
     document.addEventListener('click',e=>{if(e.target.id==='search'){document.querySelector('#result').textContent='Prices found';fetch('/clicked')}});
   </script>`);
@@ -27,7 +33,7 @@ beforeAll(async () => {
 });
 afterAll(() => new Promise<void>((resolve) => site.close(() => resolve())));
 afterEach(() => vi.restoreAllMocks());
-async function run(planner: BrowserPlanner, steps = 4) {
+async function run(planner: BrowserPlanner, steps = 4, pathname = "") {
   clicks = 0;
   const launch = chromium.launchPersistentContext.bind(chromium);
   vi.spyOn(chromium, "launchPersistentContext").mockImplementation(
@@ -39,7 +45,7 @@ async function run(planner: BrowserPlanner, steps = 4) {
   const events: string[] = [];
   const result = await runBrowserTask(
     makeNode("browser", "search", 0, 0, {
-      url: origin,
+      url: origin + pathname,
       browserMode: "interact",
       browserSteps: steps,
     }).data,
@@ -148,4 +154,24 @@ it("never repeats a dispatched action whose result could not be confirmed", asyn
   expect(result.output.actions).toEqual([
     { action: "click", target: 0, outcome: "unconfirmed" },
   ]);
+}, 20000);
+
+it("clicks exposed link text when a price box covers the center of a product card", async () => {
+  const { result, events } = await run(
+    async (observation, history) => {
+      if (history.length) {
+        expect(observation.text).toContain("Prices found");
+        return { action: "done", summary: "Opened the selected product." };
+      }
+      return {
+        action: "click",
+        target: observation.controls.find((c) => c.name === "Find prices")!.id,
+      };
+    },
+    2,
+    "/covered-center",
+  );
+  expect(result.output.needsReview).toBe(false);
+  expect(clicks).toBe(1);
+  expect(events.some((message) => message.includes("refreshing"))).toBe(false);
 }, 20000);

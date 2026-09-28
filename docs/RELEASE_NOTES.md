@@ -4,7 +4,8 @@ Start with **Try the example** to turn sample project notes into a weekly update
 
 ## More reliable browser control
 
-- When a retailer replaces or covers a control, Jeeves refreshes its page view and replans up to three times instead of failing with a locator timeout.
+- When a retailer replaces or covers a control, Jeeves refreshes its page view and replans up to three times per action instead of failing with a locator timeout.
+- Product links with partially covered click areas use an exposed, verified point on the selected link; clicks are never forced through overlays.
 - Recovery does not consume the configured action budget. Repeated instability pauses with a current screenshot and a clear next action.
 - If an action was dispatched but its result is uncertain, Jeeves pauses without repeating it.
 - Browser time limits scale with the configured step count, up to ten minutes, while Stop remains available.

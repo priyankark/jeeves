@@ -579,9 +579,63 @@ export async function runBrowserTask(
               throw new Error(
                 "Sign-in assistance only navigates. Enter account details yourself in the browser.",
               );
-            // Trial checks never click. A covering popup or detached control can be safely re-observed.
+            // Retailer links can span an entire card while price boxes cover their center.
+            // Hit-test visible text fragments so we click the selected control, never an overlay.
+            let position: { x: number; y: number } | undefined;
+            if (action.action === "click") {
+              await target.scrollIntoViewIfNeeded({ timeout: 1500 });
+              position = await target.evaluate((el) => {
+                const bounds = el.getBoundingClientRect();
+                const candidates: DOMRect[] = [];
+                const walker = document.createTreeWalker(
+                  el,
+                  NodeFilter.SHOW_TEXT,
+                );
+                for (
+                  let text = walker.nextNode(), count = 0;
+                  text && count < 100;
+                  text = walker.nextNode(), count++
+                ) {
+                  if (!text.textContent?.trim()) continue;
+                  const range = document.createRange();
+                  range.selectNodeContents(text);
+                  candidates.push(...range.getClientRects());
+                }
+                candidates.push(...el.getClientRects());
+                for (const rect of candidates) {
+                  const left = Math.max(0, rect.left),
+                    top = Math.max(0, rect.top);
+                  const right = Math.min(innerWidth, rect.right),
+                    bottom = Math.min(innerHeight, rect.bottom);
+                  if (right - left < 2 || bottom - top < 2) continue;
+                  for (const [horizontal, vertical] of [
+                    [0.5, 0.5],
+                    [0.2, 0.2],
+                    [0.8, 0.2],
+                    [0.2, 0.8],
+                    [0.8, 0.8],
+                  ]) {
+                    const x = left + (right - left) * horizontal,
+                      y = top + (bottom - top) * vertical;
+                    const hit = document.elementFromPoint(x, y);
+                    if (
+                      hit?.closest(
+                        'a,button,input,textarea,select,[role="button"],[role="link"]',
+                      ) === el
+                    )
+                      return {
+                        x: x - bounds.left - (el as HTMLElement).clientLeft,
+                        y: y - bounds.top - (el as HTMLElement).clientTop,
+                      };
+                  }
+                }
+                return undefined;
+              });
+              if (!position) throw new Error("JEEVES_PAGE_CHANGED");
+            }
+            // Trial checks never click. A genuine covering popup still requires a fresh observation.
             if (action.action === "click" || action.action === "check")
-              await target.click({ trial: true, timeout: 1500 });
+              await target.click({ trial: true, position, timeout: 1500 });
             if (action.action === "fill") {
               dispatched = true;
               await target.fill(action.text, { timeout: 2500 });
@@ -608,9 +662,10 @@ export async function runBrowserTask(
               await target.press(action.key, { timeout: 2500 });
             } else {
               dispatched = true;
-              await target.click({ timeout: 2500 });
+              await target.click({ position, timeout: 2500 });
             }
             notice = "";
+            refreshes = 0;
             emit(`Browser: ${action.action} ${control.name || control.role}`);
           } finally {
             await target.dispose().catch(() => {});
