@@ -2,6 +2,7 @@ import { packager } from "@electron/packager";
 import { mkdtemp, mkdir, cp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 const staging = await mkdtemp(path.join(tmpdir(), "jeeves-desktop-"));
 try {
   for (const dir of ["dist", "runtime", "electron", "marketplace"])
@@ -38,6 +39,18 @@ try {
     prune: false,
     asar: false,
   });
+  if (process.platform === "darwin") {
+    // Local ad-hoc signature keeps the modified ARM app bundle consistent.
+    // This is not Developer ID signing or notarization.
+    for (const output of paths)
+      execFileSync("codesign", [
+        "--force",
+        "--deep",
+        "--sign",
+        "-",
+        path.join(output, "Jeeves.app"),
+      ]);
+  }
   console.log("Packaged desktop:", paths.join(", "));
 } finally {
   await rm(staging, { recursive: true, force: true });

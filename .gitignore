@@ -10,4 +10,5 @@ playwright-report/
 
 runtime/
 release/
+release-assets/
 *.jeeves.json

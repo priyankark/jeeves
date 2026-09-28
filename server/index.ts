@@ -44,6 +44,7 @@ import {
   resolveSkills,
 } from "./skills";
 import "dotenv/config";
+import packageMetadata from "../package.json";
 import {
   loadConnections,
   saveConnection,
@@ -432,7 +433,7 @@ app.post("/api/chats/:id/run", async (req, res) => {
   res.status(201).json(run);
 });
 app.get("/api/status", (_req, res) =>
-  res.json({ providers: capabilities(), version: "0.1.0" }),
+  res.json({ providers: capabilities(), version: packageMetadata.version }),
 );
 app.put("/api/connections", async (req, res) =>
   res.json({ providers: await saveConnection(req.body) }),

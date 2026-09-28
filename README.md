@@ -10,6 +10,12 @@ Open the workflow to customize its steps. As your process grows, add decisions, 
 
 ## Run
 
+Desktop downloads are under [GitHub Releases](https://github.com/priyankark/jeeves/releases): Mac DMG (Apple Silicon or Intel), Windows x64 installer, and Linux x64 AppImage/DEB. The repository is private, so downloads require repository access. These are unsigned previews (Mac uses an ad-hoc signature, without notarization). Quit the previous Jeeves app before updating. No Node.js or npm installation is needed for desktop users.
+
+The **Desktop installers** GitHub Action builds and smoke-tests installers on version tags, then publishes the release only after all platforms and checksums pass. Manual runs on a branch produce downloadable Actions artifacts. See [release instructions](docs/RELEASING.md).
+
+### Run from source
+
 Requires Node.js 22+ and npm.
 
 ```sh

@@ -13,6 +13,8 @@ const {
 const { spawn } = require("node:child_process");
 const path = require("node:path");
 const { homedir } = require("node:os");
+if (process.env.JEEVES_USER_DATA_DIR)
+  app.setPath("userData", path.resolve(process.env.JEEVES_USER_DATA_DIR));
 const root = path.resolve(__dirname, "..");
 let backend;
 let tray;

@@ -1,7 +1,7 @@
 {
   "name": "jeeves",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.0-preview.1",
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n api,web \"tsx watch server/index.ts\" \"vite --host 127.0.0.1\"",
@@ -20,7 +20,9 @@
     "test:personas": "vitest run tests/simulated-users.test.ts tests/browser-depth.test.ts tests/http-pagination.test.ts && playwright test tests/browser/personas.spec.ts tests/browser/depth.spec.ts",
     "simulate:live": "node --import tsx scripts/simulate-live-users.ts",
     "pretest": "npm run build:runtime && node --check runtime/server.mjs",
-    "simulate:live:depth": "node --import tsx scripts/simulate-live-depth.ts"
+    "simulate:live:depth": "node --import tsx scripts/simulate-live-depth.ts",
+    "package:installer": "npm run package:desktop && node scripts/build-installers.mjs",
+    "test:packaged": "node scripts/test-packaged.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
@@ -50,6 +52,7 @@
     "@vitejs/plugin-react": "^6.1.1",
     "concurrently": "^10.0.5",
     "electron": "^44.4.5",
+    "electron-builder": "26.15.3",
     "esbuild": "^0.28.2",
     "prettier": "^3.9.9",
     "tsx": "^4.23.15",
@@ -63,5 +66,7 @@
   },
   "license": "MIT",
   "description": "Local-first workflow orchestration with chat, Jev decisions, and portable agent skills",
-  "main": "electron/main.cjs"
+  "main": "electron/main.cjs",
+  "homepage": "https://github.com/priyankark/jeeves",
+  "author": "Jeeves contributors"
 }
