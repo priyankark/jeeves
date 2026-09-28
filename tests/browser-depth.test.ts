@@ -238,3 +238,47 @@ it("failed run persists its last browser screenshot for Home and checkpoint insp
     generation.mockRestore();
   }
 }, 30000);
+
+it("manual browser handoff preserves the cart and releases the profile on explicit continuation", async () => {
+  const { openWorkflowBrowser, finishManualBrowser } =
+    await import("../server/browser");
+  const profile = id();
+  const manual = await openWorkflowBrowser(
+    profile,
+    fixture.origin + "/options",
+  );
+  try {
+    const page = manual.pages()[0];
+    await page
+      .getByRole("button", { name: "Add configured milk", exact: true })
+      .click();
+    await expect(
+      page.getByText("Cart: 1 bottles. Substitutions: true").isVisible(),
+    ).resolves.toBe(true);
+    expect(
+      await openWorkflowBrowser(profile, fixture.origin + "/options"),
+    ).toBe(manual);
+    const url = await finishManualBrowser(profile);
+    expect(url).toBe(fixture.origin + "/options");
+    await runBrowserTask(
+      data(),
+      {},
+      new AbortController().signal,
+      id(),
+      profile,
+      [],
+      () => {},
+      async (observation) => {
+        expect(observation.text).toContain(
+          "Cart: 1 bottles. Substitutions: true",
+        );
+        return {
+          action: "done",
+          summary: "The human's cart change is preserved.",
+        };
+      },
+    );
+  } finally {
+    await manual.close();
+  }
+}, 30000);

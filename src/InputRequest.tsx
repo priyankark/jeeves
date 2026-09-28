@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { MessageSquare, Plus, Trash2, Loader2 } from "lucide-react";
 import type { Run } from "../shared/schema";
 import {
+  browserReviewFields,
   inputFieldSchema,
   shoppingInputFields,
   validateAnswers,
   type InputField,
 } from "../shared/input-request";
+import { useAttention, chime } from "./Attention";
 import { api, ApiError } from "./api";
 
 export function InputFieldEditor({
@@ -180,6 +182,9 @@ function RequestForm({
 }) {
   const node = run.workflow.nodes.find((n) => n.id === nodeId)!;
   const state = run.nodes[nodeId];
+  const browserReview = node.data.kind === "browser";
+  const fields = browserReview ? browserReviewFields : node.data.inputFields;
+  const { preferences, setPreferences } = useAttention();
   const draftKey = `jeeves-answer:${run.id}:${state.requestId}`;
   const [values, setValues] = useState<Record<string, unknown>>(() => {
     try {
@@ -204,7 +209,7 @@ function RequestForm({
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (pending) return;
-    const checked = validateAnswers(node.data.inputFields, values);
+    const checked = validateAnswers(fields, values);
     setErrors(checked.errors);
     setError("");
     if (Object.keys(checked.errors).length) {
@@ -255,15 +260,51 @@ function RequestForm({
         </div>
       </div>
       <p>
-        {node.data.prompt ||
-          "Answer these questions so the workflow can continue."}
+        {browserReview
+          ? String(
+              (state.output as { summary?: string })?.summary ||
+                "Review the browser before continuing.",
+            )
+          : node.data.prompt ||
+            "Answer these questions so the workflow can continue."}
       </p>
       <p className="input-request-note">
-        Your progress is saved. You can leave and return to this request from
+        Paused until you submit. No later steps will run while Jeeves waits.
+        Your progress is saved, including if you close the app. Return from
         Activity.
       </p>
+      <label className="preference-toggle">
+        <input
+          type="checkbox"
+          checked={preferences.sound}
+          onChange={(e) => {
+            setPreferences({ ...preferences, sound: e.target.checked });
+            if (e.target.checked) void chime();
+          }}
+        />
+        Play a sound when Jeeves needs me
+      </label>
+      {browserReview && (
+        <button
+          type="button"
+          className="secondary-button"
+          disabled={pending}
+          onClick={async () => {
+            setError("");
+            try {
+              await api(`/runs/${run.id}/browser/${nodeId}/open`, {
+                method: "POST",
+              });
+            } catch (e) {
+              setError((e as Error).message);
+            }
+          }}
+        >
+          Open browser to take action
+        </button>
+      )}
       <fieldset disabled={pending}>
-        {node.data.inputFields.map((field) => {
+        {fields.map((field) => {
           const id = `answer-${run.id}-${nodeId}-${field.key}`;
           const common = {
             id,
@@ -399,7 +440,7 @@ export function RunInputRequests({
         .filter(
           (n) =>
             run.nodes[n.id]?.status === "waiting" &&
-            n.data.kind === "user-input",
+            ["user-input", "browser"].includes(n.data.kind),
         )
         .map((node) => (
           <RequestForm

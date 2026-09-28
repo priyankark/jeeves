@@ -123,8 +123,46 @@ describe("portable workflows and home chat", () => {
       );
       const report = JSON.parse(continued.stdout);
       expect(report.runId).toBe(waiting.runId);
-      expect(report.status).toBe("completed");
-      expect(report.results.output.summary).toContain("$4.00");
+      expect(report.status).toBe("waiting");
+      expect(report.inputRequests[0].nodeId).toBe(browser.id);
+      expect(report.inputRequests[0].message).toContain("$4.00");
+      expect(report.inputRequests[0].fields[0].options).toContain(
+        "Accept result and finish this step",
+      );
+      await writeFile(
+        answers,
+        JSON.stringify({
+          [browser.id]: { action: "Accept result and finish this step" },
+        }),
+      );
+      const accepted = await exec(
+        process.execPath,
+        [
+          path.join(root, slug, "scripts/run.cjs"),
+          "--resume",
+          report.checkpoint,
+          "--answers",
+          answers,
+          "--output",
+          path.join(root, "results"),
+        ],
+        {
+          cwd: root,
+          env: {
+            ...process.env,
+            LOCAL_MODEL: "fixture-model",
+            LOCAL_BASE_URL: fixture.origin + "/v1",
+            LOCAL_API_KEY: "",
+            ACTION_ALLOWED_ORIGINS: fixture.origin,
+          },
+          timeout: 30000,
+        },
+      );
+      const finished = JSON.parse(accepted.stdout);
+      expect(finished.status).toBe("completed");
+      expect(finished.runId).toBe(waiting.runId);
+      expect(finished.results.output.summary).toContain("$4.00");
+      expect(finished.results.output.reviewedByUser).toBe(true);
       expect(fixture.events.filter((e) => e.path === "/cart")).toHaveLength(1);
       expect(fixture.events.filter((e) => e.path === "/purchase")).toHaveLength(
         0,

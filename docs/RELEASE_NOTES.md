@@ -2,6 +2,13 @@ Jeeves desktop preview: turn repeat work into a workflow.
 
 Start with **Try the example** to turn sample project notes into a weekly update without an API key. Add your own notes and connect one AI service when ready. Inspect and edit the steps, collect input during a run, and reuse the process.
 
+## Waiting for you
+
+- Browser requests for login, missing information, or review now pause the run durably instead of reporting completion and running later steps.
+- Open the saved browser to take action, then explicitly continue the browser task or accept its result. Accepting a result never performs checkout.
+- Input forms include a sound toggle. Enabled alerts chime once per new request; reading an alert never resumes a run.
+- The marketplace grocery workflow now collects and validates the shopping list, budget, ZIP code, and preferences before opening the store.
+
 ## Choose your download
 
 | System | Download | Install |

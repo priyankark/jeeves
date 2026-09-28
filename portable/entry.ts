@@ -1,3 +1,4 @@
+import { browserReviewFields } from "../shared/input-request";
 import type { Run } from "../shared/schema";
 import path from "node:path";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
@@ -165,8 +166,11 @@ async function main() {
       .filter((n) => run.nodes[n.id].status === "waiting")
       .map((n) => ({
         nodeId: n.id,
-        message: n.data.prompt,
-        fields: n.data.inputFields,
+        message:
+          (run.nodes[n.id].output as { summary?: string } | undefined)
+            ?.summary || n.data.prompt,
+        fields:
+          n.data.kind === "browser" ? browserReviewFields : n.data.inputFields,
         values: run.nodes[n.id].inputDraft,
       })),
   };

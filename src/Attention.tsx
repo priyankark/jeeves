@@ -47,7 +47,7 @@ function stored<T>(key: string, fallback: T): T {
   }
 }
 let audio: AudioContext | undefined;
-async function chime() {
+export async function chime() {
   try {
     audio ||= new AudioContext();
     await audio.resume();
@@ -308,6 +308,7 @@ export function AttentionProvider({ children }: { children: ReactNode }) {
             id,
             title: "Your input is needed",
             body:
+              (state.output as { summary?: string } | undefined)?.summary ||
               run.workflow.nodes.find((n) => n.id === nodeId)?.data.prompt ||
               "Answer the questions to continue this run.",
             workflowId: run.workflowId,

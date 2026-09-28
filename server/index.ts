@@ -1,3 +1,4 @@
+import { finishManualBrowser } from "./browser";
 import {
   previewPackage,
   validatePackage,
@@ -482,6 +483,17 @@ app.post("/api/runs/:id/input/:nodeId", async (req, res) => {
         fieldErrors: result.errors,
       });
       return;
+    }
+    if (
+      run.workflow.nodes.find((n) => n.id === nodeId)?.data.kind === "browser"
+    ) {
+      const url = await finishManualBrowser(`${run.workflowId}-${nodeId}`);
+      if (url && run.nodes[nodeId].status === "pending") {
+        run.nodes[nodeId].output = {
+          ...(run.nodes[nodeId].output as Record<string, unknown>),
+          url,
+        };
+      }
     }
     if (Object.values(run.nodes).some((n) => n.status === "waiting")) {
       await saveJson("runs", run.id, run);

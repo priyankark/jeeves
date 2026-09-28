@@ -11,6 +11,7 @@ import { isOriginAllowed } from "./integrations";
 import { interpolate } from "./action-context";
 
 const busyProfiles = new Set<string>();
+const manualBrowsers = new Map<string, BrowserContext>();
 export function chromeInstalled() {
   const candidates =
     process.platform === "darwin"
@@ -159,8 +160,17 @@ async function launch(
 }
 export async function openWorkflowBrowser(profile: string, url: string) {
   checkBrowserURL(url);
+  const existing = manualBrowsers.get(profile);
+  if (existing) {
+    await existing.pages()[0]?.bringToFront();
+    return existing;
+  }
   const browser = await launch(profile, true);
-  browser.on("close", () => busyProfiles.delete(profile));
+  manualBrowsers.set(profile, browser);
+  browser.on("close", () => {
+    busyProfiles.delete(profile);
+    manualBrowsers.delete(profile);
+  });
   try {
     await (browser.pages()[0] || (await browser.newPage())).goto(url, {
       waitUntil: "domcontentloaded",
@@ -171,6 +181,16 @@ export async function openWorkflowBrowser(profile: string, url: string) {
     throw e;
   }
   return browser;
+}
+// Explicit submission hands control back to the agent and flushes saved sign-in cookies.
+export async function finishManualBrowser(
+  profile: string,
+): Promise<string | undefined> {
+  const browser = manualBrowsers.get(profile);
+  if (!browser) return;
+  const url = browser.pages()[0]?.url();
+  await browser.close();
+  return url;
 }
 async function observe(
   page: Page,

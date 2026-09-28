@@ -63,12 +63,12 @@
         "Browser",
         "Shopping"
       ],
-      "nodeCount": 3,
+      "nodeCount": 4,
       "providers": [
         "codex"
       ],
       "path": "marketplace/workflows/grocery-browser.json",
-      "sha256": "d8c7a588334b9841bac9c8b2d90d381dda991af3fefb6b51473e33ff1a5ec619"
+      "sha256": "671a3464a404b936fc3bd85b666ecd7ce01b5527366f18e8dcd72f7716ddf26e"
     },
     {
       "id": "meeting-notes-to-actions",

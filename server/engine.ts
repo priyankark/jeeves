@@ -1,4 +1,4 @@
-import { validateAnswers } from "../shared/input-request";
+import { browserReviewFields, validateAnswers } from "../shared/input-request";
 import { resolveSkills } from "./skills";
 import { randomUUID } from "node:crypto";
 import { sampleAgentOutput } from "./demo-output";
@@ -229,9 +229,19 @@ async function executeNode(
           needsReview: false,
         },
       };
+    const state = run.nodes[node.id];
+    const previousResult = state.output as { url?: string } | undefined;
     return runBrowserTask(
-      d,
-      context,
+      state.humanResponse && previousResult?.url
+        ? { ...d, url: previousResult.url }
+        : d,
+      state.humanResponse
+        ? {
+            ...context,
+            humanResponse: state.humanResponse,
+            previousBrowserResult: state.output,
+          }
+        : context,
       signal,
       `${run.id}-${node.id}`,
       `${run.workflowId}-${node.id}`,
@@ -333,6 +343,9 @@ export async function executeRun(
   stack: string[] = [run.workflowId],
   persist: (run: Run) => Promise<void> = (r) => saveJson("runs", r.id, r),
 ): Promise<void> {
+  // A worker retry must never skip a durable human gate.
+  if (Object.values(run.nodes).some((state) => state.status === "waiting"))
+    return;
   run.input = input;
   const concurrency = Math.max(
     1,
@@ -441,7 +454,18 @@ export async function executeRun(
               finishedAt: new Date().toISOString(),
               durationMs: Date.now() - Date.parse(state.startedAt!),
             });
-            emit(`${node.data.label} completed`, node.id);
+            if (
+              node.data.kind === "browser" &&
+              (result.output as { needsReview?: boolean })?.needsReview === true
+            ) {
+              state.status = "waiting";
+              state.requestId = randomUUID();
+              state.inputDraft = {};
+              delete state.finishedAt;
+              emit(`${node.data.label} is waiting for your action`, node.id);
+            } else {
+              emit(`${node.data.label} completed`, node.id);
+            }
             await checkpoint();
           } catch (error) {
             if (error instanceof BrowserTaskError) {
@@ -494,7 +518,7 @@ export function answerInput(
   values: unknown,
 ) {
   const node = run.workflow.nodes.find(
-    (n) => n.id === nodeId && n.data.kind === "user-input",
+    (n) => n.id === nodeId && ["user-input", "browser"].includes(n.data.kind),
   );
   const state = run.nodes[nodeId];
   if (
@@ -506,12 +530,29 @@ export function answerInput(
     throw new Error(
       "This input request is no longer waiting. Refresh the run to see its current state.",
     );
-  const result = validateAnswers(node.data.inputFields, values);
+  const result = validateAnswers(
+    node.data.kind === "browser" ? browserReviewFields : node.data.inputFields,
+    values,
+  );
   if (Object.keys(result.errors).length) return result;
   state.status = "completed";
-  state.output = result.answers;
+  if (node.data.kind === "browser") {
+    state.humanResponse = result.answers;
+    if (result.answers.action === "Continue browser task") {
+      state.status = "pending";
+    } else {
+      state.output = {
+        ...(state.output as Record<string, unknown>),
+        needsReview: false,
+        reviewedByUser: true,
+      };
+    }
+  } else {
+    state.output = result.answers;
+  }
   state.finishedAt = new Date().toISOString();
   delete state.inputDraft;
+  delete state.requestId;
   run.events.push({
     time: state.finishedAt,
     nodeId,

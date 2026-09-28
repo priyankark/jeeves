@@ -16,6 +16,7 @@
       "name": "Grocery cart preparation",
       "description": "Use a browser agent to compare groceries and prepare a cart within your constraints. Review the cart yourself; checkout is manual.",
       "skillIds": [],
+      "input": "{\n  \"task\": \"Prepare a grocery cart with oat milk and rolled oats. No nut products or substitutions. Keep the total under $15. Stop before checkout.\",\n  \"budget_usd\": 15,\n  \"grocery_list\": [],\n  \"delivery_zip\": \"\",\n  \"dietary_constraints\": [\n    \"No nut products\"\n  ],\n  \"substitutions\": false\n}",
       "nodes": [
         {
           "id": "input",
@@ -28,6 +29,17 @@
             "kind": "input",
             "label": "Workflow input",
             "description": "",
+            "inputFields": [
+              {
+                "key": "answer",
+                "label": "What should Jeeves know?",
+                "type": "longtext",
+                "required": true,
+                "help": "",
+                "options": [],
+                "format": ""
+              }
+            ],
             "prompt": "",
             "provider": "openai",
             "model": "",
@@ -39,6 +51,99 @@
             "method": "GET",
             "url": "",
             "body": "",
+            "paginate": false,
+            "maxPages": 5,
+            "authEnv": "",
+            "browserMode": "observe",
+            "browserSteps": 12,
+            "workflowId": "",
+            "decisionEngine": "jev",
+            "questionType": "noul",
+            "question": "Does the provided context contain enough specific, supported information to complete the task?",
+            "criteria": "{}",
+            "jevModel": "jev-latest",
+            "threshold": 0.8,
+            "failThreshold": 0.2,
+            "minConfidence": 0.7,
+            "scoreThreshold": 1.5,
+            "demoValue": 0.9,
+            "demoConfidence": 0.9,
+            "demoChoice": "pass",
+            "direction": "right"
+          }
+        },
+        {
+          "id": "shopping-details",
+          "type": "workflowNode",
+          "position": {
+            "x": 350,
+            "y": 140
+          },
+          "data": {
+            "kind": "user-input",
+            "label": "Your grocery trip",
+            "description": "",
+            "inputFields": [
+              {
+                "key": "grocery_list",
+                "label": "Groceries and quantities",
+                "type": "list",
+                "required": true,
+                "help": "One item per line, for example: 2 cartons of oat milk.",
+                "options": [],
+                "format": ""
+              },
+              {
+                "key": "budget_usd",
+                "label": "Maximum grocery subtotal ($)",
+                "type": "number",
+                "required": true,
+                "help": "Delivery fees, tips and taxes are reviewed at checkout.",
+                "options": [],
+                "min": 0.01,
+                "format": ""
+              },
+              {
+                "key": "delivery_zip",
+                "label": "Delivery ZIP code",
+                "type": "text",
+                "required": true,
+                "help": "Used to check availability in your area.",
+                "options": [],
+                "format": "us_zip"
+              },
+              {
+                "key": "dietary_constraints",
+                "label": "Dietary restrictions and allergies",
+                "type": "list",
+                "required": false,
+                "help": "One restriction per line. Leave blank if none.",
+                "options": [],
+                "format": ""
+              },
+              {
+                "key": "substitutions",
+                "label": "Allow suitable substitutions",
+                "type": "boolean",
+                "required": true,
+                "help": "",
+                "options": [],
+                "format": ""
+              }
+            ],
+            "prompt": "What should I shop for? Confirm your list and constraints before I open the store. I will stop before checkout.",
+            "provider": "openai",
+            "model": "",
+            "skillIds": [],
+            "field": "input.approved",
+            "operator": "equals",
+            "value": "true",
+            "filename": "handoff.md",
+            "method": "GET",
+            "url": "",
+            "body": "",
+            "paginate": false,
+            "maxPages": 5,
             "authEnv": "",
             "browserMode": "observe",
             "browserSteps": 12,
@@ -62,14 +167,25 @@
           "id": "shop",
           "type": "workflowNode",
           "position": {
-            "x": 350,
+            "x": 680,
             "y": 140
           },
           "data": {
             "kind": "browser",
             "label": "Prepare grocery cart",
             "description": "",
-            "prompt": "Read the shopping task and dietary/budget constraints. Find exact matching products, inspect prices and stock, and add only suitable items. Never substitute allergenic products. If a budget or constraint cannot be met, report the blocker. Summarize exact items, quantities, prices and total from the cart, then return review before checkout. Never place an order. The user must configure a real grocery website and sign in through Open workflow browser before running if needed.",
+            "inputFields": [
+              {
+                "key": "answer",
+                "label": "What should Jeeves know?",
+                "type": "longtext",
+                "required": true,
+                "help": "",
+                "options": [],
+                "format": ""
+              }
+            ],
+            "prompt": "Use the submitted shopping-details answers from connected context as the authoritative grocery list, budget_usd, delivery_zip, dietary_constraints and substitutions preference. These answers replace any earlier example task details. Find exact matching products, inspect prices and stock, and add only suitable items. Never substitute allergenic products. If a budget or constraint cannot be met, report the blocker. Summarize exact items, quantities, prices and total from the cart, then return review before checkout. Never place an order. The user must configure a real grocery website and sign in through Open workflow browser before running if needed.",
             "provider": "codex",
             "model": "",
             "skillIds": [],
@@ -80,6 +196,8 @@
             "method": "GET",
             "url": "https://groceries.example",
             "body": "",
+            "paginate": false,
+            "maxPages": 5,
             "authEnv": "",
             "browserMode": "interact",
             "browserSteps": 12,
@@ -103,13 +221,24 @@
           "id": "output",
           "type": "workflowNode",
           "position": {
-            "x": 700,
+            "x": 1010,
             "y": 140
           },
           "data": {
             "kind": "output",
             "label": "Review prepared cart",
             "description": "",
+            "inputFields": [
+              {
+                "key": "answer",
+                "label": "What should Jeeves know?",
+                "type": "longtext",
+                "required": true,
+                "help": "",
+                "options": [],
+                "format": ""
+              }
+            ],
             "prompt": "",
             "provider": "openai",
             "model": "",
@@ -121,6 +250,8 @@
             "method": "GET",
             "url": "",
             "body": "",
+            "paginate": false,
+            "maxPages": 5,
             "authEnv": "",
             "browserMode": "observe",
             "browserSteps": 12,
@@ -143,8 +274,13 @@
       ],
       "edges": [
         {
-          "id": "shop-1",
+          "id": "shop-input",
           "source": "input",
+          "target": "shopping-details"
+        },
+        {
+          "id": "shop-1",
+          "source": "shopping-details",
           "target": "shop"
         },
         {
@@ -152,8 +288,7 @@
           "source": "shop",
           "target": "output"
         }
-      ],
-      "input": "{\n  \"task\": \"Prepare a grocery cart with oat milk and rolled oats. No nut products or substitutions. Keep the total under $15. Stop before checkout.\",\n  \"budget\": 15,\n  \"dietary_constraints\": \"No nut products. Do not substitute unavailable items.\"\n}"
+      ]
     }
   },
   "skills": []

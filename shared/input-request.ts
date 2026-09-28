@@ -26,6 +26,22 @@ export const defaultInputFields = [
     type: "longtext",
   }),
 ];
+export const browserReviewFields: InputField[] = [
+  inputFieldSchema.parse({
+    key: "action",
+    label: "What should Jeeves do next?",
+    type: "choice",
+    options: ["Continue browser task", "Accept result and finish this step"],
+    help: "Continue only after resolving the blocker. Accepting the result does not perform checkout or any other browser action.",
+  }),
+  inputFieldSchema.parse({
+    key: "notes",
+    label: "Instructions for continuing",
+    type: "longtext",
+    required: false,
+    help: "Add missing details or explain what you changed. Complete sign-in in the browser; never enter passwords or payment details here.",
+  }),
+];
 export const shoppingInputFields: InputField[] = [
   {
     key: "grocery_list",

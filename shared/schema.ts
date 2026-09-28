@@ -115,6 +115,7 @@ export type NodeResult = {
   reusedFrom?: string;
   requestId?: string;
   inputDraft?: Record<string, unknown>;
+  humanResponse?: Record<string, unknown>;
 };
 export type Run = {
   id: string;
