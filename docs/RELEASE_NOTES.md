@@ -14,6 +14,7 @@ Start with **Try the example** to turn sample project notes into a weekly update
 
 ## Waiting for you
 
+- Browser findings and input prompts now render paragraphs, lists, headings, and tables. Long findings can be collapsed, and bare source URLs have compact labels with their full destination available on hover.
 - Browser requests for login, missing information, or review now pause the run durably instead of reporting completion and running later steps.
 - Open the saved browser to take action, then explicitly continue the browser task or accept its result. Accepting a result never performs checkout.
 - Input forms include a sound toggle. Enabled alerts chime once per new request; reading an alert never resumes a run.

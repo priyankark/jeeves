@@ -2157,6 +2157,15 @@ label textarea {
 .markdown-output > :last-child {
   margin-bottom: 0;
 }
+.markdown-output p {
+  white-space: pre-line;
+}
+.markdown-output li + li {
+  margin-top: 0.75em;
+}
+.markdown-output a {
+  text-underline-offset: 3px;
+}
 .markdown-output h1,
 .markdown-output h2,
 .markdown-output h3 {
@@ -4490,6 +4499,49 @@ body,
 }
 .input-request-form > p {
   line-height: 1.6;
+}
+.request-findings {
+  margin: 18px 0;
+  border: 1px solid #e7ddc8;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+.request-findings > summary {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  color: #435c33;
+}
+.request-findings[open] > summary {
+  border-bottom: 1px solid #eee7da;
+}
+.input-request-form .request-copy {
+  font-size: 14px;
+  line-height: 1.75;
+  max-height: min(28rem, 55vh);
+  padding: 16px;
+  scrollbar-gutter: stable;
+}
+.input-request-form > .request-copy {
+  padding: 16px 0;
+}
+.request-copy p {
+  margin: 0 0 1.2em;
+}
+.request-copy li {
+  padding-left: 4px;
+}
+.request-copy a {
+  font-weight: 550;
+}
+.request-copy table {
+  font-size: 13px;
+}
+.request-copy:focus-visible {
+  outline: 2px solid #80541d;
+  outline-offset: -3px;
 }
 .input-request-note {
   color: #69745f;

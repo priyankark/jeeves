@@ -3,16 +3,32 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Check, Copy, Download, Code2, FileText } from "lucide-react";
 import { download } from "./api";
-function ReadableText({ text }: { text: string }) {
+export function ReadableText({
+  text,
+  compactLinks = false,
+}: {
+  text: string;
+  compactLinks?: boolean;
+}) {
   return (
     <Markdown
       remarkPlugins={[remarkGfm]}
       components={{
-        a: ({ children, href }) => (
-          <a href={href} target="_blank" rel="noreferrer">
-            {children}
-          </a>
-        ),
+        a: ({ children, href }) => {
+          const bareUrl =
+            compactLinks && typeof children === "string" && children === href;
+          let label = children;
+          if (bareUrl && href && /^https?:\/\//i.test(href)) {
+            try {
+              label = `View source · ${new URL(href).hostname.replace(/^www\./, "")}`;
+            } catch {}
+          }
+          return (
+            <a href={href} title={href} target="_blank" rel="noreferrer">
+              {label}
+            </a>
+          );
+        },
         img: ({ alt }) => (
           <span className="output-image-placeholder">
             [Image: {alt || "external image"}]
@@ -142,6 +158,7 @@ export function ResultView({
           </strong>
           <div className="markdown-output">
             <ReadableText
+              compactLinks
               text={String((content as Record<string, unknown>).summary || "")}
             />
           </div>

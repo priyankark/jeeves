@@ -10,6 +10,7 @@ import {
 } from "../shared/input-request";
 import { useAttention, chime } from "./Attention";
 import { api, ApiError } from "./api";
+import { ReadableText } from "./ResultView";
 
 export function InputFieldEditor({
   fields,
@@ -259,15 +260,34 @@ function RequestForm({
           <h3>{node.data.label}</h3>
         </div>
       </div>
-      <p>
-        {browserReview
-          ? String(
-              (state.output as { summary?: string })?.summary ||
-                "Review the browser before continuing.",
-            )
-          : node.data.prompt ||
-            "Answer these questions so the workflow can continue."}
-      </p>
+      {browserReview ? (
+        <details className="request-findings" open>
+          <summary>Browser findings</summary>
+          <div
+            className="markdown-output request-copy"
+            role="region"
+            aria-label="Browser findings"
+            tabIndex={0}
+          >
+            <ReadableText
+              compactLinks
+              text={String(
+                (state.output as { summary?: string })?.summary ||
+                  "Review the browser before continuing.",
+              )}
+            />
+          </div>
+        </details>
+      ) : (
+        <div className="markdown-output request-copy">
+          <ReadableText
+            text={
+              node.data.prompt ||
+              "Answer these questions so the workflow can continue."
+            }
+          />
+        </div>
+      )}
       <p className="input-request-note">
         Paused until you submit. No later steps will run while Jeeves waits.
         Your progress is saved, including if you close the app. Return from
