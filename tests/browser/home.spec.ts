@@ -7,7 +7,7 @@ test("home chat prepares, runs, persists, and protects against duplicate executi
   await request.put(`/api/workflows/${blank.id}`, { data: blank });
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: /What would you like/ }),
+    page.getByRole("heading", { name: "Turn repeat work into a workflow." }),
   ).toBeVisible();
   await page.getByLabel("Choose workflow for chat").selectOption(blank.id);
   await page

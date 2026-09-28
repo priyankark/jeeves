@@ -4,25 +4,25 @@ Prepared September 27, 2026. Primary audience: developers and AI power users who
 
 ## The message
 
-**Campaign line:** Good work. In good order.
+**Campaign line:** Turn repeat work into a workflow.
 
-**Product descriptor:** Local-first workflows for your AI agents.
+**Product descriptor:** Reusable AI workflows, on your desktop.
 
-**Supporting line:** Give each agent a job. Connect the steps. Keep a workflow you can run again.
+**Supporting line:** Get a useful result. See the steps. Run the process again with new input.
 
-**Short bio:** Jeeves is a local-first desktop app for building and running agent workflows—with chat, visible decisions, scheduling, and portable skills.
+**Short bio:** Jeeves turns recurring AI work into workflows you can inspect, adjust, and reuse. Start with project notes and get a weekly update ready to review.
 
 **One sentence:** Jeeves turns repeatable work into visible workflows of focused agents, decisions, and handoffs that you can run from chat, schedule, or export as skills.
 
 **30-second introduction:**
 
-Jeeves is a desktop app for the work you keep doing with AI agents. Give each agent a focused job, connect the steps in a visual workflow, and use Jev to route decisions. Start a run from chat, inspect what happened, and schedule it for next time. When a workflow is useful, export it as a skill for a compatible harness. Your workspace stays on your computer, and you bring the providers and credentials you want to use.
+Every week, you turn scattered project notes into an update. Jeeves gives that task a repeatable process: draft from your notes, check the draft against those notes, and return text you can review and copy. Start with a labeled example without connecting AI; use one AI connection for your own notes. Inspect or change the steps, then use the workflow again next week. Your workspace stays on your computer; cloud AI services receive task context.
 
 ## Short social posts
 
 Each numbered post stands alone. Add a real demo or landing-page URL only once one exists. Do not link to the private repository for a general audience.
 
-1. Introducing a preview of Jeeves: local-first workflows for your AI agents. Start in chat, connect focused steps, and export a useful workflow as a portable skill. Good work. In good order.
+1. I’m building Jeeves to turn repeat AI work into a workflow you can keep. The first example takes project notes through drafting and checking to a weekly update. Try a labeled sample, then bring your own notes and AI connection. I’m looking for feedback on that first-use experience.
 
 2. Give each agent a job. Give decisions a route. Keep the workflow for next time. That’s the idea behind Jeeves, a local-first desktop app I’m building for repeatable agent work.
 
@@ -72,11 +72,11 @@ I’d like feedback from people already doing recurring work with agents: what w
 
 **Name:** Jeeves
 
-**Tagline:** Local-first workflows for your AI agents
+**Tagline:** Turn repeat work into a workflow
 
 **Description:**
 
-Give each agent a job. Connect the steps. Run from chat, schedule repeat work, and export a workflow as a portable skill. Jeeves brings focused agents, Jev decisions, handoffs, and installed skills into a local desktop workspace. Bring your own providers; no Jeeves account is required.
+Turn recurring AI work into a process you can inspect and reuse. Start with notes to a weekly update: draft, check, and review the result. Try a labeled sample without keys, then connect AI for your own input. Customize the steps, schedule future runs, or export a portable skill. Local-first; no Jeeves account required.
 
 **Maker comment:**
 

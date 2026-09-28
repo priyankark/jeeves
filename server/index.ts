@@ -8,7 +8,14 @@ import {
   slugify,
 } from "./packages";
 import { workflowCatalog, marketplacePackage } from "./workflow-market";
-import { chatInput, chatLock, readChat, deleteChat, planChat } from "./chat";
+import {
+  chatInput,
+  chatLock,
+  readChat,
+  deleteChat,
+  planChat,
+  applyChatConnection,
+} from "./chat";
 import type { ChatSession } from "../shared/packages";
 import { idSchema } from "../shared/schema";
 import {
@@ -377,6 +384,14 @@ app.post("/api/chat", async (req, res) => {
     ),
   );
 });
+app.post("/api/chats/:id/connection", async (req, res) => {
+  idSchema.parse(req.params.id);
+  res.json(
+    await chatLock(req.params.id, () =>
+      applyChatConnection(req.params.id, req.body),
+    ),
+  );
+});
 app.post("/api/chats/:id/run", async (req, res) => {
   idSchema.parse(req.params.id);
   const body = z
@@ -444,11 +459,9 @@ app.post("/api/runs/:id/input/:nodeId", async (req, res) => {
     })
     .parse(req.body);
   if (answering.has(id) || active.has(id)) {
-    res
-      .status(409)
-      .json({
-        error: "This run is already continuing. Refresh to see its progress.",
-      });
+    res.status(409).json({
+      error: "This run is already continuing. Refresh to see its progress.",
+    });
     return;
   }
   answering.add(id);
@@ -463,12 +476,10 @@ app.post("/api/runs/:id/input/:nodeId", async (req, res) => {
       return;
     }
     if (Object.keys(result.errors).length) {
-      res
-        .status(400)
-        .json({
-          error: "Check the highlighted answers.",
-          fieldErrors: result.errors,
-        });
+      res.status(400).json({
+        error: "Check the highlighted answers.",
+        fieldErrors: result.errors,
+      });
       return;
     }
     if (Object.values(run.nodes).some((n) => n.status === "waiting")) {
@@ -609,11 +620,9 @@ app.post("/api/runs/:id/browser/:nodeId/open", async (req, res) => {
 app.post("/api/runs/:id/cancel", async (req, res) => {
   const id = idSchema.parse(req.params.id);
   if (answering.has(id)) {
-    res
-      .status(409)
-      .json({
-        error: "Your answers are being saved. Try stopping again in a moment.",
-      });
+    res.status(409).json({
+      error: "Your answers are being saved. Try stopping again in a moment.",
+    });
     return;
   }
   const task = active.get(id);

@@ -50,9 +50,11 @@ const catalog: { id: ConnectionProvider; name: string; description: string }[] =
 export function Connections({
   providers,
   onChange,
+  allowed,
 }: {
   providers: Providers;
   onChange: (providers: Providers) => void;
+  allowed?: ConnectionProvider[];
 }) {
   const [expanded, setExpanded] = useState<ConnectionProvider | null>(null),
     [key, setKey] = useState(""),
@@ -117,154 +119,156 @@ export function Connections({
           {error}
         </p>
       )}
-      {catalog.map((p) => (
-        <div className="connection-card" key={p.id}>
-          <div className="connection-card-top">
-            <span className={`connection-symbol ${p.id}`}>
-              {p.id === "typesafe" ? (
-                "∵"
-              ) : p.id === "codex" ? (
-                ">_"
-              ) : (
-                <PlugZap size={18} />
-              )}
-            </span>
-            <div>
-              <strong>{p.name}</strong>
-              <p>{p.description}</p>
+      {catalog
+        .filter((p) => !allowed || allowed.includes(p.id))
+        .map((p) => (
+          <div className="connection-card" key={p.id}>
+            <div className="connection-card-top">
+              <span className={`connection-symbol ${p.id}`}>
+                {p.id === "typesafe" ? (
+                  "∵"
+                ) : p.id === "codex" ? (
+                  ">_"
+                ) : (
+                  <PlugZap size={18} />
+                )}
+              </span>
+              <div>
+                <strong>{p.name}</strong>
+                <p>{p.description}</p>
+              </div>
+              <span
+                className={`connection-badge ${results[p.id]?.ok || providers[p.id] ? "connected" : ""}`}
+              >
+                {results[p.id]
+                  ? results[p.id]!.ok
+                    ? "Verified"
+                    : "Check failed"
+                  : providers[p.id]
+                    ? "Configured"
+                    : "Not connected"}
+              </span>
             </div>
-            <span
-              className={`connection-badge ${results[p.id]?.ok || providers[p.id] ? "connected" : ""}`}
-            >
-              {results[p.id]
-                ? results[p.id]!.ok
-                  ? "Verified"
-                  : "Check failed"
-                : providers[p.id]
-                  ? "Configured"
-                  : "Not connected"}
-            </span>
-          </div>
-          {results[p.id] && (
-            <div
-              className={`connection-check ${results[p.id]!.ok ? "ok" : "failed"}`}
-            >
-              {results[p.id]!.ok && <Check size={12} />}
-              <span>{results[p.id]!.detail}</span>
-              {results[p.id]!.ok && (
-                <small>{results[p.id]!.latencyMs} ms</small>
-              )}
-            </div>
-          )}
-          <div className="connection-card-actions">
-            <button
-              className="text-link"
-              disabled={busy !== null}
-              onClick={() => {
-                setExpanded(expanded === p.id ? null : p.id);
-                setKey("");
-                setModel(
-                  p.id === "typesafe" ? "jev-latest" : providers.models[p.id],
-                );
-                setError("");
-              }}
-            >
-              {providers[p.id]
-                ? "Configure"
-                : p.id === "codex"
-                  ? "Use CLI login"
-                  : "Connect"}
-            </button>
-            {providers[p.id] && (
+            {results[p.id] && (
+              <div
+                className={`connection-check ${results[p.id]!.ok ? "ok" : "failed"}`}
+              >
+                {results[p.id]!.ok && <Check size={12} />}
+                <span>{results[p.id]!.detail}</span>
+                {results[p.id]!.ok && (
+                  <small>{results[p.id]!.latencyMs} ms</small>
+                )}
+              </div>
+            )}
+            <div className="connection-card-actions">
               <button
                 className="text-link"
                 disabled={busy !== null}
-                onClick={() => check(p.id)}
+                onClick={() => {
+                  setExpanded(expanded === p.id ? null : p.id);
+                  setKey("");
+                  setModel(
+                    p.id === "typesafe" ? "jev-latest" : providers.models[p.id],
+                  );
+                  setError("");
+                }}
               >
-                {busy === p.id ? (
-                  <Loader2 className="spin" size={12} />
-                ) : (
-                  <Check size={12} />
-                )}
-                Test connection
+                {providers[p.id]
+                  ? "Configure"
+                  : p.id === "codex"
+                    ? "Use CLI login"
+                    : "Connect"}
               </button>
+              {providers[p.id] && (
+                <button
+                  className="text-link"
+                  disabled={busy !== null}
+                  onClick={() => check(p.id)}
+                >
+                  {busy === p.id ? (
+                    <Loader2 className="spin" size={12} />
+                  ) : (
+                    <Check size={12} />
+                  )}
+                  Test connection
+                </button>
+              )}
+            </div>
+            {expanded === p.id && (
+              <form
+                className="connection-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  save(p.id);
+                }}
+              >
+                {p.id !== "codex" && (
+                  <label>
+                    {p.id === "local" ? "API key (optional)" : "API key"}
+                    <input
+                      aria-label={`${p.name} API key`}
+                      type="password"
+                      autoComplete="off"
+                      spellCheck={false}
+                      placeholder={
+                        providers[p.id]
+                          ? "Leave blank to keep the saved key"
+                          : "Paste your API key"
+                      }
+                      value={key}
+                      onChange={(e) => setKey(e.target.value)}
+                    />
+                  </label>
+                )}
+                {p.id === "local" && (
+                  <label>
+                    Server endpoint
+                    <input
+                      type="url"
+                      value={baseURL}
+                      onChange={(e) => setBaseURL(e.target.value)}
+                    />
+                  </label>
+                )}
+                <label>
+                  Default model
+                  <input
+                    value={model}
+                    onChange={(e) => setModel(e.target.value)}
+                    placeholder={
+                      p.id === "codex"
+                        ? "Use your account default"
+                        : "Exact model ID"
+                    }
+                  />
+                </label>
+                {p.id === "codex" && (
+                  <p className="connection-hint">
+                    Uses the Codex installation and account on this computer. No
+                    API key is needed.
+                  </p>
+                )}
+                <button
+                  className="primary-button"
+                  disabled={
+                    busy !== null ||
+                    (!providers[p.id] &&
+                      !key &&
+                      p.id !== "codex" &&
+                      p.id !== "local")
+                  }
+                >
+                  {busy === p.id ? (
+                    <Loader2 className="spin" size={13} />
+                  ) : (
+                    <KeyRound size={13} />
+                  )}
+                  Save and verify
+                </button>
+              </form>
             )}
           </div>
-          {expanded === p.id && (
-            <form
-              className="connection-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                save(p.id);
-              }}
-            >
-              {p.id !== "codex" && (
-                <label>
-                  {p.id === "local" ? "API key (optional)" : "API key"}
-                  <input
-                    aria-label={`${p.name} API key`}
-                    type="password"
-                    autoComplete="off"
-                    spellCheck={false}
-                    placeholder={
-                      providers[p.id]
-                        ? "Leave blank to keep the saved key"
-                        : "Paste your API key"
-                    }
-                    value={key}
-                    onChange={(e) => setKey(e.target.value)}
-                  />
-                </label>
-              )}
-              {p.id === "local" && (
-                <label>
-                  Server endpoint
-                  <input
-                    type="url"
-                    value={baseURL}
-                    onChange={(e) => setBaseURL(e.target.value)}
-                  />
-                </label>
-              )}
-              <label>
-                Default model
-                <input
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  placeholder={
-                    p.id === "codex"
-                      ? "Use your account default"
-                      : "Exact model ID"
-                  }
-                />
-              </label>
-              {p.id === "codex" && (
-                <p className="connection-hint">
-                  Uses the Codex installation and account on this computer. No
-                  API key is needed.
-                </p>
-              )}
-              <button
-                className="primary-button"
-                disabled={
-                  busy !== null ||
-                  (!providers[p.id] &&
-                    !key &&
-                    p.id !== "codex" &&
-                    p.id !== "local")
-                }
-              >
-                {busy === p.id ? (
-                  <Loader2 className="spin" size={13} />
-                ) : (
-                  <KeyRound size={13} />
-                )}
-                Save and verify
-              </button>
-            </form>
-          )}
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

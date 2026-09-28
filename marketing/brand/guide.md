@@ -4,7 +4,7 @@
 
 Editorial, assured, and useful. The campaign uses the existing abstract Jeeves mark and the visual restraint of the established omnibus-cover direction: solid colour, strong typography, clear geometry, generous space. Avoid literal butlers, top hats, monocles, service bells, cartoon assistants, and ornamental “British” jokes.
 
-**Campaign line:** Good work. In good order.
+**Campaign line:** Turn repeat work into a workflow.
 
 **Product descriptor:** Local-first workflows for your AI agents.
 

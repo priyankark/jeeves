@@ -85,7 +85,13 @@ export function TaskInput({
               ) : (
                 <textarea
                   aria-label={`Task input: ${key}`}
-                  rows={key === "task" ? 3 : 1}
+                  rows={
+                    key === "notes"
+                      ? 5
+                      : key === "task" || String(item).includes("\n")
+                        ? 3
+                        : 1
+                  }
                   value={String(item)}
                   disabled={disabled}
                   onChange={(e) => update(key, e.target.value)}

@@ -1,4 +1,5 @@
 import { shoppingInputFields } from "./input-request";
+import { weeklyUpdate } from "./first-workflow";
 import { makeNode, type Workflow } from "./schema";
 export const starter: Workflow = {
   id: "research-brief",
@@ -206,4 +207,10 @@ export const groceryCart: Workflow = {
     { id: "shop-2", source: "shop", target: "output" },
   ],
 };
-export const templates = [starter, review, githubTriage, groceryCart];
+export const templates = [
+  starter,
+  review,
+  githubTriage,
+  groceryCart,
+  weeklyUpdate,
+];

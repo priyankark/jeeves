@@ -1,8 +1,10 @@
 # Jeeves
 
-A local-first, MIT-licensed desktop app for running focused agents through explicit workflows. Start in chat, inspect the graph, schedule repeat work, and take your workflows to another harness as portable skills. No Jeeves account is required.
+Turn repeat work into a workflow. Jeeves is a local-first, MIT-licensed desktop app for people who use AI for recurring work and want a process they can inspect, adjust, and run again. No Jeeves account is required.
 
-The app includes a chat home screen, React Flow editor, Jev decisions, multi-provider agents, nested workflows, handoff files, checkpoint recovery, scheduling, skill installation, and a file-based community marketplace. Provider accounts are only needed for providers you choose; Demo mode and local workflow management work without them.
+Start with **Notes to weekly update**: review project notes, draft an update, check it against the notes, and get text ready to copy. Home offers a labeled sample without API keys. Choose **Use my own notes**, connect one AI service, and apply it to both writing steps from the same screen. You review the result before sharing; Jeeves does not send it for you.
+
+Open the workflow to customize its steps. As your process grows, add decisions, input requests, handoffs, and recovery; schedule repeat runs or export it as a portable skill. Demo mode and local workflow management work without provider accounts. Live generation uses the provider you configure.
 
 ![Jeeves chat home](docs/jeeves-abstract-home.png)
 
@@ -17,7 +19,7 @@ npm install
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. Home opens in chat. Choose **Research to brief**, describe the task, review the proposed input, and select **Run demo**. Demo mode uses explicit simulated model answers while exercising real branching, execution traces, persistence, and Markdown handoffs. No keys or external model requests are needed. Fonts are bundled locally.
+Open http://127.0.0.1:5173. On Home, choose **Try the example**, review the project notes, and select **Run demo**. The weekly-update example shows a curated, explicitly labeled sample result while exercising the real workflow engine and run history. It does not call AI. Changing the notes or instructions falls back to simulation details; use Live for an answer to your own task. Fonts are bundled locally.
 
 For a desktop window with an engine that starts automatically:
 

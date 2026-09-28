@@ -1,6 +1,7 @@
 import { validateAnswers } from "../shared/input-request";
 import { resolveSkills } from "./skills";
 import { randomUUID } from "node:crypto";
+import { sampleAgentOutput } from "./demo-output";
 import { decide } from "./jev";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -186,17 +187,19 @@ async function executeNode(
   if (d.kind === "agent") {
     if (run.mode === "demo") {
       return {
-        output: `[Demo · ${d.label}]\n\nTask: ${asText(context.input)}\n\nInstructions: ${d.prompt || "Complete this focused task."}\n\nAssigned skills: ${
-          (run.skillSnapshots || [])
-            .filter((s) =>
-              [
-                ...(run.workflow.skillIds || []),
-                ...(d.skillIds || []),
-              ].includes(s.id),
-            )
-            .map((s) => s.name)
-            .join(", ") || "None"
-        }\n\nConnected context received from: ${Object.keys(context.parents).join(", ") || "workflow input"}.\n\nThis is a simulated agent response. In Live mode, the selected provider receives these instructions and this connected context. No model was called.`,
+        output:
+          sampleAgentOutput(d.prompt, context.input, run.workflow) ??
+          `[Demo · ${d.label}]\n\nTask: ${asText(context.input)}\n\nInstructions: ${d.prompt || "Complete this focused task."}\n\nAssigned skills: ${
+            (run.skillSnapshots || [])
+              .filter((s) =>
+                [
+                  ...(run.workflow.skillIds || []),
+                  ...(d.skillIds || []),
+                ].includes(s.id),
+              )
+              .map((s) => s.name)
+              .join(", ") || "None"
+          }\n\nConnected context received from: ${Object.keys(context.parents).join(", ") || "workflow input"}.\n\nThis is a simulated agent response. In Live mode, the selected provider receives these instructions and this connected context. No model was called.`,
       };
     }
     return {

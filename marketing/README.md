@@ -21,7 +21,7 @@ Open **index.html** for the visual overview. This folder is a self-contained, of
 
 ## Audience and status
 
-Primary audience: developers and AI power users. Campaign line: **Good work. In good order.** The page, deck, and graphics use product-preview language because public distribution has not been announced and the source repository is private. The deck is a product introduction, not an investor deck: there are no invented market figures, traction metrics, testimonials, or financial projections.
+Primary audience: developers and AI power users. Campaign line: **Turn repeat work into a workflow.** The page, deck, and graphics use product-preview language because public distribution has not been announced and the source repository is private. The deck is a product introduction, not an investor deck: there are no invented market figures, traction metrics, testimonials, or financial projections.
 
 The actual product screenshots were captured in a separate temporary Demo workspace, with synthetic examples and no provider credentials. The landing page's interactive routing diagram is an illustration of documented live test cases; it does not call a model. Current verified desktop platform: macOS Apple Silicon.
 

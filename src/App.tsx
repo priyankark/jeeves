@@ -1117,6 +1117,8 @@ export default function App() {
             model={copilotModel}
             connected={!!providers[copilotProvider]}
             connectionVersion={JSON.stringify(providers)}
+            providers={providers}
+            onProviders={setProviders}
             onEdit={(w) => void chooseWorkflow(w)}
             onExplore={() => setPage("explore")}
             onNew={() => newWorkflow()}

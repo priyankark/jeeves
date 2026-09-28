@@ -13,6 +13,7 @@ import { snapshotWorkflowTree } from "./engine";
 import { requirements } from "./packages";
 import { generate, capabilities, dataDir } from "./providers";
 import { readJson, listJson, saveJson } from "./storage";
+import { weeklyUpdate } from "../shared/first-workflow";
 export const chatInput = z.object({
   id: idSchema,
   message: z.string().trim().min(1).max(10000),
@@ -22,6 +23,8 @@ export const chatInput = z.object({
   workflowId: idSchema.optional(),
   intent: z.enum(["refine", "new"]).default("refine"),
   proposedInput: z.unknown().optional(),
+  templateId: z.literal("weekly-update").optional(),
+  taskInput: z.unknown().optional(),
 });
 export const chatLocks = new Map<string, Promise<unknown>>();
 export function chatLock<T>(id: string, fn: () => Promise<T>): Promise<T> {
@@ -83,19 +86,32 @@ export async function planChat(
   const workflows = (await listJson<Workflow>("workflows")).map((w) =>
     workflowSchema.parse(w),
   );
+  // A preview may be a new template or use connections chosen for this chat.
+  // Keep that version available to the assistant until the user saves it.
+  if (session.plan) {
+    const index = workflows.findIndex(
+      (w) => w.id === session.plan!.workflow.id,
+    );
+    if (index < 0) workflows.push(session.plan.workflow);
+    else if (!body.workflowId && body.intent === "refine")
+      workflows[index] = session.plan.workflow;
+  }
   const matches = matchWorkflows(body.message, workflows);
   const uniqueMatch =
     matches.length > 0 &&
     (matches.length === 1 || matches[0].score > matches[1].score);
-  let chosen = body.workflowId
-    ? workflows.find((w) => w.id === body.workflowId)
-    : body.intent === "refine" && session.plan
-      ? workflows.find((w) => w.id === session.plan!.workflow.id)
-      : uniqueMatch
-        ? matches[0].workflow
-        : matches.length === 0
-          ? session.plan?.workflow
-          : undefined;
+  let chosen = body.templateId
+    ? { ...structuredClone(weeklyUpdate), id: randomUUID() }
+    : body.workflowId
+      ? workflows.find((w) => w.id === body.workflowId)
+      : (body.intent === "refine" || body.taskInput !== undefined) &&
+          session.plan
+        ? session.plan.workflow
+        : uniqueMatch
+          ? matches[0].workflow
+          : matches.length === 0
+            ? session.plan?.workflow
+            : undefined;
   if (body.workflowId && !chosen)
     throw new Error("That workflow is no longer in your library.");
   if (
@@ -111,6 +127,13 @@ export async function planChat(
     explicitInput = JSON.parse(body.message);
     hasExplicitInput = true;
   } catch {}
+  if (body.templateId || body.taskInput !== undefined) {
+    explicitInput =
+      body.taskInput !== undefined
+        ? body.taskInput
+        : JSON.parse(weeklyUpdate.input);
+    hasExplicitInput = true;
+  }
   let source: "local" | "model" = "local",
     reply = "";
   const history = [
@@ -203,7 +226,10 @@ export async function planChat(
       : "Choose a workflow below, or describe a task using its name. You can also build a new workflow in the editor or install one from Explore.";
   let plan: ChatPlan | undefined;
   if (chosen) {
-    const snapshots = await snapshotWorkflowTree(chosen);
+    const snapshots =
+      session.plan?.workflow === chosen
+        ? structuredClone(session.plan.workflowSnapshots)
+        : await snapshotWorkflowTree(chosen);
     plan = {
       workflow: chosen,
       workflowSnapshots: snapshots,
@@ -229,5 +255,52 @@ export async function planChat(
     ].slice(-100),
   };
   await saveJson("chats", session.id, session);
+  return session;
+}
+
+export const chatConnectionInput = z.object({
+  revision: z.string(),
+  provider: providerSchema,
+  model: z.string().max(120).default(""),
+  input: z.unknown(),
+});
+
+export async function applyChatConnection(
+  id: string,
+  raw: unknown,
+): Promise<ChatSession> {
+  const body = chatConnectionInput.parse(raw);
+  const session = await readChat(id);
+  if (!session.plan || session.revision !== body.revision)
+    throw new Error(
+      "This proposal changed. Review the latest plan before choosing a connection.",
+    );
+  if (!capabilities()[body.provider])
+    throw new Error(
+      "Connect this AI service before applying it to your workflow.",
+    );
+  const snapshots = structuredClone(session.plan.workflowSnapshots);
+  let count = 0;
+  for (const workflow of Object.values(snapshots))
+    for (const node of workflow.nodes)
+      if (node.data.kind === "agent") {
+        node.data.provider = body.provider;
+        node.data.model = body.model;
+        count++;
+      }
+  if (!count)
+    throw new Error(
+      "This workflow has no writing or analysis steps to update.",
+    );
+  session.plan = {
+    ...session.plan,
+    workflow: snapshots[session.plan.workflow.id],
+    workflowSnapshots: snapshots,
+    requirements: requirements(snapshots),
+    input: body.input,
+  };
+  session.revision = randomUUID();
+  session.updatedAt = new Date().toISOString();
+  await saveJson("chats", id, session);
   return session;
 }

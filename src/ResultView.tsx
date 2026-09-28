@@ -87,7 +87,7 @@ export function ResultView({
   return (
     <div className="result-view">
       <div className="result-toolbar">
-        <span>{isText ? "Generated output" : "Structured output"}</span>
+        <span>{isText ? "Workflow output" : "Structured output"}</span>
         <button
           title={raw ? "Read output" : "View source"}
           aria-label={raw ? "Read output" : "View output source"}

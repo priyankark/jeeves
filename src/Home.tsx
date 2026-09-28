@@ -26,6 +26,9 @@ import { executionOrder } from "../shared/graph-edit";
 import { WebsiteAccess } from "./WebsiteAccess";
 import { useAttention } from "./Attention";
 import { FriendlyError } from "./FriendlyError";
+import { weeklyDraftPrompt } from "../shared/first-workflow";
+import { WorkflowConnection, providerNames } from "./WorkflowConnection";
+import type { Providers } from "./Connections";
 export function Home({
   workflows,
   mode,
@@ -34,6 +37,8 @@ export function Home({
   model,
   connected,
   connectionVersion,
+  providers,
+  onProviders,
   onEdit,
   onExplore,
   onNew,
@@ -47,6 +52,8 @@ export function Home({
   model: string;
   connected: boolean;
   connectionVersion: string;
+  providers: Providers;
+  onProviders: (providers: Providers) => void;
   onEdit: (w: Workflow) => void;
   onExplore: () => void;
   onNew: () => void;
@@ -88,6 +95,8 @@ export function Home({
     if (run) publishRun(run);
   }, [run, publishRun]);
   const request = useRef<AbortController | null>(null),
+    home = useRef<HTMLElement>(null),
+    firstExample = useRef<HTMLButtonElement>(null),
     composer = useRef<HTMLTextAreaElement>(null),
     end = useRef<HTMLDivElement>(null),
     preview = useRef<HTMLElement>(null);
@@ -114,10 +123,32 @@ export function Home({
     };
   }, []);
   useEffect(() => {
+    let active = true;
     if (session?.plan)
       void api<ChatSession>(`/chats/${session.id}`)
-        .then(setSession)
-        .catch((e) => setError(e.message));
+        .then((fresh) => {
+          if (active)
+            setSession((current) =>
+              current?.id === fresh.id &&
+              current.revision === fresh.revision &&
+              current.plan &&
+              fresh.plan
+                ? {
+                    ...current,
+                    plan: {
+                      ...current.plan,
+                      requirements: fresh.plan.requirements,
+                    },
+                  }
+                : current,
+            );
+        })
+        .catch((e) => {
+          if (active) setError(e.message);
+        });
+    return () => {
+      active = false;
+    };
   }, [connectionVersion]);
   useEffect(() => {
     if (session) {
@@ -162,7 +193,16 @@ export function Home({
       });
     }
   }, [session?.messages.length, thinking]);
-  async function send(text = message, workflowId = selected) {
+  async function send(
+    text = message,
+    workflowId = selected,
+    options: {
+      templateId?: "weekly-update";
+      mode?: "demo" | "live";
+      intent?: "refine" | "new";
+      taskInput?: unknown;
+    } = {},
+  ) {
     if (!text.trim() || thinking) return;
     setError("");
     setThinking(true);
@@ -175,14 +215,15 @@ export function Home({
         body: JSON.stringify({
           id: session?.id || crypto.randomUUID(),
           message: text,
-          mode,
+          mode: options.mode ?? mode,
           provider,
           model,
-          intent,
-          ...(session?.plan && intent === "refine"
+          intent: options.intent ?? intent,
+          ...(session?.plan && (options.intent ?? intent) === "refine"
             ? { proposedInput: JSON.parse(input) }
             : {}),
           ...(workflowId ? { workflowId } : {}),
+          ...options,
         }),
       });
       setSession(next);
@@ -238,7 +279,10 @@ export function Home({
     setSelected("");
     setIntent("refine");
     localStorage.removeItem("jeeves-chat");
-    composer.current?.focus();
+    requestAnimationFrame(() => {
+      home.current?.scrollTo({ top: 0, behavior: "instant" });
+      firstExample.current?.focus({ preventScroll: true });
+    });
   };
   const activeRun = run?.status === "running",
     used = !!session?.executions?.[session.revision];
@@ -246,8 +290,46 @@ export function Home({
     !!run &&
     !!session?.plan &&
     session.executions?.[session.revision] !== run.id;
+  const isWeeklyUpdate = session?.plan?.workflow.nodes.some(
+    (n) => n.data.prompt === weeklyDraftPrompt,
+  );
+  const demoOutputs =
+    run?.workflow.nodes.filter(
+      (n) => n.data.kind === "output" && run.nodes[n.id].status === "completed",
+    ) || [];
+  const genericSimulation =
+    run?.mode === "demo" &&
+    demoOutputs.some(
+      (n) =>
+        typeof run.nodes[n.id].output === "string" &&
+        String(run.nodes[n.id].output).startsWith("[Demo ·"),
+    );
+  const hasBrowserSteps =
+    session?.plan &&
+    Object.values(session.plan.workflowSnapshots).some((w) =>
+      w.nodes.some((n) => n.data.kind === "browser"),
+    );
+  const handledByConnectionPicker = (missing: string) =>
+    !hasBrowserSteps &&
+    /^(openai|openrouter|local|codex) (connection|model)$/.test(missing);
+  const agentConnectionMissing = session?.plan?.requirements.missing.some(
+    handledByConnectionPicker,
+  );
+  const otherRequirements =
+    session?.plan?.requirements.missing.filter(
+      (m) => !handledByConnectionPicker(m),
+    ) || [];
+  let needsNotes = false;
+  if (isWeeklyUpdate && mode === "live") {
+    try {
+      const value = JSON.parse(input);
+      needsNotes = typeof value.notes !== "string" || !value.notes.trim();
+    } catch {
+      needsNotes = true;
+    }
+  }
   return (
-    <main className="home-page">
+    <main ref={home} className="home-page">
       <header className="home-top">
         <div>
           <span className="eyebrow">YOUR LOCAL WORKSPACE</span>
@@ -290,11 +372,11 @@ export function Home({
             <div className="hero-mark">
               <WorkflowIcon size={30} />
             </div>
-            <span className="eyebrow">A LITTLE DIRECTION. A LOT DONE.</span>
-            <h1>What would you like to set in motion?</h1>
+            <span className="eyebrow">REPEATABLE WORK. VISIBLE STEPS.</span>
+            <h1>Turn repeat work into a workflow.</h1>
             <p>
-              Describe your task. Jeeves helps you choose a workflow, shape its
-              input, and follow the work through.
+              Start with a useful result. See how it was made, adjust the steps,
+              and run the same process again with new input.
             </p>
             <div className="home-assurances">
               <span>
@@ -303,6 +385,54 @@ export function Home({
               </span>
               <span>No Jeeves account</span>
               <span>You control each run</span>
+            </div>
+          </section>
+        )}
+        {!session && (
+          <section className="first-workflow" aria-label="Your first workflow">
+            <div className="first-workflow-copy">
+              <span className="eyebrow">TRY IT WITHOUT CONNECTING AI</span>
+              <h2>Messy notes. A clear weekly update.</h2>
+              <p>
+                Follow a short example from project notes to a checked draft you
+                can copy. Then try your own notes.
+              </p>
+              <ol className="first-workflow-steps">
+                <li>Review notes</li>
+                <li>Draft & check</li>
+                <li>Get your update</li>
+              </ol>
+              <button
+                ref={firstExample}
+                className="primary-button"
+                disabled={thinking}
+                onClick={() => {
+                  onMode("demo");
+                  void send("Show me the weekly update example", "", {
+                    templateId: "weekly-update",
+                    mode: "demo",
+                    intent: "new",
+                  });
+                }}
+              >
+                <Play size={15} /> Try the example
+              </button>
+              <small>
+                Sample notes and result · no account or API key needed
+              </small>
+            </div>
+            <div
+              className="first-workflow-preview"
+              aria-label="Example output preview"
+            >
+              <span className="eyebrow">WHAT YOU’LL GET · SAMPLE</span>
+              <strong>Customer portal · weekly update</strong>
+              <h3>Progress</h3>
+              <p>Shipped the sign-in page. Fixed mobile navigation.</p>
+              <h3>Blockers</h3>
+              <p>Waiting for vendor sandbox access.</p>
+              <h3>Next week</h3>
+              <p>Test billing. Invite five pilot customers.</p>
             </div>
           </section>
         )}
@@ -391,15 +521,44 @@ export function Home({
               </button>
             </div>
             <p>{session.plan.workflow.description}</p>
-            <div className="plan-facts">
-              <span>{session.plan.workflow.nodes.length} steps</span>
-              <span>
-                {session.plan.requirements.providers.join(" · ") ||
-                  "No model required"}
-              </span>
-              <span>
-                {session.plan.requirements.skills.length} assigned skills
-              </span>
+            <details className="plan-technical-details">
+              <summary>
+                How this workflow works · {session.plan.workflow.nodes.length}{" "}
+                steps
+              </summary>
+              <ol>
+                {executionOrder(session.plan.workflow).map((n) => (
+                  <li key={n.id}>{n.data.label}</li>
+                ))}
+              </ol>
+              <p>
+                AI services:{" "}
+                {session.plan.requirements.providers
+                  .map((p) => providerNames[p] || p)
+                  .join(" · ") || "None required"}
+              </p>
+              {session.plan.requirements.skills.length > 0 && (
+                <p>{session.plan.requirements.skills.length} assigned skills</p>
+              )}
+            </details>
+            <div className="plan-mode">
+              <label>
+                Run mode
+                <select
+                  aria-label="Preview run mode"
+                  value={mode}
+                  disabled={used || starting || thinking}
+                  onChange={(e) => onMode(e.target.value as "demo" | "live")}
+                >
+                  <option value="demo">Demo — no AI calls</option>
+                  <option value="live">Live — use connected AI</option>
+                </select>
+              </label>
+              <p>
+                {mode === "demo"
+                  ? "Try the process without using an AI service. Demo results are simulated."
+                  : "Use your input to generate a new result. Review it before sharing."}
+              </p>
             </div>
             <details open={!used}>
               <summary>Review task input</summary>
@@ -412,6 +571,35 @@ export function Home({
                 disabled={used || starting}
               />
             </details>
+            {isWeeklyUpdate && mode === "demo" && (
+              <p className="sample-disclosure">
+                The included notes have a prepared sample result. To generate an
+                update from different notes, choose Live and connect one AI
+                service.
+              </p>
+            )}
+            {needsNotes && !used && (
+              <p className="sample-disclosure">
+                Add your project notes above before starting. Include what
+                changed, what is blocked, and what comes next.
+              </p>
+            )}
+            {mode === "live" && (
+              <WorkflowConnection
+                session={session}
+                input={input}
+                providers={providers}
+                onProviders={onProviders}
+                onChange={setSession}
+                disabled={
+                  used ||
+                  starting ||
+                  thinking ||
+                  activeRun ||
+                  run?.status === "waiting"
+                }
+              />
+            )}
             {session.plan.workflow.nodes
               .filter((n) => n.data.kind === "browser")
               .map((n) => (
@@ -442,8 +630,10 @@ export function Home({
             {mode === "live" &&
               session.plan.requirements.missing.length > 0 && (
                 <div className="home-error">
-                  Connect before running live:{" "}
-                  {session.plan.requirements.missing.join(", ")}.
+                  {agentConnectionMissing &&
+                    "Choose and apply an AI connection above to enable this run. "}
+                  {otherRequirements.length > 0 &&
+                    `Still needed: ${otherRequirements.join(", ")}.`}
                   {session.plan.requirements.missing.map((missing) => (
                     <WebsiteAccess
                       key={missing}
@@ -451,7 +641,9 @@ export function Home({
                       onGranted={refreshAccess}
                     />
                   ))}
-                  <button onClick={onSettings}>Open settings</button>
+                  {otherRequirements.length > 0 && (
+                    <button onClick={onSettings}>Open settings</button>
+                  )}
                 </div>
               )}
             <div className="plan-footer">
@@ -464,6 +656,7 @@ export function Home({
                 className="primary-button"
                 disabled={
                   starting ||
+                  needsNotes ||
                   Object.values(signingIn).some(Boolean) ||
                   used ||
                   thinking ||
@@ -573,20 +766,69 @@ export function Home({
               </button>
             )}
             <BrowserSessions run={run} />
-            {run.status === "completed" &&
-              run.workflow.nodes
-                .filter(
-                  (n) =>
-                    n.data.kind === "output" &&
-                    run.nodes[n.id].status === "completed",
-                )
-                .map((n) => (
+            {run.status === "completed" && genericSimulation && (
+              <p className="sample-disclosure">
+                The workflow completed a simulation. No AI generated an answer
+                to your task. Choose Live to get a result from your own input.
+              </p>
+            )}
+            {run.status === "completed" && (
+              <details className="completed-output" open={!genericSimulation}>
+                <summary>
+                  {genericSimulation
+                    ? "Simulation details"
+                    : "Read your result"}
+                </summary>
+                {demoOutputs.map((n) => (
                   <ResultView
                     key={n.id}
                     name={n.id}
                     value={run.nodes[n.id].output}
                   />
                 ))}
+              </details>
+            )}
+            {run.status === "completed" && !previousRun && (
+              <div className="result-next-step">
+                <div>
+                  <strong>
+                    {isWeeklyUpdate && run.mode === "demo"
+                      ? "Ready to try your own notes?"
+                      : "Keep the process. Change the input."}
+                  </strong>
+                  <p>
+                    {isWeeklyUpdate && run.mode === "demo"
+                      ? "Use the same draft-and-check workflow with one AI connection."
+                      : "Prepare another run without rebuilding your workflow."}
+                  </p>
+                </div>
+                <button
+                  className="primary-button"
+                  disabled={thinking}
+                  onClick={() => {
+                    const nextMode = isWeeklyUpdate ? "live" : mode;
+                    onMode(nextMode);
+                    void send(
+                      isWeeklyUpdate
+                        ? "Prepare an update from my own notes"
+                        : "Prepare another run",
+                      "",
+                      {
+                        mode: nextMode,
+                        intent: "new",
+                        taskInput: isWeeklyUpdate
+                          ? { project: "", notes: "" }
+                          : JSON.parse(input),
+                      },
+                    );
+                  }}
+                >
+                  {isWeeklyUpdate
+                    ? "Use my own notes"
+                    : "Run again with new input"}
+                </button>
+              </div>
+            )}
           </section>
         )}
         <div ref={end} />
@@ -626,7 +868,7 @@ export function Home({
                 ? intent === "refine"
                   ? "What would you like to change about this task?"
                   : "Describe the new task…"
-                : "Try “Run Research to brief on local AI tools for small teams”"
+                : "Or describe work you want to repeat…"
             }
             disabled={thinking}
             onKeyDown={(e) => {
