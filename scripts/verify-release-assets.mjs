@@ -7,8 +7,8 @@ const expected = [
   "mac-arm64.dmg",
   "mac-x64.dmg",
   "win-x64.exe",
-  "linux-x64.AppImage",
-  "linux-x64.deb",
+  "linux-x86_64.AppImage",
+  "linux-amd64.deb",
 ].map((suffix) => `Jeeves-${version}-${suffix}`);
 const names = await readdir("release-assets");
 assert.deepEqual(

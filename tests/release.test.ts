@@ -35,8 +35,8 @@ it("rejects missing platform installers and modified downloads before publicatio
     "mac-arm64.dmg",
     "mac-x64.dmg",
     "win-x64.exe",
-    "linux-x64.AppImage",
-    "linux-x64.deb",
+    "linux-x86_64.AppImage",
+    "linux-amd64.deb",
   ].map((suffix) => `Jeeves-0.1.0-preview.1-${suffix}`);
   const bytes = Buffer.alloc(1_000_001, 42);
   const hash = createHash("sha256").update(bytes).digest("hex");

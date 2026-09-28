@@ -9,8 +9,8 @@ Start with **Try the example** to turn sample project notes into a weekly update
 | Mac with Apple Silicon (M-series) | `mac-arm64.dmg` | Open the disk image and drag Jeeves to Applications |
 | Mac with Intel | `mac-x64.dmg` | Open the disk image and drag Jeeves to Applications |
 | Windows x64 | `win-x64.exe` | Run the installer; installation is per user |
-| Linux x64 (Debian/Ubuntu) | `linux-x64.deb` | Install with your package manager |
-| Linux x64 (portable) | `linux-x64.AppImage` | Make executable and run; some systems require FUSE |
+| Linux x64 (Debian/Ubuntu) | `linux-amd64.deb` | Install with your package manager |
+| Linux x64 (portable) | `linux-x86_64.AppImage` | Make executable and run; some systems require FUSE |
 
 Node.js and npm are bundled/not required for desktop use. Browser workflows additionally need Google Chrome. Live AI services require their own credentials or a configured local model.
 
