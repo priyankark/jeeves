@@ -5,9 +5,9 @@
 [![Checks](https://github.com/priyankark/jeeves/actions/workflows/ci.yml/badge.svg)](https://github.com/priyankark/jeeves/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-526a43)](LICENSE)
 
-**Even a clever model could use a butler.**
+**Put Jev to work in everyday workflows.**
 
-What ho! Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, supplies the judgment. Agents tackle the writing, research, and browser work. Jeeves keeps the steps in order and asks when a matter needs your attention.
+Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, chooses what happens next. Agents handle the writing, research, and browser work. Jeeves connects the steps and waits when it needs your answer.
 
 For example, Jev can decide whether a request describes an outage, a small fix, or something that needs more detail. Jeeves sends it to the right agent or asks you a question. You can inspect the decision and reuse the workflow with the next request.
 

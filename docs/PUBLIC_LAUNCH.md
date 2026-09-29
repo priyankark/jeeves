@@ -1,6 +1,6 @@
 # Public launch readiness
 
-Status: public desktop preview. Source, installers, the landing page, the YouTube demo, and the Reddit announcement are public. Product Hunt is submitted and scheduled for October 1, 2026 at 12:01 a.m. Pacific.
+Status: public desktop preview. Source, installers, the landing page, and the YouTube demo are public. Product Hunt is submitted and scheduled for October 1, 2026 at 12:01 a.m. Pacific. Reddit publication is pending from the maker's specified account, u/yottamind.
 
 ## Ready to review
 
@@ -10,7 +10,7 @@ Status: public desktop preview. Source, installers, the landing page, the YouTub
 - Downloadable [launch kit](https://getjeeves.app/media/jeeves-launch-kit.zip) with verified media, copy, and file hashes.
 - Product Hunt copy and media map: [listing copy](../marketing/copy/product-hunt.md).
 - Submitted [Product Hunt listing](https://www.producthunt.com/products/jeeves-3?launch=jeeves-6), with **Scheduled** confirmed in its pre-launch dashboard. It is not yet on the daily leaderboard.
-- Reddit: [published r/SideProject post](https://www.reddit.com/r/SideProject/comments/1wtes5p/i_made_jev_a_butler_its_called_jeeves_and_its/) from u/DoughnutUpper. Full post and author verified while signed out on September 29, 2026. [Source copy](../marketing/copy/reddit-sideproject.md).
+- Reddit: [prepared copy](../marketing/copy/reddit-sideproject.md) for u/yottamind. The earlier post from a different account was deleted. Verify the exact signed-in username before replacement publication.
 - Apache 2.0 [license](../LICENSE), [notice](../NOTICE), and [contribution guide](../CONTRIBUTING.md).
 - First-run welcome with a sample without keys, optional connection setup, verification, skip, and return.
 
@@ -35,13 +35,13 @@ The downloaded app was copied into a clean test location and launched with a fre
 1. Recheck signed-out access to source, license, installers, checksums, and the catalog on launch day. Keep preview and signing limitations visible.
 2. Product Hunt is scheduled from Priyankar Kumar's maker account, with the source link, Free pricing, Productivity/Open Source/Artificial Intelligence tags, thumbnail, social card, five product screenshots, and maker comment. The September 30 slot required a separate feature-building challenge, so the first standard slot, October 1, was selected. Edit the existing launch instead of submitting another one.
 3. The published YouTube demo is attached to Product Hunt. The MP4 also works on the website and GitHub. The revised Jev introduction is live on the website, in GitHub, and in the video's title and description. [Source checks](https://github.com/priyankark/jeeves/actions/runs/36594689933) and live layout, interaction, media, download-link, and kit checks passed.
-4. The r/SideProject post is published and publicly accessible. Reply to questions and collect first-run reports in that thread. Do not repost the same announcement or post AI-authored copy to r/opensource, whose rules prohibit it.
+4. Publish to r/SideProject only from u/yottamind after confirming the account. Then verify signed-out access and record the permalink. Do not post AI-authored copy to r/opensource, whose rules prohibit it.
 
 ## Readiness judgment
 
 Ready for a public preview and early-user feedback. Known friction remains: an unsigned Windows installer, manual updates, provider access, and retailer pages that can change. Describe those plainly. Do not present the app as a finished autonomous shopping service or claim validation by users we have not studied.
 
-Lead with the Jev angle: “Jev needs Jeeves. Even a clever model could use a butler.” Explain that Jev is TypeSafe's decision model, then show its answers becoming routes to agents or a question for the user. Keep the category clear: Jeeves is an app for productivity workflows. Use warm, playful language. Wodehouse supplies the inspiration, not an endorsement. Avoid em dashes, invented claims, and requests for votes.
+Lead with “Jev needs Jeeves.” Explain that Jev is TypeSafe's decision model, then show its answers becoming routes to agents or a question for the user. Keep the category clear: Jeeves is an app for productivity workflows. The maker prefers friendly, direct copy with a small Wodehouse nod, not extended butler jokes. Wodehouse supplies the inspiration, not an endorsement. Avoid em dashes, invented claims, and requests for votes.
 
 ## Scope of the open source release
 

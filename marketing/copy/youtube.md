@@ -2,13 +2,11 @@
 
 ## Title
 
-Jev needs Jeeves. Even a clever model could use a butler.
+Jev needs Jeeves: decisions, agents, and a workflow you can reuse
 
 ## Description
 
-Jev needs Jeeves. Even a clever model could use a butler.
-
-Meet Jeeves, an open source app for productivity workflows. Jev, TypeSafe's decision model, supplies the judgment. Agents do the writing, research, and browser work. Jeeves keeps the steps in order and asks when a matter needs your attention. A little Wodehouse, a little less work on your plate.
+Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, chooses what happens next. Agents handle the writing, research, and browser work. Jeeves connects the steps and waits when it needs your answer.
 
 This demo shows Jev choosing a route and Codex doing the agent work. An outage goes to an incident agent. A vague request comes back to you for more detail. Jeeves waits for your answer before an agent writes the brief. You can inspect the decision and see the route it chose.
 

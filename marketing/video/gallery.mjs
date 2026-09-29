@@ -8,7 +8,7 @@ for (const [file, title, description] of [
   [
     "01-workflow",
     "Jev needs Jeeves.",
-    "Jev supplies the judgment. Jeeves attends to the workflow. You keep the final say.",
+    "Connect Jev decisions, AI agents, and your input in a workflow you can reuse.",
   ],
   [
     "02-decision",

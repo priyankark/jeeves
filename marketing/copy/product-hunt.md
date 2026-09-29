@@ -8,25 +8,21 @@ Launch submitted from Priyankar Kumar's maker account. Scheduled for October 1, 
 
 **Name:** Jeeves
 
-**Tagline:** Even a clever model could use a butler.
+**Tagline:** Put Jev to work in everyday workflows
 
-**Description:** Jev needs Jeeves. Meet an open source app for productivity workflows, with a little Wodehouse in its soul. Jev, TypeSafe's decision model, supplies the judgment. Agents tackle the writing, research, and browser work. Jeeves keeps the steps in order and waits when a matter needs your attention. Inspect the decisions, keep the workflow, and put it to work again. Mac, Windows, and Linux.
+**Description:** Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, chooses what happens next. Agents handle the writing, research, and browser work. Jeeves connects the steps and waits when it needs your answer. Inspect each decision and reuse the workflow with new input. For Mac, Windows, and Linux.
 
-**Campaign line:** Jev needs Jeeves. Even a clever model could use a butler.
+**Campaign line:** Jev needs Jeeves.
 
 ## Maker comment draft
 
-What ho, Jeeves!
+Hi, I'm Priyankar. I built Jeeves to save a useful process and run it again with new input.
 
-Jev needs Jeeves. Even a clever model could use a butler.
-
-Jev is TypeSafe's decision model. It supplies the judgment: is this urgent, is there enough detail, is the draft ready? Jeeves puts those answers to work, sending the task to an agent or coming back to you with a question. The brains, the butler, and the person with the final say.
+Jev, TypeSafe's decision model, handles questions like: is this urgent, is there enough detail, or is the draft ready? You connect its possible answers to the next steps. Agents do focused jobs, and Jeeves waits when a step needs your answer.
 
 The demo sorts incoming requests. Jev sends an outage to an incident agent. When a request needs more detail, Jeeves asks you, waits for your answer, and lets an agent turn it into a brief. You can open the decision and see the answer and route it chose.
 
-I made Jeeves to keep useful processes like this and run them again with new input. It's an app for productivity workflows, with agents doing focused jobs and you stepping in where needed.
-
-The name is a nod to Wodehouse's Jeeves, the remarkably capable valet who gets Bertie Wooster out of trouble. No familiarity with Bertie's troubles is required. You probably have a to-do list of your own.
+The name is a nod to Wodehouse's Jeeves. Jev needs Jeeves. I liked the fit.
 
 You can try the built-in example without an API key. It uses sample data. For your own tasks, connect an AI service; live Jev decisions need a TypeSafe key. The app is free under Apache 2.0. Your AI provider may charge for usage.
 
