@@ -1,6 +1,6 @@
 # Jeeves launch copy
 
-Landing page: https://jeeves-workflows.vercel.app/
+Landing page: https://getjeeves.app/
 
 ## Listing
 

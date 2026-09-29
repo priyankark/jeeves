@@ -3,6 +3,14 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": ".",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "jeeves-workflows.vercel.app" }],
+      "destination": "https://getjeeves.app/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

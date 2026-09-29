@@ -7,9 +7,9 @@
 
 **What ho, Jeeves!** Your to-do list has acquired staff. Jeeves is an open source desktop app for repeat AI work. Build a workflow, give each agent a job, let Jev make decisions, and step in when your input is needed. Keep the process for next time.
 
-[Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://jeeves-workflows.vercel.app/#film) · [Website](https://jeeves-workflows.vercel.app/)
+[Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://getjeeves.app/#film) · [Website](https://getjeeves.app/)
 
-[![Watch the 77-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://jeeves-workflows.vercel.app/#film)
+[![Watch the 77-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://getjeeves.app/#film)
 
 ## A little order in the proceedings
 

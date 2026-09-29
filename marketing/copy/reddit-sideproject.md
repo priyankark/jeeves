@@ -20,7 +20,7 @@ Jeeves is open source under Apache 2.0. The sample works without API keys. For l
 
 It is an early desktop preview for Mac, Windows, and Linux. The installers are not yet signed with a trusted publisher certificate. Browser tasks can need a manual login or review.
 
-Demo and setup: https://jeeves-workflows.vercel.app/
+Demo and setup: https://getjeeves.app/
 
 Code and downloads: https://github.com/priyankark/jeeves
 

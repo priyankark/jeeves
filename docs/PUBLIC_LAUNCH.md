@@ -4,8 +4,8 @@ Status: public desktop preview. Source, installers, and the landing page are pub
 
 ## Ready to review
 
-- Landing page: https://jeeves-workflows.vercel.app/
-- Real product demo: https://jeeves-workflows.vercel.app/media/jeeves-demo.mp4
+- Landing page: https://getjeeves.app/
+- Real product demo: https://getjeeves.app/media/jeeves-demo.mp4
 - Product Hunt copy and media map: [listing draft](../marketing/copy/product-hunt.md).
 - Reddit post: [r/SideProject draft](../marketing/copy/reddit-sideproject.md).
 - Apache 2.0 [license](../LICENSE), [notice](../NOTICE), and [contribution guide](../CONTRIBUTING.md).
