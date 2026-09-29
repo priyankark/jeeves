@@ -7,6 +7,7 @@ Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decisio
 Website: https://getjeeves.app/
 Source and installers: https://github.com/priyankark/jeeves
 Public demo: https://www.youtube.com/watch?v=KV6YvV7WovE
+Product Hunt: https://www.producthunt.com/products/jeeves-3?launch=jeeves-6
 Download this kit: https://getjeeves.app/media/jeeves-launch-kit.zip
 
 This kit is for the public desktop preview. It contains the current copy, real product screenshots, a 64-second demo, captions, and a thumbnail. It contains no customer testimonials or user-study results.
@@ -17,7 +18,7 @@ Use `product-hunt-fields.json` for the listing fields, `product-hunt-comment.txt
 
 The demo is already public at https://www.youtube.com/watch?v=KV6YvV7WovE, with English captions and the custom poster. Paste that full URL into Product Hunt's optional video field. `youtube-title.txt` and `youtube-description.txt` contain the current metadata. The software demo is not made for kids. Its stock Clipchamp narration is disclosed in the description and YouTube's synthetic content setting.
 
-Save a draft before setting a launch date. Verify the maker identity, gallery order, download links, pricing, and preview limitations in the actual Product Hunt preview. A local file is not an online draft, and this kit does not mean a post has been submitted.
+The Product Hunt launch is submitted and scheduled for October 1, 2026 at 12:01 a.m. Pacific. Its pre-launch dashboard confirms **Scheduled**. The saved listing has the maker comment, Free pricing, source link, three tags, thumbnail, social card, five product screenshots, and the published video. Edit this existing launch when updating copy; do not submit a duplicate. The launch is scheduled, not yet on the daily leaderboard.
 
 ## Reddit
 

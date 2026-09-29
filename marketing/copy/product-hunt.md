@@ -2,6 +2,8 @@
 
 Landing page: https://getjeeves.app/
 
+Launch submitted from Priyankar Kumar's maker account. Scheduled for October 1, 2026 at 12:01 a.m. Pacific. [Listing](https://www.producthunt.com/products/jeeves-3?launch=jeeves-6). The pre-launch dashboard confirms **Scheduled**. Edit the existing launch rather than submitting another one.
+
 ## Listing
 
 **Name:** Jeeves
@@ -42,7 +44,7 @@ I'd love to hear what you'd use it for, and where your first attempt gets confus
 
 Published demo: https://www.youtube.com/watch?v=KV6YvV7WovE
 
-Use this full YouTube URL in Product Hunt's video field. The video is public on the maker's channel, with English captions and a custom thumbnail. No Product Hunt post has been submitted.
+This full YouTube URL is attached to the scheduled Product Hunt launch. The video is public on the maker's channel, with English captions and a custom thumbnail. The listing includes the five product screenshots and the website's social card.
 
 Source: https://www.producthunt.com/launch/preparing-for-launch (checked September 29, 2026).
 
@@ -50,9 +52,9 @@ Source: https://www.producthunt.com/launch/preparing-for-launch (checked Septemb
 
 Pricing: Free. Provider usage is separate. Suggested launch tags: Productivity, Artificial Intelligence, Open Source, subject to the choices in the submission form. Use the plain https://getjeeves.app/ URL without tracking parameters.
 
-## Before public launch
+## Launch verification
 
-Verify signed-out access to the source and installer downloads before submitting this listing. Use the maker account and attach a public or unlisted YouTube upload of the finished demo. Mac downloads are signed and notarized; the Windows installer remains unsigned.
+Signed-out source, installer downloads, and checksum checks passed. The maker identity, copy, open source repository link, Free pricing, three launch tags, thumbnail, gallery, video, and first comment were checked in the saved listing. September 30 required participation in a separate feature-building challenge, so the launch uses the first standard slot, October 1. Mac downloads are signed and notarized; the Windows installer remains unsigned.
 
 ## Literary source
 
