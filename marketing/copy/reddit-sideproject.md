@@ -1,6 +1,6 @@
 # Reddit launch copy
 
-Publish only from **u/yotta_mind**, as specified by the maker. Verify the signed-in username before submitting. The previous post from a different account has been deleted. Replacement publication is pending.
+Published from **u/yotta_mind** after verifying the signed-in profile. [Read the post](https://www.reddit.com/r/SideProject/comments/1wtfvya/i_built_jeeves_an_open_source_workflow_app_with/). The author and full post were verified while signed out. The previous post from a different account has been deleted. Edit this post rather than submitting a duplicate.
 
 ## Title
 

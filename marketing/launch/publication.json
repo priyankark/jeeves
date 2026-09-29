@@ -20,11 +20,11 @@
     "verification": "Pre-launch dashboard reports Scheduled with a countdown. The date picker states October 1 at 12:01am PT."
   },
   "reddit": {
-    "url": null,
-    "status": "pending_account_verification",
+    "url": "https://www.reddit.com/r/SideProject/comments/1wtfvya/i_built_jeeves_an_open_source_workflow_app_with/",
+    "status": "published",
     "author": "yotta_mind",
     "community": "SideProject",
-    "verification": "The login email confirms u/yotta_mind. Reddit is requiring a human verification challenge in a separate browser session. Confirm the signed-in profile after that check before publishing. The earlier post from a different account was deleted."
+    "verification": "Confirmed u/yotta_mind in the signed-in profile menu before submission. The public permalink shows the matching author, title, and complete post while signed out. The earlier post from a different account was deleted."
   },
   "editing": "Update these existing posts and this video. Do not submit duplicate launches or uploads."
 }
