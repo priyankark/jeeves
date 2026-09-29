@@ -2,7 +2,7 @@
 
 The current launch website is in [`../site/`](../site/README.md), with a real narrated demo and Product Hunt assets in [`video/`](video/README.md). The material below describes the earlier offline kit.
 
-Open **index.html** for the visual overview. This folder is a self-contained, offline product-preview kit. The repository remains private. No materials have been published or sent.
+Open **index.html** for the visual overview. This folder is a self-contained, offline product-preview kit. This archive was prepared before the public preview. Use the current website and launch drafts for publication.
 
 ## Contents
 

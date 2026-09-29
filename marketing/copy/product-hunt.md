@@ -6,27 +6,29 @@ Landing page: https://jeeves-workflows.vercel.app/
 
 **Name:** Jeeves
 
-**Tagline:** AI workflows that decide, do, and ask when needed
+**Tagline:** AI workflows with brains, branches, and good manners
 
-**Description:** Give repeat AI work a process you can keep. Jeeves connects focused agents, Jev decisions, browser tasks, and human input in a visual desktop workflow. Inspect the route, answer a question, review the result, and run it again. Apache 2.0. Bring your own AI connections.
+**Description:** Your to-do list has acquired staff. Jeeves is an open source desktop app for repeat AI work. Give agents their jobs, let Jev choose the route, and answer questions when needed. Inspect every step and keep the process for next time. Try the sample without keys, then bring your own AI connections. Apache 2.0. Mac, Windows, and Linux.
 
 **Campaign line:** Jev needs Jeeves. So does your to-do list.
 
 ## Maker comment draft
 
-Hi Product Hunt!
+What ho, Product Hunt. Your to-do list has acquired staff.
 
-I kept finding useful ways to work with AI, then rebuilding the same process next time. Jeeves is my attempt to give that work a home.
+I built Jeeves for the work I kept explaining to AI over and over: read these notes, draft the update, check the facts, ask me if anything is missing. A useful routine deserves to survive until next Tuesday.
 
-The name is a small joke with a real distinction behind it: Jev makes judgments; Jeeves handles the follow-through. A request can go to an incident specialist, a reply writer, or back to you for clarification. The decision and its confidence are visible in the graph. If Jeeves asks you a question, it saves the run and actually waits.
+Jeeves turns that routine into a desktop workflow you can inspect and reuse. Each agent gets a focused job. Jev, TypeSafe's decision model, chooses routes and checks readiness. You can see what it decided and where the work went. When a step needs your input, the run saves its progress and waits. Optional sound alerts provide a polite cough.
 
-The short demo shows real Jev and Codex runs with synthetic requests. It follows an outage through triage, then a vague request through clarification to an action brief. No replies are sent. Waiting time is edited out.
+The name is the joke and the explanation: Jev needs Jeeves. One makes the judgment; the other keeps the proceedings in order.
 
-Jeeves is open source under Apache 2.0. The welcome screen lets you try a sample without keys or connect Jev and an agent service. You can skip setup and return later.
+Start with the sample. No key, account, or ceremony required. For your own tasks, connect OpenAI, Codex CLI, OpenRouter, or a local model. Jev decisions need a TypeSafe key. The app is Apache 2.0; hosted AI services have their own costs. Your workspace stays on your computer, and cloud providers receive the task context you send them.
 
-Workflows and history stay on your computer. Live cloud models receive task context. You bring the connections your workflow needs. This is a desktop preview, and I would particularly like feedback on the first useful workflow and the moments where you need to step in.
+The 65-second demo shows real Jev and Codex runs with synthetic requests. An outage takes one route; a vague request comes back for clarification. Waiting time is edited out. No replies are sent.
 
-What recurring task would you put in the care of a Jeeves?
+This is an early preview. Installers are not yet signed with a trusted publisher certificate. Browser tasks can need a manual login or review. I would love to hear where your first workflow gets awkward, and what repeat task you would hand over next.
+
+“I endeavour to give satisfaction.” Jeeves, in P. G. Wodehouse's _The Inimitable Jeeves_ (1923). A fine job description, and an ongoing engineering task.
 
 ## Media
 
@@ -42,10 +44,10 @@ Source: https://www.producthunt.com/launch/preparing-for-launch (checked Septemb
 
 ## Before public launch
 
-The source repository and release installers remain private. The site explicitly describes collaborator-only installer access. Open the repository when the release is ready, then update the download CTA. Do not imply public installability before that is resolved. Preview installers are not signed with a trusted publisher certificate or notarized.
+Verify signed-out access to the source and installer downloads before submitting this listing. Use the maker account and attach a public or unlisted YouTube upload of the finished demo. Preview installers are not signed with a trusted publisher certificate or notarized.
 
 ## Literary source
 
-“I endeavour to give satisfaction.” Jeeves, in P. G. Wodehouse, *The Inimitable Jeeves* (1923), Chapter II. Source: https://www.gutenberg.org/files/59254/59254-h/59254-h.htm
+“I endeavour to give satisfaction.” Jeeves, in P. G. Wodehouse, _The Inimitable Jeeves_ (1923), Chapter II. Source: https://www.gutenberg.org/files/59254/59254-h/59254-h.htm
 
 The quotation is literary inspiration, not a customer testimonial or endorsement. The campaign taglines are original product copy.

@@ -1,6 +1,6 @@
 # Jeeves: launch copy
 
-Prepared September 27, 2026. Primary audience: developers and AI power users who already use agents and want reusable processes. Current status: product preview; repository private. These are drafts to use when choosing to share a preview, not announcements of public availability.
+Archived drafts from September 27, 2026, before the public preview. Current copy: [Product Hunt](product-hunt.md), [Reddit](reddit-sideproject.md), and the [live website](https://jeeves-workflows.vercel.app/). The access and feature statements below describe that earlier draft and should not be reused without updating.
 
 ## The message
 

@@ -4,11 +4,13 @@ Target: r/SideProject. Check its sidebar, posting form, pinned threads, and curr
 
 ## Title
 
-I built Jeeves, a desktop app for AI workflows you can inspect and reuse
+I gave my recurring AI tasks a Jeeves. It is an open source desktop workflow app.
 
 ## Post
 
-I built Jeeves because I kept repeating the same AI tasks and rebuilding the process each time.
+My AI routine was becoming a small clerical occupation: paste the notes, explain the task, ask for a draft, check it, repeat next week. So I built Jeeves to keep the process.
+
+Your to-do list has acquired staff, as it were.
 
 You describe the work, review the steps, and run it on your computer. Each agent has a focused job. Jev, a decision model from TypeSafe, can choose a route or check whether the work is ready. If the workflow needs your input, it saves its progress and waits for your answer.
 
@@ -22,7 +24,7 @@ Demo and setup: https://jeeves-workflows.vercel.app/
 
 Code and downloads: https://github.com/priyankark/jeeves
 
-The name started with a small joke: Jev needs Jeeves. So does my to-do list.
+The name owes a little to P. G. Wodehouse and a little to the spelling of Jev. The app is still working on the unflappable manner. It does already know that asking a question means waiting for the answer.
 
 I would like feedback on the first-run setup and whether the steps make sense. What repeat task would you try first?
 

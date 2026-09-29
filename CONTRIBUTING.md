@@ -8,6 +8,22 @@ Use Node.js 22.12+ and npm. Run `npm ci`, then `npm run dev`. `npm run desktop:d
 
 Before submitting code, run `npm test`, `npm run build`, and `npm run test:e2e` (requires installed Google Chrome). Tests use temporary workspaces and mock providers. Do not commit `.env`, `.jeeves`, run outputs, downloaded private data, or build artifacts.
 
+## Find your way around
+
+| Folder         | What lives here                                            |
+| -------------- | ---------------------------------------------------------- |
+| `src/`         | React app, onboarding, editor, and run views               |
+| `server/`      | Local API, workflow engine, providers, and browser control |
+| `shared/`      | Workflow types, validation, and starter templates          |
+| `electron/`    | Desktop shell and app icons                                |
+| `tests/`       | Engine checks and browser user simulations                 |
+| `site/`        | Public landing page deployed to Vercel                     |
+| `marketplace/` | Portable starter workflow packages                         |
+
+For a first change, improve a confusing instruction, report a repeatable bug, or share a small workflow. Open an issue before a large feature so we can agree on the problem it should solve. A pull request should explain the user-visible change and how you checked it.
+
+Google Chrome is needed for browser tests. On Linux without a display, use `xvfb-run --auto-servernum npm test` for engine tests that open a browser window. Catalog changes also need `npm run check:catalog`. Use `npm run test:packaged` after packaging when changing desktop startup or bundled files.
+
 ## Contribute a workflow
 
 1. Build and test your workflow in Demo mode and, where appropriate, with your own live providers.

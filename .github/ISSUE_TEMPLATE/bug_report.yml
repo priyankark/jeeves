@@ -1,0 +1,50 @@
+name: Something went wrong
+description: Help us reproduce a bug or an awkward part of the app.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying Jeeves. A small, repeatable example is very useful.
+        Please remove API keys, passwords, and private task data. For a security problem, use the private report link in SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Jeeves version
+      placeholder: 0.1.0-preview.10, or a source commit
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Operating system and chip
+      placeholder: macOS 15, Apple Silicon
+    validations:
+      required: true
+  - type: dropdown
+    id: installation
+    attributes:
+      label: How did you install Jeeves?
+      options:
+        - GitHub release installer
+        - From source
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: What were you trying to do?
+      description: Include the steps we can follow and whether the run used Demo or Live mode.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Error or screenshot
+      description: Share the visible error and relevant screenshot after removing private information.

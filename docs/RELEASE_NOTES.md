@@ -51,7 +51,7 @@ Node.js and npm are bundled/not required for desktop use. Browser workflows addi
 - These builds are not signed with a trusted publisher certificate or notarized. macOS Gatekeeper and Windows SmartScreen may require explicit approval. macOS builds have a local ad-hoc signature only. Use these previews only if you trust this repository and the attached checksums.
 - Quit an older Jeeves build before opening the new one. Updates are manual; automatic updating is not implemented.
 - Workflows, conversations, and provider settings stay in your local workspace. Installing an update does not intentionally replace them. Keep a backup before trying a preview.
-- The repository is private: release downloads are available only to people who already have repository access.
+- Source and preview downloads are public under Apache 2.0. Start with the [quick start](https://github.com/priyankark/jeeves/blob/main/docs/QUICKSTART.md).
 - Packaged-app smoke tests cover startup, the isolated local engine, and the sample workflow on each platform. They do not establish real-provider answer quality or real retailer shopping reliability.
 
 `SHA256SUMS.txt` and per-file `.sha256` files verify the attached downloads. Build provenance and packaged-app smoke reports are available in the **Desktop installers** Actions run for this tag.

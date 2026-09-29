@@ -35,6 +35,6 @@ For a build without publishing, select **Actions → Desktop installers → Run 
 
 No external signing secrets are needed for unsigned preview builds. The workflow intentionally disables certificate auto-discovery; the Mac app receives an ad-hoc signature, not a Developer ID signature. Trusted macOS distribution requires Developer ID signing and notarization, and Windows needs publisher signing before calling these trusted production installers. Set up and verify those separately rather than silently claiming a signed release.
 
-The repository remains private. Adding a release does not make the project or its installers publicly downloadable. Automatic updates are not implemented; users download a newer installer and quit their current Jeeves app before replacing it.
+The repository and published preview downloads are public. Automatic updates are not implemented; users download a newer installer and quit their current Jeeves app before replacing it.
 
 The workflow uses [GitHub's native runner architectures](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) and [electron-builder's distributable targets](https://www.electron.build/v26/docs/targets/).
