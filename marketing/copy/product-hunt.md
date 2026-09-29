@@ -6,21 +6,25 @@ Landing page: https://getjeeves.app/
 
 **Name:** Jeeves
 
-**Tagline:** Productivity workflows you can build and reuse
+**Tagline:** Even a clever model could use a butler.
 
-**Description:** Jeeves is an open source app for productivity workflows. Save the steps for a weekly update, a research brief, or a reply. Agents do the work, Jev chooses routes, and the workflow waits when it needs your input. Start with the built-in example, then connect your AI services. Mac, Windows, and Linux.
+**Description:** Jev needs Jeeves. Meet an open source app for productivity workflows, with a little Wodehouse in its soul. Jev, TypeSafe's decision model, supplies the judgment. Agents tackle the writing, research, and browser work. Jeeves keeps the steps in order and waits when a matter needs your attention. Inspect the decisions, keep the workflow, and put it to work again. Mac, Windows, and Linux.
 
-**Campaign line:** Jev needs Jeeves. So does your to-do list.
+**Campaign line:** Jev needs Jeeves. Even a clever model could use a butler.
 
 ## Maker comment draft
 
 What ho, Jeeves!
 
-I made Jeeves because I kept explaining the same tasks to AI: read my notes, draft an update, check it, and ask me if something is missing. I wanted to save that process and use it again.
+Jev needs Jeeves. Even a clever model could use a butler.
 
-Jeeves is an open source app for productivity workflows. Each step has a job. Jev, a decision model from TypeSafe, can choose what happens next. You can inspect the work, and when a step needs your answer, the workflow waits.
+Jev is TypeSafe's decision model. It supplies the judgment: is this urgent, is there enough detail, is the draft ready? Jeeves puts those answers to work, sending the task to an agent or coming back to you with a question. The brains, the butler, and the person with the final say.
 
-The name is a nod to Wodehouse's Jeeves, who gets Bertie Wooster out of trouble. And yes, “Jev needs Jeeves” was hard to resist.
+The demo sorts incoming requests. Jev sends an outage to an incident agent. When a request needs more detail, Jeeves asks you, waits for your answer, and lets an agent turn it into a brief. You can open the decision and see the answer and route it chose.
+
+I made Jeeves to keep useful processes like this and run them again with new input. It's an app for productivity workflows, with agents doing focused jobs and you stepping in where needed.
+
+The name is a nod to Wodehouse's Jeeves, the remarkably capable valet who gets Bertie Wooster out of trouble. No familiarity with Bertie's troubles is required. You probably have a to-do list of your own.
 
 You can try the built-in example without an API key. It uses sample data. For your own tasks, connect an AI service; live Jev decisions need a TypeSafe key. The app is free under Apache 2.0. Your AI provider may charge for usage.
 
@@ -36,7 +40,9 @@ I'd love to hear what you'd use it for, and where your first attempt gets confus
 - `marketing/video/gallery/01-workflow.png`, `02-decision.png`, `03-waiting.png`, `05-result.png`, `06-onboarding.png`: 1270 × 760, real product screenshots.
 - Poster and social card: `site/media/`.
 
-Product Hunt currently accepts a full YouTube video URL with a video that is not private; a direct MP4 link is for the website and GitHub. Upload the finished MP4 to the maker's YouTube account and attach its full URL when preparing the listing. Nothing has been posted to Product Hunt or YouTube.
+Published demo: https://www.youtube.com/watch?v=KV6YvV7WovE
+
+Use this full YouTube URL in Product Hunt's video field. The video is public on the maker's channel, with English captions and a custom thumbnail. No Product Hunt post has been submitted.
 
 Source: https://www.producthunt.com/launch/preparing-for-launch (checked September 29, 2026).
 

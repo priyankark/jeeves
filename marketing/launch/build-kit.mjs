@@ -44,7 +44,11 @@ export async function buildKit() {
       "05-result.png",
       "06-onboarding.png",
     ],
-    video: { file: "jeeves-demo.mp4", youtubeUrl: null, required: false },
+    video: {
+      file: "jeeves-demo.mp4",
+      youtubeUrl: field(youtube, "YouTube URL"),
+      required: false,
+    },
     limitsSource: "https://www.producthunt.com/launch/preparing-for-launch",
     limitsChecked: "2026-09-29",
   };

@@ -2,13 +2,15 @@
 
 ## Title
 
-Jeeves: productivity workflows on your desktop
+Jev needs Jeeves. Even a clever model could use a butler.
 
 ## Description
 
-Jeeves is an open source app for productivity workflows. Save the steps for a task, run it with new input, and review the result.
+Jev needs Jeeves. Even a clever model could use a butler.
 
-This demo shows a real workflow using Jev and Codex. An outage goes to an incident agent. A vague request comes back for more detail, and the workflow waits for an answer before continuing.
+Meet Jeeves, an open source app for productivity workflows. Jev, TypeSafe's decision model, supplies the judgment. Agents do the writing, research, and browser work. Jeeves keeps the steps in order and asks when a matter needs your attention. A little Wodehouse, a little less work on your plate.
+
+This demo shows Jev choosing a route and Codex doing the agent work. An outage goes to an incident agent. A vague request comes back to you for more detail. Jeeves waits for your answer before an agent writes the brief. You can inspect the decision and see the route it chose.
 
 Try Jeeves: https://getjeeves.app/
 Source and installers: https://github.com/priyankark/jeeves
@@ -19,10 +21,12 @@ Source and installers: https://github.com/priyankark/jeeves
 
 The footage uses synthetic requests. Model waiting time is edited out. Narration uses a stock Microsoft Clipchamp voice. No replies were sent to customers.
 
-Jeeves is free under Apache 2.0. The built-in example uses sample data and needs no API key. Live runs need your own AI connections, which may charge for usage. This is an early preview with manual updates. Mac downloads are signed and notarized; the Windows installer is unsigned.
+Jeeves is free under Apache 2.0. The built-in example uses sample data and needs no API key. Live Jev decisions need a TypeSafe key; agent steps use your chosen AI service. Providers may charge for usage. This is an early preview with manual updates. Mac downloads are signed and notarized; the Windows installer is unsigned.
 
 I'd love to hear what you would use it for.
 
-## Upload settings
+## Publication
 
-Use Unlisted for the Product Hunt draft. The software demo is not made for kids. Upload the separate English VTT captions. Review any current disclosure questions in the upload form. Use the full YouTube watch URL in Product Hunt; the video must not be Private.
+**YouTube URL:** https://www.youtube.com/watch?v=KV6YvV7WovE
+
+Published publicly on Priyankar Kumar's channel on September 29, 2026. English captions and the custom poster are attached. Category: Science & Technology. Not made for kids. Synthetic content disclosure enabled for the stock Clipchamp narration. Copyright and community checks reported no issues. Use the full watch URL in Product Hunt. Edit this existing video when updating copy; do not upload a duplicate.

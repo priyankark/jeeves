@@ -4,17 +4,17 @@ Target: r/SideProject. Check its sidebar, posting form, pinned threads, and curr
 
 ## Title
 
-I built an open source app for productivity workflows
+I made Jev a butler. It's called Jeeves, and it's open source.
 
 ## Post
 
-Hi! I made Jeeves, an open source app for productivity workflows.
+Hi! Meet Jeeves, an open source app for productivity workflows. The name is a nod to Wodehouse's remarkably capable valet, and to Jev, TypeSafe's decision model. Jev needs Jeeves. The pun was sitting right there.
 
-I kept asking AI to do the same things every week: read my notes, draft an update, check it, and ask me about anything missing. I wanted to save those steps instead of explaining them each time.
+Jev supplies the judgment: is this urgent, is there enough detail, or does this draft need another pass? You set the possible answers and connect each one to a next step. Agents handle the writing, research, or browser work. Jeeves attends to the process. You keep the final say.
 
-In Jeeves, you can build that workflow, run it with new input, and inspect each step. Agents do the writing or research. Jev, a decision model from TypeSafe, can choose a route. If the workflow asks you a question, it saves its progress and waits for your answer.
+In the demo, Jev routes an outage to an incident agent. A vague request goes back to you for more detail. Jeeves saves progress and waits for your answer before continuing. You can inspect the decision and run the same workflow with the next request.
 
-There's a built-in example you can try without API keys. It uses sample data, so you can see how things work before connecting an AI service. The app is free under Apache 2.0; live providers may charge for usage.
+There's a built-in example you can try without API keys. It uses sample data, so you can see how things work before connecting an AI service. Live Jev decisions need a TypeSafe key. The app is free under Apache 2.0; live providers may charge for usage.
 
 It's an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. The Windows installer is unsigned, updates are manual, and browser tasks can still need your help. Workflows stay on your computer; cloud models receive the context you send them.
 

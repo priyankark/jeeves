@@ -7,8 +7,8 @@ const p = await b.newPage({ viewport: { width: 1270, height: 760 } });
 for (const [file, title, description] of [
   [
     "01-workflow",
-    "Build a workflow. Use it again.",
-    "An open source app for productivity workflows on your desktop.",
+    "Jev needs Jeeves.",
+    "Jev supplies the judgment. Jeeves attends to the workflow. You keep the final say.",
   ],
   [
     "02-decision",

@@ -1,9 +1,12 @@
 # Jeeves launch kit
 
-Jeeves is an open source app for productivity workflows.
+Jev needs Jeeves. Even a clever model could use a butler.
+
+Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, supplies the judgment. Jeeves attends to the workflow. You keep the final say. Lead with the pun, explain the partnership, then show the request-triage example. Keep the Wodehouse warmth without making setup instructions a guessing game.
 
 Website: https://getjeeves.app/
 Source and installers: https://github.com/priyankark/jeeves
+Public demo: https://www.youtube.com/watch?v=KV6YvV7WovE
 Download this kit: https://getjeeves.app/media/jeeves-launch-kit.zip
 
 This kit is for the public desktop preview. It contains the current copy, real product screenshots, a 64-second demo, captions, and a thumbnail. It contains no customer testimonials or user-study results.
@@ -12,7 +15,7 @@ This kit is for the public desktop preview. It contains the current copy, real p
 
 Use `product-hunt-fields.json` for the listing fields, `product-hunt-comment.txt` for the maker comment, and the five numbered gallery images in their listed order. The 240 × 240 thumbnail is separate. Pricing is Free; connected AI services may charge for usage.
 
-The demo video is optional. To include it in Product Hunt, upload `jeeves-demo.mp4` to the maker's YouTube account, set it to Unlisted or Public, and paste the full `https://www.youtube.com/watch?v=...` URL. Use `youtube-title.txt` and `youtube-description.txt`; upload `jeeves-demo.vtt` as English captions. Use the poster as the custom thumbnail if the account supports that feature. The software demo is not made for kids. It contains a stock synthetic narrator, not an impersonation or footage of a real person saying something they did not say; answer any disclosure questions against the current upload form.
+The demo is already public at https://www.youtube.com/watch?v=KV6YvV7WovE, with English captions and the custom poster. Paste that full URL into Product Hunt's optional video field. `youtube-title.txt` and `youtube-description.txt` contain the current metadata. The software demo is not made for kids. Its stock Clipchamp narration is disclosed in the description and YouTube's synthetic content setting.
 
 Save a draft before setting a launch date. Verify the maker identity, gallery order, download links, pricing, and preview limitations in the actual Product Hunt preview. A local file is not an online draft, and this kit does not mean a post has been submitted.
 

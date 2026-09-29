@@ -1,11 +1,12 @@
 # Public launch readiness
 
-Status: public desktop preview. Source, installers, and the landing page are public. No Product Hunt or Reddit post has been submitted.
+Status: public desktop preview. Source, installers, the landing page, and the YouTube demo are public. No Product Hunt or Reddit post has been submitted.
 
 ## Ready to review
 
 - Landing page: https://getjeeves.app/
 - Real product demo: https://getjeeves.app/media/jeeves-demo.mp4
+- Published YouTube demo: https://www.youtube.com/watch?v=KV6YvV7WovE, with English captions and a custom thumbnail. Anonymous playback metadata verified on September 29, 2026.
 - Downloadable [launch kit](https://getjeeves.app/media/jeeves-launch-kit.zip) with verified media, copy, and file hashes.
 - Product Hunt copy and media map: [listing draft](../marketing/copy/product-hunt.md).
 - Reddit post: [r/SideProject draft](../marketing/copy/reddit-sideproject.md).
@@ -32,14 +33,14 @@ The downloaded app was copied into a clean test location and launched with a fre
 
 1. Recheck signed-out access to source, license, installers, checksums, and the catalog on launch day. Keep preview and signing limitations visible.
 2. Use the maker's Product Hunt and Reddit accounts. Recheck community rules and required fields. Publishing access for these accounts is not connected in this workspace.
-3. If including a video on Product Hunt, upload the finished demo to the maker's YouTube account. Its optional video slot requires a full YouTube URL. The MP4 already works on the website and GitHub.
+3. Use the published YouTube demo's full watch URL in Product Hunt's optional video slot. The MP4 also works on the website and GitHub.
 4. Submit one relevant Reddit post, then answer questions and collect first-run reports. The current target is r/SideProject. Do not post AI-authored copy to r/opensource, whose rules prohibit it.
 
 ## Readiness judgment
 
 Ready for a public preview and early-user feedback. Known friction remains: an unsigned Windows installer, manual updates, provider access, and retailer pages that can change. Describe those plainly. Do not present the app as a finished autonomous shopping service or claim validation by users we have not studied.
 
-Keep the copy playful and clear: Jeeves is an app for productivity workflows. Agents do focused tasks, Jev makes decisions, and people answer questions when needed. Wodehouse supplies the inspiration, not an endorsement. Avoid em dashes, invented claims, and requests for votes.
+Lead with the Jev angle: “Jev needs Jeeves. Even a clever model could use a butler.” Explain that Jev is TypeSafe's decision model, then show its answers becoming routes to agents or a question for the user. Keep the category clear: Jeeves is an app for productivity workflows. Use warm, playful language. Wodehouse supplies the inspiration, not an endorsement. Avoid em dashes, invented claims, and requests for votes.
 
 ## Scope of the open source release
 

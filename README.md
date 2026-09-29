@@ -1,15 +1,19 @@
 # Jeeves
 
-### Jev needs Jeeves. So does your to-do list.
+### Jev needs Jeeves.
 
 [![Checks](https://github.com/priyankark/jeeves/actions/workflows/ci.yml/badge.svg)](https://github.com/priyankark/jeeves/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-526a43)](LICENSE)
 
-**What ho, Jeeves!** Jeeves is an open source app for productivity workflows. Build a workflow, give each agent a job, let Jev make decisions, and step in when your input is needed. Keep the process for next time.
+**Even a clever model could use a butler.**
 
-[Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://getjeeves.app/#film) · [Website](https://getjeeves.app/)
+What ho! Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, supplies the judgment. Agents tackle the writing, research, and browser work. Jeeves keeps the steps in order and asks when a matter needs your attention.
 
-[![Watch the 64-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://getjeeves.app/#film)
+For example, Jev can decide whether a request describes an outage, a small fix, or something that needs more detail. Jeeves sends it to the right agent or asks you a question. You can inspect the decision and reuse the workflow with the next request.
+
+[Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://www.youtube.com/watch?v=KV6YvV7WovE) · [Website](https://getjeeves.app/)
+
+[![Watch the 64-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://www.youtube.com/watch?v=KV6YvV7WovE)
 
 ## Keep the steps for next time
 
