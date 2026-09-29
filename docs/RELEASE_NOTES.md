@@ -1,6 +1,15 @@
-Jeeves desktop preview: turn repeat work into a workflow.
+Jeeves 0.1.0-preview.11: productivity workflows you can build and reuse.
 
 Start with **Try the example** to turn sample project notes into a weekly update without an API key. Add your own notes and connect one AI service when ready. Inspect and edit the steps, collect input during a run, and reuse the process.
+
+## New in preview.11
+
+- Mac downloads now use a Developer ID signature and Apple notarization. Both the app and disk image are verified before publication.
+- The release workflow stops if signing, notarization, the packaged-app smoke test, or an installer checksum check fails.
+- The website and GitHub have a clearer introduction, a short demo with captions, setup instructions, and a first-run feedback form.
+- The launch kit includes the current demo, five product screenshots, and plain-language copy for Product Hunt and Reddit.
+
+The features below were introduced in earlier previews and are included in this release.
 
 ## First-run setup and open source preparation
 
@@ -48,7 +57,7 @@ Node.js and npm are bundled/not required for desktop use. Browser workflows addi
 
 ## Preview limitations
 
-- These builds are not signed with a trusted publisher certificate or notarized. macOS Gatekeeper and Windows SmartScreen may require explicit approval. macOS builds have a local ad-hoc signature only. Use these previews only if you trust this repository and the attached checksums.
+- Mac apps and disk images are signed with Developer ID and notarized by Apple. Windows installers remain unsigned and may show a SmartScreen warning. Check the source and attached checksums before installing.
 - Quit an older Jeeves build before opening the new one. Updates are manual; automatic updating is not implemented.
 - Workflows, conversations, and provider settings stay in your local workspace. Installing an update does not intentionally replace them. Keep a backup before trying a preview.
 - Source and preview downloads are public under Apache 2.0. Start with the [quick start](https://github.com/priyankark/jeeves/blob/main/docs/QUICKSTART.md).

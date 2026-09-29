@@ -19,7 +19,7 @@ The smoke check launches the actual packaged Electron executable from outside th
 ## Publish a preview
 
 1. Update the package version and lockfile with `npm version <version> --no-git-tag-version`. Update [release notes](RELEASE_NOTES.md).
-2. Commit and push the changes. Use a preview version such as `0.1.0-preview.1` while signing is not configured.
+2. Commit and push the changes. Keep the preview version label while the product is in early testing.
 3. Tag that commit with the exact package version and push the tag:
 
    ```sh
@@ -33,7 +33,19 @@ For a build without publishing, select **Actions → Desktop installers → Run 
 
 ## Current signing and access
 
-No external signing secrets are needed for unsigned preview builds. The workflow intentionally disables certificate auto-discovery; the Mac app receives an ad-hoc signature, not a Developer ID signature. Trusted macOS distribution requires Developer ID signing and notarization, and Windows needs publisher signing before calling these trusted production installers. Set up and verify those separately rather than silently claiming a signed release.
+Public Mac release tags require Developer ID signing and Apple notarization. The app is signed with hardened runtime, notarized, stapled, and assessed by Gatekeeper. The disk image is also signed, notarized, and stapled before checksums are calculated. A failure stops publication. Windows installers remain unsigned.
+
+The repository administrator configures these GitHub Actions secrets:
+
+- `MAC_CERTIFICATE_P12_BASE64`: encrypted Developer ID Application certificate and private key, encoded as base64.
+- `MAC_CERTIFICATE_PASSWORD`: the export password for that P12.
+- `MAC_SIGNING_IDENTITY`: the full Developer ID Application identity name.
+- `APPLE_NOTARY_KEY_BASE64`: App Store Connect API private key, encoded as base64.
+- `APPLE_NOTARY_KEY_ID` and `APPLE_NOTARY_ISSUER_ID`: identifiers for that key.
+
+Mac runners import the identity into a temporary keychain, add it to the signing search list, and remove it and the decoded credentials in an always-run cleanup step. Never commit these files. Use a dedicated API key with the permissions required for notarization. Keep Apple Developer membership active and replace expiring or revoked credentials before releasing.
+
+Ordinary local builds remain ad-hoc signed unless `JEEVES_SIGN_MAC=true` and the settings documented in `scripts/mac-signing.mjs` are supplied. For a signed branch build, set repository variable `MAC_SIGNING_ENABLED=true`. Public version tags always require signing, regardless of that variable.
 
 The repository and published preview downloads are public. Automatic updates are not implemented; users download a newer installer and quit their current Jeeves app before replacing it.
 

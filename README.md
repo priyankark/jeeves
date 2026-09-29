@@ -102,3 +102,9 @@ Found a rough edge? [Report it](https://github.com/priyankark/jeeves/issues/new/
 > Jeeves, in P. G. Wodehouse’s [_The Inimitable Jeeves_ (1923)](https://www.gutenberg.org/files/59254/59254-h/59254-h.htm).
 
 A fine brief for a software project. Literary inspiration, with no affiliation or endorsement implied. The app and first-party starter workflows use Apache 2.0; dependencies, models, and imported skills retain their own terms.
+
+## Help us make the first run better
+
+Try the example, then [tell us how it went](https://github.com/priyankark/jeeves/issues/new?template=first_run.yml). We want to hear where you got stuck as well as what worked. The [first ten minutes guide](docs/FIRST_RUN_FEEDBACK.md) gives you a few things to try.
+
+Launch materials: [current launch kit](marketing/launch/README.md). Older marketing exports are archived and should not be used for this launch.

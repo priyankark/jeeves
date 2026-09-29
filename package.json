@@ -1,7 +1,7 @@
 {
   "name": "jeeves",
   "private": true,
-  "version": "0.1.0-preview.10",
+  "version": "0.1.0-preview.11",
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n api,web \"tsx watch server/index.ts\" \"vite --host 127.0.0.1\"",
@@ -22,7 +22,9 @@
     "pretest": "npm run build:runtime && node --check runtime/server.mjs",
     "simulate:live:depth": "node --import tsx scripts/simulate-live-depth.ts",
     "package:installer": "npm run package:desktop && node scripts/build-installers.mjs",
-    "test:packaged": "node scripts/test-packaged.mjs"
+    "test:packaged": "node scripts/test-packaged.mjs",
+    "launch:kit": "node marketing/launch/build-kit.mjs",
+    "check:launch": "node marketing/launch/check-kit.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
@@ -43,6 +45,8 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@electron/notarize": "3.1.1",
+    "@electron/osx-sign": "2.7.0",
     "@electron/packager": "^20.3.0",
     "@playwright/test": "^1.63.0",
     "@types/express": "^5.0.6",

@@ -3,11 +3,14 @@ import { mkdtemp, mkdir, cp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { macSigningConfig, signMacApp } from "./mac-signing.mjs";
+const signing = macSigningConfig();
 const staging = await mkdtemp(path.join(tmpdir(), "jeeves-desktop-"));
 try {
   for (const dir of ["dist", "runtime", "electron", "marketplace"])
     await cp(dir, path.join(staging, dir), { recursive: true });
-  for (const file of ["LICENSE", "NOTICE"]) await cp(file, path.join(staging, file));
+  for (const file of ["LICENSE", "NOTICE"])
+    await cp(file, path.join(staging, file));
   const source = JSON.parse(await readFile("package.json", "utf8"));
   await writeFile(
     path.join(staging, "package.json"),
@@ -42,14 +45,17 @@ try {
   if (process.platform === "darwin") {
     // Local ad-hoc signature keeps the modified ARM app bundle consistent.
     // This is not Developer ID signing or notarization.
-    for (const output of paths)
-      execFileSync("codesign", [
-        "--force",
-        "--deep",
-        "--sign",
-        "-",
-        path.join(output, "Jeeves.app"),
-      ]);
+    for (const output of paths) {
+      if (signing) await signMacApp(path.join(output, "Jeeves.app"), signing);
+      else
+        execFileSync("codesign", [
+          "--force",
+          "--deep",
+          "--sign",
+          "-",
+          path.join(output, "Jeeves.app"),
+        ]);
+    }
   }
   console.log("Packaged desktop:", paths.join(", "));
 } finally {

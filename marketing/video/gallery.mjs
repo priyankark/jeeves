@@ -7,22 +7,22 @@ const p = await b.newPage({ viewport: { width: 1270, height: 760 } });
 for (const [file, title, description] of [
   [
     "01-workflow",
-    "Jev needs Jeeves.",
-    "The judgment. The follow-through. A workflow you can keep.",
+    "Build a workflow. Use it again.",
+    "An open source app for productivity workflows on your desktop.",
   ],
   [
     "02-decision",
-    "Make the judgment visible.",
+    "See why it chose this route.",
     "A real Jev decision: answer, confidence, and the route taken.",
   ],
   [
     "03-waiting",
-    "A question is a proper pause.",
+    "It waits for your answer.",
     "Your progress is saved. The workflow waits until you answer.",
   ],
   [
     "05-result",
-    "Useful work. Ready for review.",
+    "Review the result.",
     "Your clarification becomes an action brief. Nothing is sent.",
   ],
 ]) {

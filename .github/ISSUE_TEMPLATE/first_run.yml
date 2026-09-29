@@ -1,0 +1,44 @@
+name: My first workflow
+description: Tell us what happened when you tried Jeeves. A few sentences are enough.
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        What were your first ten minutes like? We want the awkward parts too.
+        This report is public. Leave out keys, passwords, and private task data.
+  - type: input
+    id: setup
+    attributes:
+      label: Your setup
+      placeholder: Jeeves 0.1.0-preview.10, Mac with Apple silicon, release installer
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: How far did you get?
+      options:
+        - I could not install or open it
+        - I opened it but did not finish the example
+        - I finished the example
+        - I connected an AI service and ran my own input
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: What did you want Jeeves to help with?
+    validations:
+      required: true
+  - type: textarea
+    id: experience
+    attributes:
+      label: What was useful, confusing, or broken?
+      description: Tell us where you stopped or needed help. Include the visible error if there was one.
+    validations:
+      required: true
+  - type: textarea
+    id: next
+    attributes:
+      label: Would you use it again? What would need to change?

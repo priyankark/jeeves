@@ -2,6 +2,8 @@ import { build, Platform, Arch } from "electron-builder";
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { macSigningConfig, signMacDmg } from "./mac-signing.mjs";
+const signing = macSigningConfig();
 
 const appDir = path.resolve(
   `release/Jeeves-${process.platform}-${process.arch}`,
@@ -60,6 +62,7 @@ const artifacts = await build({
 for (const file of artifacts.filter((f) =>
   /\.(dmg|exe|AppImage|deb)$/.test(f),
 )) {
+  if (signing && file.endsWith(".dmg")) await signMacDmg(file, signing);
   const digest = createHash("sha256")
     .update(await readFile(file))
     .digest("hex");

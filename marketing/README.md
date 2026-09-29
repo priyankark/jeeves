@@ -1,4 +1,6 @@
-# Jeeves marketing kit
+# Jeeves marketing materials
+
+Use the [current launch kit](launch/README.md) for publication. It contains the latest copy, gallery, demo, and captions. Download the assembled kit from https://getjeeves.app/media/jeeves-launch-kit.zip. Run `npm run check:launch` before using it.
 
 The current launch website is in [`../site/`](../site/README.md), with a real narrated demo and Product Hunt assets in [`video/`](video/README.md). The material below describes the earlier offline kit.
 
@@ -6,20 +8,20 @@ Open **index.html** for the visual overview. This folder is a self-contained, of
 
 ## Contents
 
-| File | Use |
-| --- | --- |
-| `landing.html` | Responsive product-preview landing page, with interactive triage illustration |
-| `deck.html` | Eight-slide product presentation; use arrow keys or visible controls |
-| `one-pager.html` | Editable one-page brief |
-| `exports/jeeves-product-deck.pdf` | Eight-page presentation PDF |
-| `exports/jeeves-one-pager.pdf` | A4 brief |
-| `exports/*.png` | Five marketing graphics plus deck contact sheet |
-| `exports/jeeves-launch-kit.zip` | Complete portable kit; extract before opening index.html |
-| `copy/launch-copy.md` | Positioning, social posts/thread, longer launch post, listing, article, and outreach drafts |
-| `copy/demo-script.md` | 90-second script, shot list, and five-minute live-demo plan |
-| `copy/facts-and-claims.md` | Product evidence and current claim boundaries |
-| `brand/guide.md` | Voice, palette, typography, icon, and screenshot guidance |
-| `assets/` | Product icon, fresh product screenshots, locally bundled fonts and licenses |
+| File                              | Use                                                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------------- |
+| `landing.html`                    | Responsive product-preview landing page, with interactive triage illustration               |
+| `deck.html`                       | Eight-slide product presentation; use arrow keys or visible controls                        |
+| `one-pager.html`                  | Editable one-page brief                                                                     |
+| `exports/jeeves-product-deck.pdf` | Eight-page presentation PDF                                                                 |
+| `exports/jeeves-one-pager.pdf`    | A4 brief                                                                                    |
+| `exports/*.png`                   | Five marketing graphics plus deck contact sheet                                             |
+| `exports/jeeves-launch-kit.zip`   | Complete portable kit; extract before opening index.html                                    |
+| `copy/launch-copy.md`             | Positioning, social posts/thread, longer launch post, listing, article, and outreach drafts |
+| `copy/demo-script.md`             | 90-second script, shot list, and five-minute live-demo plan                                 |
+| `copy/facts-and-claims.md`        | Product evidence and current claim boundaries                                               |
+| `brand/guide.md`                  | Voice, palette, typography, icon, and screenshot guidance                                   |
+| `assets/`                         | Product icon, fresh product screenshots, locally bundled fonts and licenses                 |
 
 ## Audience and status
 

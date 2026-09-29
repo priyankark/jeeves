@@ -16,17 +16,17 @@ Landing page: https://getjeeves.app/
 
 What ho, Jeeves!
 
-I built Jeeves because I kept giving AI the same instructions: read these notes, draft an update, check the facts, and ask me if something is missing. I wanted to save those steps and use them again.
+I made Jeeves because I kept explaining the same tasks to AI: read my notes, draft an update, check it, and ask me if something is missing. I wanted to save that process and use it again.
 
-Jeeves turns that process into a desktop workflow. Each agent has a job. Jev, TypeSafe's decision model, can choose a route or check whether there is enough information to continue. You can inspect each step. When a workflow asks you a question, it saves its progress and waits for your answer. Sound alerts are optional.
+Jeeves is an open source app for productivity workflows. Each step has a job. Jev, a decision model from TypeSafe, can choose what happens next. You can inspect the work, and when a step needs your answer, the workflow waits.
 
-The name comes from P. G. Wodehouse's Jeeves, the resourceful valet who keeps Bertie Wooster out of trouble. There is also a spelling joke: Jev makes decisions; Jeeves puts them to work.
+The name is a nod to Wodehouse's Jeeves, who gets Bertie Wooster out of trouble. And yes, “Jev needs Jeeves” was hard to resist.
 
-The built-in example uses sample data and needs no API key. For your own tasks, connect OpenAI, Codex CLI, OpenRouter, or a local model. Live Jev decisions need a TypeSafe key. Jeeves is free under Apache 2.0; hosted AI services may charge for usage. Your workspace stays on your computer, and cloud providers receive the task context you send them.
+You can try the built-in example without an API key. It uses sample data. For your own tasks, connect an AI service; live Jev decisions need a TypeSafe key. The app is free under Apache 2.0. Your AI provider may charge for usage.
 
-The demo shows real Jev and Codex runs with synthetic requests. An outage takes one route; a vague request comes back for clarification. Waiting time is edited out. No replies are sent.
+It's an early preview for Mac, Windows, and Linux. Installers are unsigned, updates are manual, and browser tasks can need your help. Your workspace stays on your computer, but cloud models receive the task context you send them.
 
-This is an early preview. Installers are unsigned and not notarized, and updates are manual. Browser tasks can need a login or manual review and can fail when a website changes. I would like feedback on the first-run setup and the first workflow you try.
+I'd love to hear what you'd use it for, and where your first attempt gets confusing.
 
 ## Media
 
@@ -38,7 +38,11 @@ This is an early preview. Installers are unsigned and not notarized, and updates
 
 Product Hunt currently accepts a full YouTube video URL with a video that is not private; a direct MP4 link is for the website and GitHub. Upload the finished MP4 to the maker's YouTube account and attach its full URL when preparing the listing. Nothing has been posted to Product Hunt or YouTube.
 
-Source: https://www.producthunt.com/launch/preparing-for-launch (checked September 28, 2026).
+Source: https://www.producthunt.com/launch/preparing-for-launch (checked September 29, 2026).
+
+## Listing choices
+
+Pricing: Free. Provider usage is separate. Suggested launch tags: Productivity, Artificial Intelligence, Open Source, subject to the choices in the submission form. Use the plain https://getjeeves.app/ URL without tracking parameters.
 
 ## Before public launch
 
