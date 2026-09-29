@@ -8,29 +8,33 @@ I built Jeeves, an open source workflow app with Jev routing and human input
 
 ## Post
 
-Hi, I'm building Jeeves, a desktop app for saving and running productivity workflows. It's free under Apache 2.0, with no paid app tier. I wanted to share how the decision and human-input steps work.
+Hi, I'm building Jeeves, a desktop app for saving everyday tasks as reusable AI workflows. It's free under Apache 2.0, with no paid app tier.
 
-Jev, TypeSafe's decision model, answers a question with defined outcomes. You connect those outcomes to agent steps. For example, a request can go to an incident agent, a routine-task agent, or back to you for missing details. Agents handle the writing, research, or browser work. The run inspector shows the decision and the route it chose.
+For example, a weekly update can have four steps: read your project notes, draft the update, check it against the notes, and let you review it. Save that workflow and run it next week with new notes. You can change the steps in a visual editor and inspect each step's inputs and results.
 
-A few details from the implementation:
+Agent steps handle writing, research, or browser work using the provider you connect. Human-input steps collect answers and pause the work that depends on them. For tasks with different paths, Jev, TypeSafe's decision model, can classify a request or check a draft and choose the next step.
 
-- Choice and score answers are checked against the configured criteria. Unknown choices or invalid probability maps fail validation. Answers below the configured confidence threshold take the review route. That threshold is a routing setting, not a guarantee of correctness.
+A few implementation details:
+
 - Human input is saved as a waiting step. The run keeps its progress, and dependent steps wait for a submitted answer. There isn't a worker sitting open until someone replies.
-- Browser tasks can also pause for login or review. If a browser action was sent but its result is uncertain, the run pauses for inspection instead of automatically repeating the action.
+- Browser tasks can pause for login or review. If an action was sent but its result is uncertain, the run pauses for inspection instead of automatically repeating it.
+- Decision outputs are validated against the configured choices or scoring criteria. Low-confidence answers take a review route. That threshold is a routing setting, not a guarantee that the answer is correct.
 
-The built-in example runs on sample data without API keys. It helps you inspect the workflow, but doesn't test a live model's accuracy. Live Jev decisions need a TypeSafe key; agent steps use your chosen provider or local model. Provider charges are separate.
+The built-in example uses sample data and needs no API key. It demonstrates the workflow, not live model accuracy. For your own tasks, connect an AI provider or local model. Live Jev decisions need a TypeSafe key. Provider charges are separate from the free app.
 
 Source and setup: https://github.com/priyankark/jeeves
 
-The routing code is in `server/jev.ts`; execution and waiting are in `server/engine.ts`.
+Execution and waiting are in `server/engine.ts`; decision validation is in `server/jev.ts`.
 
 Demo and downloads: https://getjeeves.app/
 
-It's an early preview for Mac, Windows, and Linux. Mac builds are signed and notarized. Windows is unsigned, updates are manual, and browser automation still needs human help at times.
+It's an early preview for Mac, Windows, and Linux. Mac builds are signed and notarized. Windows is unsigned, updates are manual, and browser tasks sometimes need human help. Your workspace stays on your computer; cloud providers receive the task context you send them.
 
 Disclosure: I'm the creator of Jeeves. This post was drafted with help from Codex.
 
 ## Posting notes
+
+Body revised on September 29, 2026 to lead with recurring tasks and a weekly-update example. Verified publicly after saving. The published title remains unchanged because Reddit does not allow title edits.
 
 The current rules and pinned policy update allow free FOSS projects without prior moderator approval. Disclose authorship, AI writing assistance, provider costs, and preview limits. This is a project introduction, not a disguised survey. Do not request votes or duplicate the post.
 

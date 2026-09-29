@@ -8,23 +8,27 @@ I built Jeeves, an open source workflow app with Jev decisions
 
 ## Post
 
-Hi! I built Jeeves, an open source app for productivity workflows. It lets you save the steps for a task and run them again with new input.
+Hi! I built Jeeves to save the steps for work you do again and again, like a weekly update, a research brief, or sorting incoming requests.
 
-It uses Jev, TypeSafe's decision model, for questions like: is this urgent, is there enough detail, or does this draft need another pass? You set the possible answers and connect each one to a next step. Agents handle the writing, research, or browser work. You can inspect the decision and the route it chose.
+For a weekly update, add your project notes, have an AI draft the update, check it against the notes, and review the result. Save those steps. Next week, give the same workflow new notes.
 
-In the demo, Jev routes an outage to an incident agent. A vague request goes back to you for more detail. Jeeves saves progress and waits for your answer before continuing. You can inspect the decision and run the same workflow with the next request.
+You can start with a template and change the steps in a visual editor. Each step has a job, such as researching, writing, or using the browser. You can see what went into each step and what came out. If it needs your answer, a login, or a review, Jeeves saves progress and waits for you to continue.
 
-There's a built-in example you can try without API keys. It uses sample data, so you can see how things work before connecting an AI service. Live Jev decisions need a TypeSafe key. The app is free under Apache 2.0; live providers may charge for usage.
+Some tasks need different paths. An urgent request might need an incident brief; an unclear one might need a question back to you. Jev, TypeSafe's decision model, is one option Jeeves supports for making those choices.
 
-It's an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. The Windows installer is unsigned, updates are manual, and browser tasks can still need your help. Workflows stay on your computer; cloud models receive the context you send them.
+The built-in example uses sample data and needs no API key. For your own tasks, connect an AI service. Jeeves is free and open source under Apache 2.0, with no paid tier. Providers may charge for usage, and live Jev decisions need a TypeSafe key.
+
+It's an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. Windows is unsigned, updates are manual, and browser tasks sometimes need your help. Your workspace stays on your computer; cloud AI services receive the task context you send them.
 
 Demo and downloads: https://getjeeves.app/
 
 Code: https://github.com/priyankark/jeeves
 
-I'd appreciate feedback on the setup and your first workflow. What would you try with it?
+I'd love to hear which recurring task you'd try first, and where setup gets confusing.
 
 ## Posting notes
+
+Body revised on September 29, 2026 to lead with recurring tasks and a weekly-update example. Verified publicly after saving. The published title remains unchanged because Reddit does not allow title edits.
 
 Use u/yotta_mind only. Check the sidebar, community highlights, rules, and live form. Answer questions with specific examples and known limits. Do not request votes or send unsolicited messages. Do not cross-post this copy to r/opensource: its rules prohibit AI-generated content. Follow each community's own rules.
 

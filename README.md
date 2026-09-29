@@ -1,19 +1,19 @@
 # Jeeves
 
-### Jev needs Jeeves.
+### Save the steps. Use them again.
 
 [![Checks](https://github.com/priyankark/jeeves/actions/workflows/ci.yml/badge.svg)](https://github.com/priyankark/jeeves/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-526a43)](LICENSE)
 
-**Put Jev to work in everyday workflows.**
+**Reusable AI workflows for everyday tasks.**
 
-Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, chooses what happens next. Agents handle the writing, research, and browser work. Jeeves connects the steps and waits when it needs your answer.
+Jeeves is an open source app for productivity workflows. Turn project notes into a weekly update, sort incoming requests, or research a topic. Save the steps, then run them with new input. When a task needs your answer, it pauses and waits.
 
-For example, Jev can decide whether a request describes an outage, a small fix, or something that needs more detail. Jeeves sends it to the right agent or asks you a question. You can inspect the decision and reuse the workflow with the next request.
+For a weekly update, add your notes, have an AI draft the update, check it against the notes, and review the result. Next week, give the same workflow new notes. Start with a template and change the steps in the visual editor.
 
 [Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://www.youtube.com/watch?v=KV6YvV7WovE) · [Website](https://getjeeves.app/)
 
-[![Watch the 64-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://www.youtube.com/watch?v=KV6YvV7WovE)
+[![Watch the one-minute demo: sort a request, ask for missing details, and write a brief](site/media/demo-poster.png)](https://www.youtube.com/watch?v=KV6YvV7WovE)
 
 ## Keep the steps for next time
 
@@ -22,7 +22,7 @@ You know the routine: paste the notes, explain the task, ask for a draft, check 
 Jeeves lets you keep that routine as a workflow you can see and change.
 
 - **Agents do the work.** Give writing, analysis, and browser steps a clear job.
-- **Jev makes the judgment.** Route a request, check the evidence, or score a draft. Inspect the answer and the route it chose.
+- **Add a decision when needed.** Use Jev to route a request, check the evidence, or score a draft. Inspect the answer and the route it chose.
 - **You keep the final say.** Questions pause the run. Answer when you are ready. Optional sound alerts save you from watching the window.
 - **Use it again.** Reuse a workflow, schedule it while Jeeves is running, or export a portable skill.
 

@@ -1,3 +1,5 @@
+import { renderPoster } from "./poster.mjs";
+import { renderSocialCard } from "./social-card.mjs";
 import { chromium } from "playwright-core";
 import { mkdir, writeFile, readFile, copyFile, access } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
@@ -77,13 +79,8 @@ async function card(scene, path) {
 }
 await card(scenes[0], work + "/intro.png");
 await card(scenes.at(-1), work + "/outro.png");
-await copyFile(work + "/intro.png", out + "/demo-poster.png");
-await p.setViewportSize({ width: 1200, height: 630 });
-await p.setContent(
-  `<style>@font-face{font-family:DM;src:url(http://127.0.0.1:4341/assets/dm-sans.woff2)}body{margin:0;background:#f8f4e9;color:#202923;padding:65px 80px;font-family:DM}small{font-size:16px;letter-spacing:2px}h1{font:normal 100px/1.05 Georgia;letter-spacing:-5px;margin:45px 0 24px}em{color:#506342}p{font-size:23px}.badge{position:absolute;right:75px;top:65px;font:italic 160px Georgia;width:220px;height:250px;background:#e86b40;border-radius:18px;display:grid;place-items:center;transform:rotate(6deg)}</style><small>JEEVES / THE DESKTOP EDITION</small><div class="badge">j</div><h1>Jev needs<br><em>Jeeves.</em></h1><p>The judgment. The follow-through.</p>`,
-);
-await p.evaluate(() => document.fonts.ready);
-await p.screenshot({ path: out + "/social-card.png" });
+await renderPoster(p, out + "/demo-poster.png");
+await renderSocialCard(p, out + "/social-card.png");
 await b.close();
 const font = "/System/Library/Fonts/Supplemental/Arial.ttf";
 let offset = 0;

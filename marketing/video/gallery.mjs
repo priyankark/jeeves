@@ -7,8 +7,8 @@ const p = await b.newPage({ viewport: { width: 1270, height: 760 } });
 for (const [file, title, description] of [
   [
     "01-workflow",
-    "Jev needs Jeeves.",
-    "Connect Jev decisions, AI agents, and your input in a workflow you can reuse.",
+    "Save the steps. Use them again.",
+    "Give each step a job, review the result, and run it again with new input.",
   ],
   [
     "02-decision",
