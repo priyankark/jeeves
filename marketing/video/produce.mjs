@@ -208,7 +208,7 @@ const escapeHtml = (value) =>
         c
       ],
   );
-const transcript = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jeeves demo transcript</title><link rel="icon" href="/assets/jeeves-icon.png"><link rel="stylesheet" href="/style.css"></head><body><main class="wrap section"><a href="/#film">← Back to the demo</a><h1 class="transcript-title">The moving picture.</h1><p>Real live Jev and Codex runs, recorded with synthetic requests. Waiting time is edited out. Narration: ${escapeHtml(narrationCredit)}.</p>${timeline.map((s) => `<section><h2 class="transcript-heading">${time(s.start).slice(3, 8)} · ${s.title}</h2><p class="lede">${s.voice}</p></section>`).join("")}</main></body></html>`;
+const transcript = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jeeves demo transcript</title><link rel="icon" href="/assets/jeeves-icon.png"><link rel="stylesheet" href="/style.css"></head><body><main class="wrap section"><a href="/#film">← Back to the demo</a><h1 class="transcript-title">Demo transcript</h1><p>Real live Jev and Codex runs, recorded with synthetic requests. Waiting time is edited out. Narration: ${escapeHtml(narrationCredit)}.</p>${timeline.map((s) => `<section><h2 class="transcript-heading">${time(s.start).slice(3, 8)} · ${s.title}</h2><p class="lede">${s.voice}</p></section>`).join("")}</main></body></html>`;
 await writeFile("site/transcript.html", transcript);
 console.log(
   JSON.stringify({ duration: offset, file: out + "/jeeves-demo.mp4" }),

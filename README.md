@@ -5,13 +5,13 @@
 [![Checks](https://github.com/priyankark/jeeves/actions/workflows/ci.yml/badge.svg)](https://github.com/priyankark/jeeves/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-526a43)](LICENSE)
 
-**What ho, Jeeves!** Your to-do list has acquired staff. Jeeves is an open source desktop app for repeat AI work. Build a workflow, give each agent a job, let Jev make decisions, and step in when your input is needed. Keep the process for next time.
+**What ho, Jeeves!** Jeeves is an open source app for productivity workflows. Build a workflow, give each agent a job, let Jev make decisions, and step in when your input is needed. Keep the process for next time.
 
 [Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://getjeeves.app/#film) · [Website](https://getjeeves.app/)
 
-[![Watch the 77-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://getjeeves.app/#film)
+[![Watch the 64-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://getjeeves.app/#film)
 
-## A little order in the proceedings
+## Keep the steps for next time
 
 You know the routine: paste the notes, explain the task, ask for a draft, check the draft, remember what worked. Then do it all again next Tuesday.
 
@@ -20,7 +20,7 @@ Jeeves lets you keep that routine as a workflow you can see and change.
 - **Agents do the work.** Give writing, analysis, and browser steps a clear job.
 - **Jev makes the judgment.** Route a request, check the evidence, or score a draft. Inspect the answer and the route it chose.
 - **You keep the final say.** Questions pause the run. Answer when you are ready. Optional sound alerts save you from watching the window.
-- **Good work gets a repeat performance.** Reuse a workflow, schedule it while Jeeves is running, or export a portable skill.
+- **Use it again.** Reuse a workflow, schedule it while Jeeves is running, or export a portable skill.
 
 ## Get Jeeves on your desktop
 

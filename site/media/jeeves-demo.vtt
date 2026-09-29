@@ -1,68 +1,47 @@
 WEBVTT
 
-00:00:00.300 --> 00:00:01.960
-Jev needs Jeeves.
+00:00:00.300 --> 00:00:04.450
+Here's Jeeves, an open source app for productivity workflows.
 
-00:00:02.680 --> 00:00:04.080
-So does your to-do list.
+00:00:04.780 --> 00:00:07.250
+Build a process once and use it again.
 
-00:00:04.900 --> 00:00:06.500
-Here's how they work together.
+00:00:08.452 --> 00:00:11.002
+This workflow sorts incoming requests.
 
-00:00:08.068 --> 00:00:09.588
-Start with a request.
+00:00:11.392 --> 00:00:15.202
+Each agent has a job, and you can open any step to see what happened.
 
-00:00:10.388 --> 00:00:13.648
-Each agent gets a clear job, and you can see every step.
+00:00:16.460 --> 00:00:20.110
+Jev recognizes an outage and sends it to the incident agent.
 
-00:00:14.428 --> 00:00:16.388
-This run uses Jev and Codex.
+00:00:20.360 --> 00:00:24.230
+The decision shows its answer, confidence, and chosen route.
 
-00:00:18.284 --> 00:00:21.324
-Jev spots an outage and chooses the urgent route.
+00:00:25.500 --> 00:00:29.910
+When a request is missing details, Jeeves will ask you a question.
 
-00:00:22.064 --> 00:00:26.004
-Open the decision to see its answer, confidence, and the path it picked.
+00:00:30.160 --> 00:00:33.570
+The workflow saves its progress and waits until you answer.
 
-00:00:27.684 --> 00:00:30.344
-Now try a request that's missing the details.
+00:00:34.852 --> 00:00:36.782
+Add the details and submit.
 
-00:00:31.304 --> 00:00:34.424
-Jeeves asks a question, saves the run, and waits.
+00:00:37.152 --> 00:00:38.862
+The workflow picks up from where it stopped.
 
-00:00:35.284 --> 00:00:37.244
-No answer, no next step.
+00:00:40.124 --> 00:00:45.034
+Now you have an action brief, a suggested fix, and a draft reply to review.
 
-00:00:38.908 --> 00:00:40.948
-Add what's missing and hit submit.
+00:00:45.404 --> 00:00:47.014
+Nothing has been sent to the customer.
 
-00:00:41.728 --> 00:00:43.688
-The next agent can now get to work.
+00:00:50.124 --> 00:00:55.094
+Save this workflow for the next request, or export it as a skill to use elsewhere.
 
-00:00:45.356 --> 00:00:50.676
-Here's the result: a concrete action brief, a suggested fix, and a draft reply.
+00:00:57.124 --> 00:00:59.334
+Try Jeeves at get Jeeves dot app.
 
-00:00:51.416 --> 00:00:52.936
-It's ready for your review.
-
-00:00:53.756 --> 00:00:54.876
-Nothing has been sent.
-
-00:00:56.580 --> 00:01:00.860
-Save the workflow for next time, or export it as a portable skill.
-
-00:01:01.600 --> 00:01:04.340
-Next Tuesday is already looking a little more organised.
-
-00:01:06.100 --> 00:01:07.760
-Jev makes the judgment.
-
-00:01:08.620 --> 00:01:10.440
-Jeeves keeps things moving.
-
-00:01:11.020 --> 00:01:13.060
-Open source, on your desktop.
-
-00:01:13.980 --> 00:01:15.400
-Very good, then.
+00:00:59.464 --> 00:01:02.894
+Start with the built-in example, no API key needed.
 

@@ -1,6 +1,6 @@
 {
   "url": "http://127.0.0.1:4341",
-  "testedAt": "2026-09-29T03:15:16.862Z",
+  "testedAt": "2026-09-29T14:11:06.514Z",
   "checks": [
     "No horizontal overflow; all three example routes work at 320px",
     "No horizontal overflow; all three example routes work at 390px",
@@ -16,19 +16,19 @@
   "media": {
     "width": 1920,
     "height": 1080,
-    "duration": 76.721,
+    "duration": 64.005,
     "captions": 1
   },
   "narration": {
     "source": "Microsoft Clipchamp",
-    "voice": "Ryan",
-    "language": "English (United Kingdom)",
+    "voice": "Andrew Multilingual",
+    "language": "English (United States)",
     "pace": "1x",
     "pitch": "Default",
-    "recognition": "Local Whisper tiny.en recovered all eight scenes; punctuation and spelling differences only.",
-    "listeningReview": "Not performed by a human.",
-    "integratedLoudnessLufs": -16.45,
-    "truePeakDbtp": -1.25,
-    "loudnessRangeLu": 4.0
+    "recognition": "Local Whisper tiny.en recovered all eight scenes; punctuation and website-formatting differences only.",
+    "listeningReview": "No human listening review of this revision has been performed.",
+    "integratedLoudnessLufs": -16.35,
+    "truePeakDbtp": -1.21,
+    "loudnessRangeLu": 5.0
   }
 }

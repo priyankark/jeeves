@@ -7,7 +7,15 @@ test.beforeAll(async () => {
   fixture = await simulationServer();
 });
 test.afterAll(async () => fixture.close());
-test("first-time user can edit a task and run it without writing JSON", async ({
+// These journeys start in the workspace. Cover the welcome screen separately
+// in onboarding.spec.ts and first-workflow.spec.ts, without relying on a chat
+// created by another test to suppress it.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("jeeves-setup:v1", "done"),
+  );
+});
+test("user can edit a task and run it without writing JSON", async ({
   page,
   request,
 }) => {

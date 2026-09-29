@@ -3,42 +3,42 @@
     "name": "intro",
     "title": "Jev needs Jeeves.",
     "sub": "So does your to-do list.",
-    "voice": "Jev needs Jeeves. So does your to-do list. Here's how they work together."
+    "voice": "Here's Jeeves, an open source app for productivity workflows. Build a process once and use it again."
   },
   {
     "name": "01-workflow",
-    "title": "Give the work a shape.",
-    "voice": "Start with a request. Each agent gets a clear job, and you can see every step. This run uses Jev and Codex."
+    "title": "Start with a request.",
+    "voice": "This workflow sorts incoming requests. Each agent has a job, and you can open any step to see what happened."
   },
   {
     "name": "02-decision",
-    "title": "Jev makes the judgment.",
-    "voice": "Jev spots an outage and chooses the urgent route. Open the decision to see its answer, confidence, and the path it picked."
+    "title": "See why it chose this route.",
+    "voice": "Jev recognizes an outage and sends it to the incident agent. The decision shows its answer, confidence, and chosen route."
   },
   {
     "name": "03-waiting",
-    "title": "A mystery deserves a question.",
-    "voice": "Now try a request that's missing the details. Jeeves asks a question, saves the run, and waits. No answer, no next step."
+    "title": "It waits for your answer.",
+    "voice": "When a request is missing details, Jeeves will ask you a question. The workflow saves its progress and waits until you answer."
   },
   {
     "name": "04-answer",
-    "title": "Your answer moves things along.",
-    "voice": "Add what's missing and hit submit. The next agent can now get to work."
+    "title": "Pick up where you left off.",
+    "voice": "Add the details and submit. The workflow picks up from where it stopped."
   },
   {
     "name": "05-result",
-    "title": "Useful work. Ready for review.",
-    "voice": "Here's the result: a concrete action brief, a suggested fix, and a draft reply. It's ready for your review. Nothing has been sent."
+    "title": "Review the result.",
+    "voice": "Now you have an action brief, a suggested fix, and a draft reply to review. Nothing has been sent to the customer."
   },
   {
     "name": "06-export",
-    "title": "Keep the process. Take it with you.",
-    "voice": "Save the workflow for next time, or export it as a portable skill. Next Tuesday is already looking a little more organised."
+    "title": "Use it again.",
+    "voice": "Save this workflow for the next request, or export it as a skill to use elsewhere."
   },
   {
     "name": "outro",
-    "title": "A little direction.",
-    "sub": "A lot done.",
-    "voice": "Jev makes the judgment. Jeeves keeps things moving. Open source, on your desktop. Very good, then."
+    "title": "Try Jeeves.",
+    "sub": "Start with the example.",
+    "voice": "Try Jeeves at get Jeeves dot app. Start with the built-in example, no API key needed."
   }
 ]

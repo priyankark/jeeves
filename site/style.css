@@ -141,9 +141,9 @@ p {
 h1 {
   font-family: Georgia, serif;
   font-weight: 400;
-  font-size: clamp(72px, 7.8vw, 112px);
+  font-size: clamp(52px, 5.8vw, 82px);
   line-height: 1.02;
-  letter-spacing: -6px;
+  letter-spacing: -3px;
   margin: 27px 0 15px;
 }
 h1 em,
@@ -690,7 +690,7 @@ footer > a:last-child {
     display: none;
   }
   h1 {
-    font-size: 80px;
+    font-size: 56px;
   }
   .hero-aside {
     font-size: 22px;
@@ -741,8 +741,8 @@ footer > a:last-child {
     gap: 38px;
   }
   .hero h1 {
-    font-size: 91px;
-    letter-spacing: -5px;
+    font-size: clamp(45px, 10vw, 72px);
+    letter-spacing: -2px;
   }
   .hero-copy .eyebrow {
     font-size: 9px;
@@ -878,4 +878,104 @@ footer > a:last-child {
 }
 .transcript-heading {
   font-size: 30px;
+}
+
+.scenarios button {
+  min-height: 44px;
+}
+.name-section {
+  background: var(--orange);
+  padding: 65px 0;
+}
+.name-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+.name-grid h2 em {
+  color: var(--ink);
+}
+.name-grid p {
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 610px;
+}
+.name-grid .name-wink {
+  font:
+    italic 18px/1.5 Georgia,
+    serif;
+  margin-bottom: 0;
+}
+.name-quote {
+  margin: 0;
+  padding: 15px 0 15px 40px;
+  border-left: 1px solid #a6492b;
+}
+.name-quote blockquote {
+  font:
+    italic clamp(28px, 3vw, 42px)/1.2 Georgia,
+    serif;
+  margin: 0 0 25px;
+}
+.name-quote figcaption {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.downloads {
+  align-self: center;
+  min-width: 0;
+}
+.download-version {
+  font-size: 12px;
+  color: var(--muted);
+}
+.download-platform {
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+}
+.download-platform h3 {
+  margin: 0 0 12px;
+  font-size: 23px;
+}
+.installer-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.installer-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--olive);
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.installer-link:hover {
+  background: var(--sage);
+}
+.download-platform p {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 10px 0 0;
+}
+.release-link {
+  display: inline-block;
+  padding-block: 12px;
+  font-size: 12px;
+}
+@media (max-width: 720px) {
+  .name-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .name-quote {
+    padding: 25px 0 0;
+    border-left: 0;
+    border-top: 1px solid #a6492b;
+  }
 }

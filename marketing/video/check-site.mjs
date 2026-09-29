@@ -76,7 +76,7 @@ try {
   assert.equal(media.captions, 1);
   checks.push("1080p MP4 decodes and plays, with a caption track");
   await p.goto(base + "/transcript.html");
-  assert(await p.getByRole("heading", { name: "The moving picture." }).count());
+  assert(await p.getByRole("heading", { name: "Demo transcript" }).count());
   checks.push("Accessible transcript loads");
   assert.deepEqual(errors, []);
   checks.push("No browser JavaScript or console errors");

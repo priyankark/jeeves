@@ -15,4 +15,22 @@ Checked September 28, 2026, for preview.10 and the public launch copy in commit 
 
 The initial local download and screenshot check ran out of disk space. Removing the isolated temporary checkout allowed both checks to pass on retry. No user workspace or recorded demo source was removed.
 
-Product Hunt and Reddit copy is prepared but has not been submitted. Publishing requires a signed-in maker account. The demo narration has been regenerated in Clipchamp using Ryan (English UK). The 77-second cut includes aligned captions and an updated transcript. Automated recognition recovered the script; subjective voice quality still needs a human listening review.
+Product Hunt and Reddit copy is prepared but has not been submitted. Publishing requires a signed-in maker account. The demo narration was initially regenerated in Clipchamp using Ryan (English UK). A later revision is documented below.
+
+## September 29 follow-up
+
+The landing page now introduces Jeeves as an app for productivity workflows. A “Why Jeeves?” section explains the Wodehouse character and the Jev connection, with a linked literary source. Direct downloads distinguish Apple silicon, Intel Mac, Windows x64, and both Linux formats. The unsigned-preview notice is beside the installers.
+
+A fresh packaged Mac app was exercised through visible browser controls in a separate user-data directory and workspace. These are agent simulations, not external-user studies:
+
+- Newcomer: chose **Try the example**, ran the sample without credentials, and read the clearly labeled simulated weekly update.
+- Reviewer: opened the run, expanded its panel to full screen, opened formatted final output, restored the panel, and dismissed both left navigation panels. Controls to restore them remained available.
+- Shopper: started the grocery workflow in demo mode, left the input form unanswered, and reloaded the app. It remained paused. Submitting the requested information completed the simulation without opening a retailer. Existing personal runs were untouched.
+
+The focused persona command initially exposed test-order dependence: several workspace tests assumed another test had already created a chat and suppressed onboarding. Their setup now explicitly marks onboarding complete. The dedicated onboarding tests still exercise the welcome screen. The independent rerun passed 28 engine checks and 10 browser journeys; 9 additional onboarding/first-workflow browser tests also passed.
+
+Signed-out HEAD requests succeeded for all five release installers. Local landing-page checks covered 320, 390, 768, 1280, and 1440 px, the three interactive examples, keyboard operation, links, and media. An additional 200% CSS zoom check showed no horizontal overflow. The name section and mobile layout were visually inspected.
+
+The revised demo uses Clipchamp’s Andrew Multilingual voice, English US, at default pitch and 1x pace. It is approximately 64 seconds and ends with an invitation to try the example. All eight audio clips were checked against the script using local Whisper recognition, then used for aligned captions. This establishes wording and approximate timing, not subjective naturalness. A human listening review remains outstanding.
+
+These checks do not establish native Windows/Linux installation, Gatekeeper behavior, live retailer reliability, or satisfaction among real new users. The readiness verdict remains an honest public preview, with unsigned installers, manual updates, and provider setup as known friction.

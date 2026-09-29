@@ -6,33 +6,31 @@ Landing page: https://getjeeves.app/
 
 **Name:** Jeeves
 
-**Tagline:** AI workflows with brains, branches, and good manners
+**Tagline:** Productivity workflows you can build and reuse
 
-**Description:** Your to-do list has acquired staff. Jeeves is an open source desktop app for repeat AI work. Give agents their jobs, let Jev choose the route, and answer questions when needed. Inspect every step and keep the process for next time. Try the sample without keys, then bring your own AI connections. Apache 2.0. Mac, Windows, and Linux.
+**Description:** Jeeves is an open source app for productivity workflows. Save the steps for a weekly update, a research brief, or a reply. Agents do the work, Jev chooses routes, and the workflow waits when it needs your input. Start with the built-in example, then connect your AI services. Mac, Windows, and Linux.
 
 **Campaign line:** Jev needs Jeeves. So does your to-do list.
 
 ## Maker comment draft
 
-What ho, Jeeves! Your to-do list has acquired staff.
+What ho, Jeeves!
 
-I built Jeeves for the work I kept explaining to AI over and over: read these notes, draft the update, check the facts, ask me if anything is missing. A useful routine deserves to survive until next Tuesday.
+I built Jeeves because I kept giving AI the same instructions: read these notes, draft an update, check the facts, and ask me if something is missing. I wanted to save those steps and use them again.
 
-Jeeves turns that routine into a desktop workflow you can inspect and reuse. Each agent gets a focused job. Jev, TypeSafe's decision model, chooses routes and checks readiness. You can see what it decided and where the work went. When a step needs your input, the run saves its progress and waits. Optional sound alerts provide a polite cough.
+Jeeves turns that process into a desktop workflow. Each agent has a job. Jev, TypeSafe's decision model, can choose a route or check whether there is enough information to continue. You can inspect each step. When a workflow asks you a question, it saves its progress and waits for your answer. Sound alerts are optional.
 
-The name is the joke and the explanation: Jev needs Jeeves. One makes the judgment; the other keeps the proceedings in order.
+The name comes from P. G. Wodehouse's Jeeves, the resourceful valet who keeps Bertie Wooster out of trouble. There is also a spelling joke: Jev makes decisions; Jeeves puts them to work.
 
-Start with the sample. No key, account, or ceremony required. For your own tasks, connect OpenAI, Codex CLI, OpenRouter, or a local model. Jev decisions need a TypeSafe key. The app is Apache 2.0; hosted AI services have their own costs. Your workspace stays on your computer, and cloud providers receive the task context you send them.
+The built-in example uses sample data and needs no API key. For your own tasks, connect OpenAI, Codex CLI, OpenRouter, or a local model. Live Jev decisions need a TypeSafe key. Jeeves is free under Apache 2.0; hosted AI services may charge for usage. Your workspace stays on your computer, and cloud providers receive the task context you send them.
 
-The 77-second demo shows real Jev and Codex runs with synthetic requests. An outage takes one route; a vague request comes back for clarification. Waiting time is edited out. No replies are sent.
+The demo shows real Jev and Codex runs with synthetic requests. An outage takes one route; a vague request comes back for clarification. Waiting time is edited out. No replies are sent.
 
-This is an early preview. Installers are not yet signed with a trusted publisher certificate. Browser tasks can need a manual login or review. I would love to hear where your first workflow gets awkward, and what repeat task you would hand over next.
-
-“I endeavour to give satisfaction.” Jeeves, in P. G. Wodehouse's _The Inimitable Jeeves_ (1923). A fine job description, and an ongoing engineering task.
+This is an early preview. Installers are unsigned and not notarized, and updates are manual. Browser tasks can need a login or manual review and can fail when a website changes. I would like feedback on the first-run setup and the first workflow you try.
 
 ## Media
 
-- `site/media/jeeves-demo.mp4`: 1080p, approximately 77 seconds, narration and burned-in captions.
+- `site/media/jeeves-demo.mp4`: 1080p, approximately 64 seconds, narration and burned-in captions.
 - `site/media/jeeves-demo.vtt`: separate English captions.
 - `marketing/video/gallery/thumbnail.png`: 240 × 240.
 - `marketing/video/gallery/01-workflow.png`, `02-decision.png`, `03-waiting.png`, `05-result.png`, `06-onboarding.png`: 1270 × 760, real product screenshots.

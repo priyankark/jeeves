@@ -1,151 +1,116 @@
 {
   "intro": {
-    "sha256": "ae59488915f2444a72b0c11062558cce1ca0d783692690510b8eb29ab1eefed5",
+    "sha256": "6014ec0036b7ceb9156dabdc1bc5792bc00dcc6a99a779efb8fa720e1feb541a",
     "cues": [
       {
         "start": 0.0,
-        "end": 1.66,
-        "text": "Jev needs Jeeves."
+        "end": 4.15,
+        "text": "Here's Jeeves, an open source app for productivity workflows."
       },
       {
-        "start": 2.38,
-        "end": 3.78,
-        "text": "So does your to-do list."
-      },
-      {
-        "start": 4.6,
-        "end": 6.2,
-        "text": "Here's how they work together."
+        "start": 4.48,
+        "end": 6.95,
+        "text": "Build a process once and use it again."
       }
     ]
   },
   "01-workflow": {
-    "sha256": "88a65ab6142be8fb2f3dfba11d6f1b955d68fa88094c48f464117bbe1ba9bd3a",
+    "sha256": "3d05d5c6a9e82cc80f04e61a6dcb7b91a6eb0aca3f33c661a85d365bc60d3720",
     "cues": [
       {
         "start": 0.0,
-        "end": 1.52,
-        "text": "Start with a request."
+        "end": 2.55,
+        "text": "This workflow sorts incoming requests."
       },
       {
-        "start": 2.32,
-        "end": 5.58,
-        "text": "Each agent gets a clear job, and you can see every step."
-      },
-      {
-        "start": 6.36,
-        "end": 8.32,
-        "text": "This run uses Jev and Codex."
+        "start": 2.94,
+        "end": 6.75,
+        "text": "Each agent has a job, and you can open any step to see what happened."
       }
     ]
   },
   "02-decision": {
-    "sha256": "f6a0d8dd8c475062b97234c548eacc2a13a316a7a0c348b3b16f4af1bdc63baa",
+    "sha256": "ef3026c7d57ec8bb40447e34488f44f6abfc88d3801827de5509c41deb39e041",
     "cues": [
       {
         "start": 0.0,
-        "end": 3.04,
-        "text": "Jev spots an outage and chooses the urgent route."
+        "end": 3.65,
+        "text": "Jev recognizes an outage and sends it to the incident agent."
       },
       {
-        "start": 3.78,
-        "end": 7.72,
-        "text": "Open the decision to see its answer, confidence, and the path it picked."
+        "start": 3.9,
+        "end": 7.77,
+        "text": "The decision shows its answer, confidence, and chosen route."
       }
     ]
   },
   "03-waiting": {
-    "sha256": "fcc1c510d73bec5e84d8922bfd965f14920ea3ad5d130c0e07c9a6479625e6ae",
+    "sha256": "4b7528ab85f87e78d34729149915c3cf7d21967f1cad92ae39235728caab7dcc",
     "cues": [
       {
         "start": 0.0,
-        "end": 2.66,
-        "text": "Now try a request that's missing the details."
+        "end": 4.41,
+        "text": "When a request is missing details, Jeeves will ask you a question."
       },
       {
-        "start": 3.62,
-        "end": 6.74,
-        "text": "Jeeves asks a question, saves the run, and waits."
-      },
-      {
-        "start": 7.6,
-        "end": 9.56,
-        "text": "No answer, no next step."
+        "start": 4.66,
+        "end": 8.07,
+        "text": "The workflow saves its progress and waits until you answer."
       }
     ]
   },
   "04-answer": {
-    "sha256": "df429f2f8b447ce9839a82a83d14beb4a5c1b2b69b700784b2a633372c01a90f",
+    "sha256": "ad756b0f6f68232eb7027c1490ae9a5d9a949c35f76380f65eee5682e0737136",
     "cues": [
       {
         "start": 0.0,
-        "end": 2.04,
-        "text": "Add what's missing and hit submit."
+        "end": 1.93,
+        "text": "Add the details and submit."
       },
       {
-        "start": 2.82,
-        "end": 4.78,
-        "text": "The next agent can now get to work."
+        "start": 2.3,
+        "end": 4.01,
+        "text": "The workflow picks up from where it stopped."
       }
     ]
   },
   "05-result": {
-    "sha256": "470092673e8f3074744617bd0784f9b30a5dbee7b452e9390c4384b3dd47bd33",
+    "sha256": "e9c88dd70409a25ef4a98f8a935e7350c0ac7704fb47a2ae4ce6e3c1071ce207",
     "cues": [
       {
         "start": 0.0,
-        "end": 5.32,
-        "text": "Here's the result: a concrete action brief, a suggested fix, and a draft reply."
+        "end": 4.91,
+        "text": "Now you have an action brief, a suggested fix, and a draft reply to review."
       },
       {
-        "start": 6.06,
-        "end": 7.58,
-        "text": "It's ready for your review."
-      },
-      {
-        "start": 8.4,
-        "end": 9.52,
-        "text": "Nothing has been sent."
+        "start": 5.28,
+        "end": 6.89,
+        "text": "Nothing has been sent to the customer."
       }
     ]
   },
   "06-export": {
-    "sha256": "cf1482a89a920a6a58ddb0e16c9eb4039a61c6218a29f933eeee5f2b28b4f964",
+    "sha256": "b4d3e38d77f51646b21c2d9951d1212af4dcb957424273425f58a690b8fc46f5",
     "cues": [
       {
         "start": 0.0,
-        "end": 4.28,
-        "text": "Save the workflow for next time, or export it as a portable skill."
-      },
-      {
-        "start": 5.02,
-        "end": 7.76,
-        "text": "Next Tuesday is already looking a little more organised."
+        "end": 4.97,
+        "text": "Save this workflow for the next request, or export it as a skill to use elsewhere."
       }
     ]
   },
   "outro": {
-    "sha256": "e8bc463a4ba37c06635b9855d26c28cfb1f8e1a96c1079fa8f6d98bed9bcab0e",
+    "sha256": "72a9ca2e6b5b6a087c5a7df9b1d03d6da52802c349f632d48ab0a81fbc3502bc",
     "cues": [
       {
         "start": 0.0,
-        "end": 1.66,
-        "text": "Jev makes the judgment."
+        "end": 2.21,
+        "text": "Try Jeeves at get Jeeves dot app."
       },
       {
-        "start": 2.52,
-        "end": 4.34,
-        "text": "Jeeves keeps things moving."
-      },
-      {
-        "start": 4.92,
-        "end": 6.96,
-        "text": "Open source, on your desktop."
-      },
-      {
-        "start": 7.88,
-        "end": 9.3,
-        "text": "Very good, then."
+        "start": 2.34,
+        "end": 5.77,
+        "text": "Start with the built-in example, no API key needed."
       }
     ]
   }
