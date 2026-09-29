@@ -3,58 +3,58 @@
     "name": "intro",
     "title": "Jev needs Jeeves.",
     "sub": "So does your to-do list.",
-    "voice": "Jev needs Jeeves. So does your to-do list. Here is a little direction, for work with a plot twist.",
+    "voice": "Jev needs Jeeves. So does your to-do list. Here's how they work together.",
     "start": 0,
-    "duration": 7.342313
+    "duration": 7.768
   },
   {
     "name": "01-workflow",
     "title": "Give the work a shape.",
-    "voice": "A request comes in. Jeeves gives each step a job, and makes the whole process visible. This is a real workflow, running with Jev and Codex.",
-    "start": 7.342313,
-    "duration": 9.675873
+    "voice": "Start with a request. Each agent gets a clear job, and you can see every step. This run uses Jev and Codex.",
+    "start": 7.768,
+    "duration": 10.216
   },
   {
     "name": "02-decision",
     "title": "Jev makes the judgment.",
-    "voice": "Jev sees a concrete outage and chooses the urgent route. You can inspect the answer, confidence, and the branch it selected.",
-    "start": 17.018186,
-    "duration": 8.657415
+    "voice": "Jev spots an outage and chooses the urgent route. Open the decision to see its answer, confidence, and the path it picked.",
+    "start": 17.983999999999998,
+    "duration": 9.4
   },
   {
     "name": "03-waiting",
     "title": "A mystery deserves a question.",
-    "voice": "But when a request is vague, guessing is poor form. Jeeves asks for the missing facts, saves the progress, and waits for you.",
-    "start": 25.675601,
-    "duration": 8.966847999999999
+    "voice": "Now try a request that's missing the details. Jeeves asks a question, saves the run, and waits. No answer, no next step.",
+    "start": 27.384,
+    "duration": 11.224
   },
   {
     "name": "04-answer",
     "title": "Your answer moves things along.",
-    "voice": "Add the context and submit. Only then does the next agent pick up the work.",
-    "start": 34.642449,
-    "duration": 5.391791
+    "voice": "Add what's missing and hit submit. The next agent can now get to work.",
+    "start": 38.608000000000004,
+    "duration": 6.448
   },
   {
     "name": "05-result",
     "title": "Useful work. Ready for review.",
-    "voice": "Your clarification becomes a concrete action brief, with a suggested fix and a draft reply. The facts stay visible. Nothing has been sent.",
-    "start": 40.03424,
-    "duration": 10
+    "voice": "Here's the result: a concrete action brief, a suggested fix, and a draft reply. It's ready for your review. Nothing has been sent.",
+    "start": 45.056000000000004,
+    "duration": 11.224
   },
   {
     "name": "06-export",
     "title": "Keep the process. Take it with you.",
-    "voice": "Keep the workflow for next time, or export it as a portable skill with its requirements. A useful process deserves a second outing.",
-    "start": 50.03424,
-    "duration": 9.163492
+    "voice": "Save the workflow for next time, or export it as a portable skill. Next Tuesday is already looking a little more organised.",
+    "start": 56.28,
+    "duration": 9.52
   },
   {
     "name": "outro",
     "title": "A little direction.",
     "sub": "A lot done.",
-    "voice": "Jev makes the judgment. Jeeves handles the follow-through. Meet your Jeeves.",
-    "start": 59.197731999999995,
-    "duration": 5.415057
+    "voice": "Jev makes the judgment. Jeeves keeps things moving. Open source, on your desktop. Very good, then.",
+    "start": 65.8,
+    "duration": 10.792
   }
 ]

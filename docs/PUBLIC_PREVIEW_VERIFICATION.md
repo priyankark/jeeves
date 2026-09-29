@@ -15,4 +15,4 @@ Checked September 28, 2026, for preview.10 and the public launch copy in commit 
 
 The initial local download and screenshot check ran out of disk space. Removing the isolated temporary checkout allowed both checks to pass on retry. No user workspace or recorded demo source was removed.
 
-Product Hunt and Reddit copy is prepared but has not been submitted. Publishing requires a signed-in maker account. Clipchamp narration replacement is also waiting for sign-in; the live video still uses the original macOS Daniel voice.
+Product Hunt and Reddit copy is prepared but has not been submitted. Publishing requires a signed-in maker account. The demo narration has been regenerated in Clipchamp using Ryan (English UK). The 77-second cut includes aligned captions and an updated transcript. Automated recognition recovered the script; subjective voice quality still needs a human listening review.

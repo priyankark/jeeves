@@ -5,11 +5,11 @@
 [![Checks](https://github.com/priyankark/jeeves/actions/workflows/ci.yml/badge.svg)](https://github.com/priyankark/jeeves/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-526a43)](LICENSE)
 
-**Your to-do list has acquired staff.** Jeeves is an open source desktop app for repeat AI work. Build a workflow, give each agent a job, let Jev make decisions, and step in when your input is needed. Keep the process for next time.
+**What ho, Jeeves!** Your to-do list has acquired staff. Jeeves is an open source desktop app for repeat AI work. Build a workflow, give each agent a job, let Jev make decisions, and step in when your input is needed. Keep the process for next time.
 
 [Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://jeeves-workflows.vercel.app/#film) · [Website](https://jeeves-workflows.vercel.app/)
 
-[![Watch the 65-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://jeeves-workflows.vercel.app/#film)
+[![Watch the 77-second demo: Jev routes a request, Jeeves asks for context, and an agent writes the brief](site/media/demo-poster.png)](https://jeeves-workflows.vercel.app/#film)
 
 ## A little order in the proceedings
 

@@ -1,6 +1,7 @@
 import { chromium } from "playwright-core";
 import { mkdir, writeFile, readFile, copyFile, access } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 const work = "/tmp/jeeves-film",
   out = "site/media";
 await mkdir(out, { recursive: true });
@@ -17,6 +18,14 @@ if (!narrationDir)
   );
 const narrationCredit = process.env.NARRATION_CREDIT || "Imported narration";
 const audioFiles = new Map();
+let alignedCaptions = {};
+try {
+  alignedCaptions = JSON.parse(
+    await readFile(`${narrationDir}/cues.json`, "utf8"),
+  );
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
 // Check every scene before changing any published media files.
 for (const scene of scenes) {
   for (const extension of ["wav", "mp3", "m4a", "mp4", "aiff"]) {
@@ -31,6 +40,30 @@ for (const scene of scenes) {
   }
   if (!audioFiles.has(scene.name))
     throw new Error(`Missing narration export for ${scene.name}`);
+  const aligned = alignedCaptions[scene.name];
+  if (aligned) {
+    const hash = createHash("sha256")
+      .update(await readFile(audioFiles.get(scene.name)))
+      .digest("hex");
+    if (
+      hash !== aligned.sha256 ||
+      aligned.cues.map((c) => c.text).join(" ") !== scene.voice
+    )
+      throw new Error(
+        `Caption alignment does not match narration for ${scene.name}`,
+      );
+    let end = 0;
+    for (const cue of aligned.cues) {
+      if (
+        !Number.isFinite(cue.start) ||
+        !Number.isFinite(cue.end) ||
+        cue.start < end ||
+        cue.end <= cue.start
+      )
+        throw new Error(`Invalid caption timing for ${scene.name}`);
+      end = cue.end;
+    }
+  }
 }
 const b = await chromium.launch({ channel: "chrome", headless: true });
 const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
@@ -147,6 +180,12 @@ const time = (v) => {
 };
 let vtt = "WEBVTT\n\n";
 for (const s of timeline) {
+  const aligned = alignedCaptions[s.name];
+  if (aligned) {
+    for (const cue of aligned.cues)
+      vtt += `${time(s.start + 0.3 + cue.start)} --> ${time(s.start + 0.3 + cue.end)}\n${cue.text}\n\n`;
+    continue;
+  }
   const chunks = s.voice.match(/[^.!?]+[.!?]+/g) || [s.voice];
   const total = chunks.reduce((n, c) => n + c.length, 0);
   let pos = s.start + 0.3;

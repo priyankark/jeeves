@@ -1,62 +1,68 @@
 WEBVTT
 
-00:00:00.300 --> 00:00:01.452
+00:00:00.300 --> 00:00:01.960
 Jev needs Jeeves.
 
-00:00:01.452 --> 00:00:03.147
+00:00:02.680 --> 00:00:04.080
 So does your to-do list.
 
-00:00:03.147 --> 00:00:06.942
-Here is a little direction, for work with a plot twist.
+00:00:04.900 --> 00:00:06.500
+Here's how they work together.
 
-00:00:07.642 --> 00:00:08.869
-A request comes in.
+00:00:08.068 --> 00:00:09.588
+Start with a request.
 
-00:00:08.869 --> 00:00:13.196
-Jeeves gives each step a job, and makes the whole process visible.
+00:00:10.388 --> 00:00:13.648
+Each agent gets a clear job, and you can see every step.
 
-00:00:13.196 --> 00:00:16.618
-This is a real workflow, running with Jev and Codex.
+00:00:14.428 --> 00:00:16.388
+This run uses Jev and Codex.
 
-00:00:17.318 --> 00:00:20.912
-Jev sees a concrete outage and chooses the urgent route.
+00:00:18.284 --> 00:00:21.324
+Jev spots an outage and chooses the urgent route.
 
-00:00:20.912 --> 00:00:25.276
-You can inspect the answer, confidence, and the branch it selected.
+00:00:22.064 --> 00:00:26.004
+Open the decision to see its answer, confidence, and the path it picked.
 
-00:00:25.976 --> 00:00:29.348
-But when a request is vague, guessing is poor form.
+00:00:27.684 --> 00:00:30.344
+Now try a request that's missing the details.
 
-00:00:29.348 --> 00:00:34.242
-Jeeves asks for the missing facts, saves the progress, and waits for you.
+00:00:31.304 --> 00:00:34.424
+Jeeves asks a question, saves the run, and waits.
 
-00:00:34.942 --> 00:00:36.631
-Add the context and submit.
+00:00:35.284 --> 00:00:37.244
+No answer, no next step.
 
-00:00:36.631 --> 00:00:39.634
-Only then does the next agent pick up the work.
+00:00:38.908 --> 00:00:40.948
+Add what's missing and hit submit.
 
-00:00:40.334 --> 00:00:46.467
-Your clarification becomes a concrete action brief, with a suggested fix and a draft reply.
+00:00:41.728 --> 00:00:43.688
+The next agent can now get to work.
 
-00:00:46.467 --> 00:00:48.084
-The facts stay visible.
+00:00:45.356 --> 00:00:50.676
+Here's the result: a concrete action brief, a suggested fix, and a draft reply.
 
-00:00:48.084 --> 00:00:49.634
+00:00:51.416 --> 00:00:52.936
+It's ready for your review.
+
+00:00:53.756 --> 00:00:54.876
 Nothing has been sent.
 
-00:00:50.334 --> 00:00:56.020
-Keep the workflow for next time, or export it as a portable skill with its requirements.
+00:00:56.580 --> 00:01:00.860
+Save the workflow for next time, or export it as a portable skill.
 
-00:00:56.020 --> 00:00:58.798
-A useful process deserves a second outing.
+00:01:01.600 --> 00:01:04.340
+Next Tuesday is already looking a little more organised.
 
-00:00:59.498 --> 00:01:00.925
+00:01:06.100 --> 00:01:07.760
 Jev makes the judgment.
 
-00:01:00.925 --> 00:01:03.096
-Jeeves handles the follow-through.
+00:01:08.620 --> 00:01:10.440
+Jeeves keeps things moving.
 
-00:01:03.096 --> 00:01:04.213
-Meet your Jeeves.
+00:01:11.020 --> 00:01:13.060
+Open source, on your desktop.
+
+00:01:13.980 --> 00:01:15.400
+Very good, then.
 

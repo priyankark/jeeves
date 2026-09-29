@@ -14,7 +14,7 @@ Landing page: https://jeeves-workflows.vercel.app/
 
 ## Maker comment draft
 
-What ho, Product Hunt. Your to-do list has acquired staff.
+What ho, Jeeves! Your to-do list has acquired staff.
 
 I built Jeeves for the work I kept explaining to AI over and over: read these notes, draft the update, check the facts, ask me if anything is missing. A useful routine deserves to survive until next Tuesday.
 
@@ -24,7 +24,7 @@ The name is the joke and the explanation: Jev needs Jeeves. One makes the judgme
 
 Start with the sample. No key, account, or ceremony required. For your own tasks, connect OpenAI, Codex CLI, OpenRouter, or a local model. Jev decisions need a TypeSafe key. The app is Apache 2.0; hosted AI services have their own costs. Your workspace stays on your computer, and cloud providers receive the task context you send them.
 
-The 65-second demo shows real Jev and Codex runs with synthetic requests. An outage takes one route; a vague request comes back for clarification. Waiting time is edited out. No replies are sent.
+The 77-second demo shows real Jev and Codex runs with synthetic requests. An outage takes one route; a vague request comes back for clarification. Waiting time is edited out. No replies are sent.
 
 This is an early preview. Installers are not yet signed with a trusted publisher certificate. Browser tasks can need a manual login or review. I would love to hear where your first workflow gets awkward, and what repeat task you would hand over next.
 
@@ -32,7 +32,7 @@ This is an early preview. Installers are not yet signed with a trusted publisher
 
 ## Media
 
-- `site/media/jeeves-demo.mp4`: 1080p, approximately 65 seconds, narration and burned-in captions.
+- `site/media/jeeves-demo.mp4`: 1080p, approximately 77 seconds, narration and burned-in captions.
 - `site/media/jeeves-demo.vtt`: separate English captions.
 - `marketing/video/gallery/thumbnail.png`: 240 × 240.
 - `marketing/video/gallery/01-workflow.png`, `02-decision.png`, `03-waiting.png`, `05-result.png`, `06-onboarding.png`: 1270 × 760, real product screenshots.

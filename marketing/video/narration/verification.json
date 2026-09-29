@@ -1,0 +1,34 @@
+{
+  "url": "http://127.0.0.1:4341",
+  "testedAt": "2026-09-29T03:15:16.862Z",
+  "checks": [
+    "No horizontal overflow; all three example routes work at 320px",
+    "No horizontal overflow; all three example routes work at 390px",
+    "No horizontal overflow; all three example routes work at 768px",
+    "No horizontal overflow; all three example routes work at 1280px",
+    "No horizontal overflow; all three example routes work at 1440px",
+    "Example selection works from the keyboard",
+    "All local links, media, captions, script, stylesheet, and workflow download return successfully",
+    "1080p MP4 decodes and plays, with a caption track",
+    "Accessible transcript loads",
+    "No browser JavaScript or console errors"
+  ],
+  "media": {
+    "width": 1920,
+    "height": 1080,
+    "duration": 76.721,
+    "captions": 1
+  },
+  "narration": {
+    "source": "Microsoft Clipchamp",
+    "voice": "Ryan",
+    "language": "English (United Kingdom)",
+    "pace": "1x",
+    "pitch": "Default",
+    "recognition": "Local Whisper tiny.en recovered all eight scenes; punctuation and spelling differences only.",
+    "listeningReview": "Not performed by a human.",
+    "integratedLoudnessLufs": -16.45,
+    "truePeakDbtp": -1.25,
+    "loudnessRangeLu": 4.0
+  }
+}
