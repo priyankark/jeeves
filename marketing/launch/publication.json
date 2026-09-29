@@ -24,7 +24,17 @@
     "status": "published",
     "author": "yotta_mind",
     "community": "SideProject",
-    "verification": "Confirmed u/yotta_mind in the signed-in profile menu before submission. The public permalink shows the matching author, title, and complete post while signed out. The earlier post from a different account was deleted."
+    "verification": "Confirmed u/yotta_mind in the signed-in profile menu before submission. The public permalink shows the matching author, title, and complete post while signed out. The earlier post from a different account was deleted.",
+    "additionalPosts": [
+      {
+        "url": "https://www.reddit.com/r/LLMDevs/comments/1wtgo9d/i_built_jeeves_an_open_source_workflow_app_with/",
+        "status": "published",
+        "author": "yotta_mind",
+        "community": "LLMDevs",
+        "flair": "Tools",
+        "verification": "Verified signed-in profile before submission and full post, author, and Tools flair while signed out. Community rules and newer pinned policy permit free FOSS projects without prior moderator approval. Creator and Codex writing assistance disclosed."
+      }
+    ]
   },
   "editing": "Update these existing posts and this video. Do not submit duplicate launches or uploads."
 }

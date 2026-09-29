@@ -11,6 +11,7 @@ Status: public desktop preview. Source, installers, the landing page, and the Yo
 - Product Hunt copy and media map: [listing copy](../marketing/copy/product-hunt.md).
 - Submitted [Product Hunt listing](https://www.producthunt.com/products/jeeves-3?launch=jeeves-6), with **Scheduled** confirmed in its pre-launch dashboard. It is not yet on the daily leaderboard.
 - [Reddit announcement](https://www.reddit.com/r/SideProject/comments/1wtfvya/i_built_jeeves_an_open_source_workflow_app_with/) from u/yotta_mind, with the author and full post verified while signed out. The earlier post from a different account was deleted.
+- [Technical r/LLMDevs introduction](https://www.reddit.com/r/LLMDevs/comments/1wtgo9d/i_built_jeeves_an_open_source_workflow_app_with/) from u/yotta_mind, with Tools flair, source references, creator and AI-writing disclosure. Author and full post verified while signed out.
 - Apache 2.0 [license](../LICENSE), [notice](../NOTICE), and [contribution guide](../CONTRIBUTING.md).
 - First-run welcome with a sample without keys, optional connection setup, verification, skip, and return.
 

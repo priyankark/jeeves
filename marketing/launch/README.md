@@ -25,6 +25,8 @@ The Product Hunt launch is submitted and scheduled for October 1, 2026 at 12:01 
 
 `reddit-title.txt` and `reddit-post.txt` match the published r/SideProject post from **u/yotta_mind**. The account was verified before posting, and the author and full post were checked while signed out. The earlier post from a different account was deleted. Edit the existing post rather than submitting another one. Do not request votes or send unsolicited promotion. Do not use this AI-assisted copy in communities that prohibit it.
 
+The technical introduction is also published in [r/LLMDevs](https://www.reddit.com/r/LLMDevs/comments/1wtgo9d/i_built_jeeves_an_open_source_workflow_app_with/) from **u/yotta_mind**, with the Tools flair. `reddit-llmdevs-title.txt` and `reddit-llmdevs-post.txt` contain that post. Authorship and Codex writing assistance are disclosed. Edit the existing post rather than duplicating it.
+
 ## Downloads and support
 
 The preview supports Mac Apple silicon, Intel Mac, Windows x64, and Linux x64. Mac downloads are signed and notarized by Apple. The Windows installer is unsigned and may show a security warning. Updates are manual. The built-in example uses sample data and makes no AI calls. Live runs need the relevant provider connections. Browser tasks require Chrome and may need manual login or review.

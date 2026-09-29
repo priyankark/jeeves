@@ -21,6 +21,7 @@ export async function buildKit() {
   const ph = await text("marketing/copy/product-hunt.md");
   const reddit = await text("marketing/copy/reddit-sideproject.md");
   const youtube = await text("marketing/copy/youtube.md");
+  const llmdevs = await text("marketing/copy/reddit-llmdevs.md");
   // The next app version can build while the website still offers the last
   // verified release. Keep the kit tied to those published downloads.
   const site = await text("site/index.html");
@@ -58,6 +59,8 @@ export async function buildKit() {
     "product-hunt-comment.txt": section(ph, "Maker comment draft"),
     "reddit-title.txt": section(reddit, "Title"),
     "reddit-post.txt": section(reddit, "Post"),
+    "reddit-llmdevs-title.txt": section(llmdevs, "Title"),
+    "reddit-llmdevs-post.txt": section(llmdevs, "Post"),
     "youtube-title.txt": section(youtube, "Title"),
     "youtube-description.txt": section(youtube, "Description"),
   };
