@@ -1,6 +1,6 @@
 # Reddit launch copy
 
-Publish only from **u/yottamind**, as specified by the maker. Verify the signed-in username before submitting. The previous post from a different account has been deleted. Replacement publication is pending.
+Publish only from **u/yotta_mind**, as specified by the maker. Verify the signed-in username before submitting. The previous post from a different account has been deleted. Replacement publication is pending.
 
 ## Title
 
@@ -26,7 +26,7 @@ I'd appreciate feedback on the setup and your first workflow. What would you try
 
 ## Posting notes
 
-Use u/yottamind only. Check the sidebar, community highlights, rules, and live form. Answer questions with specific examples and known limits. Do not request votes or send unsolicited messages. Do not cross-post this copy to r/opensource: its rules prohibit AI-generated content. Follow each community's own rules.
+Use u/yotta_mind only. Check the sidebar, community highlights, rules, and live form. Answer questions with specific examples and known limits. Do not request votes or send unsolicited messages. Do not cross-post this copy to r/opensource: its rules prohibit AI-generated content. Follow each community's own rules.
 
 Rules endpoint checked September 29, 2026. The r/SideProject endpoint returned no community-specific rules; still check its sidebar, pinned posts, and live form:
 

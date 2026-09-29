@@ -8,7 +8,7 @@ Website: https://getjeeves.app/
 Source and installers: https://github.com/priyankark/jeeves
 Public demo: https://www.youtube.com/watch?v=KV6YvV7WovE
 Product Hunt: https://www.producthunt.com/products/jeeves-3?launch=jeeves-6
-Reddit: pending publication from u/yottamind only.
+Reddit: pending publication from u/yotta_mind only.
 Download this kit: https://getjeeves.app/media/jeeves-launch-kit.zip
 
 This kit is for the public desktop preview. It contains the current copy, real product screenshots, a 64-second demo, captions, and a thumbnail. It contains no customer testimonials or user-study results.
@@ -23,7 +23,7 @@ The Product Hunt launch is submitted and scheduled for October 1, 2026 at 12:01 
 
 ## Reddit
 
-`reddit-title.txt` and `reddit-post.txt` are prepared for r/SideProject. The maker has specified **u/yottamind**. Verify that exact signed-in username before submitting. The earlier post from a different account was deleted; replacement publication is pending. Do not request votes or send unsolicited promotion. Do not use this AI-assisted copy in communities that prohibit it.
+`reddit-title.txt` and `reddit-post.txt` are prepared for r/SideProject. The maker has specified **u/yotta_mind**. Verify that exact signed-in username before submitting. The earlier post from a different account was deleted; replacement publication is pending. Do not request votes or send unsolicited promotion. Do not use this AI-assisted copy in communities that prohibit it.
 
 ## Downloads and support
 

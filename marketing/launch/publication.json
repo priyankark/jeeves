@@ -22,9 +22,9 @@
   "reddit": {
     "url": null,
     "status": "pending_account_verification",
-    "author": "yottamind",
+    "author": "yotta_mind",
     "community": "SideProject",
-    "verification": "The earlier post from a different account was deleted. The maker requires u/yottamind. Verify that exact signed-in username before publishing the replacement."
+    "verification": "The login email confirms u/yotta_mind. Reddit is requiring a human verification challenge in a separate browser session. Confirm the signed-in profile after that check before publishing. The earlier post from a different account was deleted."
   },
   "editing": "Update these existing posts and this video. Do not submit duplicate launches or uploads."
 }
