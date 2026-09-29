@@ -19,7 +19,7 @@ Source and installers: https://github.com/priyankark/jeeves
 
 The footage uses synthetic requests. Model waiting time is edited out. Narration uses a stock Microsoft Clipchamp voice. No replies were sent to customers.
 
-Jeeves is free under Apache 2.0. The built-in example uses sample data and needs no API key. Live runs need your own AI connections, which may charge for usage. This is an early preview with unsigned installers and manual updates.
+Jeeves is free under Apache 2.0. The built-in example uses sample data and needs no API key. Live runs need your own AI connections, which may charge for usage. This is an early preview with manual updates. Mac downloads are signed and notarized; the Windows installer is unsigned.
 
 I'd love to hear what you would use it for.
 

@@ -24,17 +24,17 @@ Jeeves lets you keep that routine as a workflow you can see and change.
 
 ## Get Jeeves on your desktop
 
-No Node.js, terminal, or Jeeves account needed. Choose your system from the [preview.10 release](https://github.com/priyankark/jeeves/releases/tag/v0.1.0-preview.10):
+No Node.js, terminal, or Jeeves account needed. Choose your system from the [preview.11 release](https://github.com/priyankark/jeeves/releases/tag/v0.1.0-preview.11):
 
 | Your computer                 | Download                                                                                                                            | Install                                   |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| Mac, Apple Silicon (M-series) | [Apple Silicon DMG](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.10/Jeeves-0.1.0-preview.10-mac-arm64.dmg) | Open the DMG, drag Jeeves to Applications |
-| Mac, Intel                    | [Intel DMG](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.10/Jeeves-0.1.0-preview.10-mac-x64.dmg)           | Open the DMG, drag Jeeves to Applications |
-| Windows, x64                  | [Windows installer](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.10/Jeeves-0.1.0-preview.10-win-x64.exe)   | Run the installer, then open Jeeves       |
-| Linux, Debian/Ubuntu x64      | [Debian package](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.10/Jeeves-0.1.0-preview.10-linux-amd64.deb)  | Install with your package manager         |
-| Linux, x64 portable           | [AppImage](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.10/Jeeves-0.1.0-preview.10-linux-x86_64.AppImage)  | Make executable, then open                |
+| Mac, Apple Silicon (M-series) | [Apple Silicon DMG](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.11/Jeeves-0.1.0-preview.11-mac-arm64.dmg) | Open the DMG, drag Jeeves to Applications |
+| Mac, Intel                    | [Intel DMG](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.11/Jeeves-0.1.0-preview.11-mac-x64.dmg)           | Open the DMG, drag Jeeves to Applications |
+| Windows, x64                  | [Windows installer](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.11/Jeeves-0.1.0-preview.11-win-x64.exe)   | Run the installer, then open Jeeves       |
+| Linux, Debian/Ubuntu x64      | [Debian package](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.11/Jeeves-0.1.0-preview.11-linux-amd64.deb)  | Install with your package manager         |
+| Linux, x64 portable           | [AppImage](https://github.com/priyankark/jeeves/releases/download/v0.1.0-preview.11/Jeeves-0.1.0-preview.11-linux-x86_64.AppImage)  | Make executable, then open                |
 
-This is an early preview. Installers are not signed with a trusted publisher certificate or notarized. [Installation help, checksums, and first-run instructions](docs/QUICKSTART.md).
+This is an early preview. Mac downloads are signed and notarized by Apple. Windows installers are unsigned and may show a security warning. [Installation help, checksums, and first-run instructions](docs/QUICKSTART.md).
 
 ### Your first useful minute
 
@@ -89,7 +89,7 @@ Workflows, settings, and history live on your computer. Cloud AI services receiv
 
 This preview has manual updates. Schedules need the local engine to stay running. Websites can change or ask you to sign in, and generated results still need your review. See the [user guide](docs/USER_GUIDE.md) for execution details and limits.
 
-The release passed **132 engine and integration tests, 56 browser tests, and packaged-app checks on Mac, Windows, and Linux**. These are automated checks, not a claim that every real-world task succeeds. [Verification notes](docs/ONBOARDING_VERIFICATION.md) · [Release checks](https://github.com/priyankark/jeeves/actions/workflows/release.yml)
+The release passed **136 engine and integration tests, 56 browser tests, and packaged-app checks on Mac, Windows, and Linux**. These are automated checks, not a claim that every real-world task succeeds. [Verification notes](docs/ONBOARDING_VERIFICATION.md) · [Release checks](https://github.com/priyankark/jeeves/actions/workflows/release.yml)
 
 ## Join the household
 

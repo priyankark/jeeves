@@ -87,6 +87,19 @@ if (process.argv.includes("--live")) {
   const livePage = await (await get(listing.website)).text();
   assert(livePage.includes("Jeeves is an app for productivity workflows."));
   assert(livePage.includes(listing.release));
+  const publicKit = Buffer.from(
+    await (
+      await get(`${listing.website}media/jeeves-launch-kit.zip`)
+    ).arrayBuffer(),
+  );
+  assert(
+    publicKit.equals(await readFile("site/media/jeeves-launch-kit.zip")),
+    "Public launch kit is stale",
+  );
+  for (const file of ["robots.txt", "sitemap.xml"]) {
+    const body = await (await get(`${listing.website}${file}`)).text();
+    assert(body.includes("https://getjeeves.app/"), `Invalid ${file}`);
+  }
   for (const [name, local] of Object.entries(files).filter(([name]) =>
     /^(jeeves-demo\.(mp4|vtt))$/.test(name),
   )) {
@@ -121,6 +134,23 @@ if (process.argv.includes("--live")) {
       sums.split(/\r?\n/).some((line) => line.trim() === checksum),
       "Checksum sidecar differs from release manifest",
     );
+    if (process.argv.includes("--download-installers")) {
+      const response = await get(url, { signal: AbortSignal.timeout(180000) });
+      const hash = createHash("sha256");
+      let bytes = 0;
+      for await (const chunk of response.body) {
+        hash.update(chunk);
+        bytes += chunk.length;
+      }
+      assert.equal(
+        hash.digest("hex"),
+        checksum.split(/\s+/)[0],
+        `Downloaded installer checksum mismatch: ${url}`,
+      );
+      console.log(
+        `Verified downloaded bytes: ${url.split("/").at(-1)} (${bytes} bytes)`,
+      );
+    }
   }
   for (const host of ["www.getjeeves.app", "jeeves-workflows.vercel.app"]) {
     const response = await fetch(

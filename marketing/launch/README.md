@@ -22,7 +22,7 @@ Save a draft before setting a launch date. Verify the maker identity, gallery or
 
 ## Downloads and support
 
-The preview supports Mac Apple silicon, Intel Mac, Windows x64, and Linux x64. Installers are unsigned and not notarized. Updates are manual. The built-in example uses sample data and makes no AI calls. Live runs need the relevant provider connections. Browser tasks require Chrome and may need manual login or review.
+The preview supports Mac Apple silicon, Intel Mac, Windows x64, and Linux x64. Mac downloads are signed and notarized by Apple. The Windows installer is unsigned and may show a security warning. Updates are manual. The built-in example uses sample data and makes no AI calls. Live runs need the relevant provider connections. Browser tasks require Chrome and may need manual login or review.
 
 Setup: https://github.com/priyankark/jeeves/blob/main/docs/QUICKSTART.md
 First-run feedback: https://github.com/priyankark/jeeves/issues/new?template=first_run.yml
@@ -43,3 +43,5 @@ If the download is broken or the app cannot start, hold the announcement. Correc
 ## Asset verification
 
 `manifest.json` lists the byte size and SHA-256 hash of each included file. `product-hunt-fields.json` includes source links for the platform limits. The build command is `npm run launch:kit`; validate with `npm run check:launch`. Use `npm run check:launch -- --live` to check the public site, repository, installers, checksums, and domain redirects.
+
+For a complete download audit, run `npm run check:launch -- --live --download-installers`. This also streams all five public installers and compares their actual SHA-256 hashes with the release checksums.

@@ -24,7 +24,7 @@ The name is a nod to Wodehouse's Jeeves, who gets Bertie Wooster out of trouble.
 
 You can try the built-in example without an API key. It uses sample data. For your own tasks, connect an AI service; live Jev decisions need a TypeSafe key. The app is free under Apache 2.0. Your AI provider may charge for usage.
 
-It's an early preview for Mac, Windows, and Linux. Installers are unsigned, updates are manual, and browser tasks can need your help. Your workspace stays on your computer, but cloud models receive the task context you send them.
+It's an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. The Windows installer is unsigned, updates are manual, and browser tasks can need your help. Your workspace stays on your computer, but cloud models receive the task context you send them.
 
 I'd love to hear what you'd use it for, and where your first attempt gets confusing.
 
@@ -46,7 +46,7 @@ Pricing: Free. Provider usage is separate. Suggested launch tags: Productivity, 
 
 ## Before public launch
 
-Verify signed-out access to the source and installer downloads before submitting this listing. Use the maker account and attach a public or unlisted YouTube upload of the finished demo. Preview installers are not signed with a trusted publisher certificate or notarized.
+Verify signed-out access to the source and installer downloads before submitting this listing. Use the maker account and attach a public or unlisted YouTube upload of the finished demo. Mac downloads are signed and notarized; the Windows installer remains unsigned.
 
 ## Literary source
 

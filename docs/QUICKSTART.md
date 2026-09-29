@@ -4,7 +4,7 @@ Let us get something done before anyone asks you for an API key.
 
 ## Install the desktop app
 
-Choose your system on the [GitHub releases page](https://github.com/priyankark/jeeves/releases). The current preview is **0.1.0-preview.10**. Desktop users do not need Node.js or npm.
+Choose your system on the [GitHub releases page](https://github.com/priyankark/jeeves/releases). The current preview is **0.1.0-preview.11**. Desktop users do not need Node.js or npm.
 
 ### Mac
 
@@ -12,7 +12,7 @@ Choose your system on the [GitHub releases page](https://github.com/priyankark/j
 2. Open the DMG and drag Jeeves into **Applications**.
 3. Open Jeeves from Applications.
 
-The preview has an ad-hoc signature, but is not signed with an Apple Developer ID or notarized. If macOS says the developer cannot be verified, review [Apple's instructions](https://support.apple.com/en-us/102445). If you trust the download, try opening the app, then use **System Settings → Privacy & Security → Open Anyway** when offered. Do not disable Gatekeeper globally. A damaged-app or malware alert needs investigation, not the same workaround.
+Mac downloads from preview.11 onward are signed with Developer ID and notarized by Apple. The first launch may ask you to confirm opening an app downloaded from the internet. If macOS reports a damaged app or an unverified developer, stop and [report the exact message](https://github.com/priyankark/jeeves/issues/new?template=bug_report.yml), including the version and your Mac model. Do not disable Gatekeeper or remove quarantine to bypass that warning.
 
 ### Windows
 
@@ -23,14 +23,14 @@ Download the `win-x64.exe` installer, run it, choose the install location, and o
 For Debian or Ubuntu x64, download the `.deb` and install it with your package manager. For example, from the download folder:
 
 ```sh
-sudo apt install ./Jeeves-0.1.0-preview.10-linux-amd64.deb
+sudo apt install ./Jeeves-0.1.0-preview.11-linux-amd64.deb
 ```
 
 For other x64 Linux desktops, download the AppImage, make it executable, and open it:
 
 ```sh
-chmod +x Jeeves-0.1.0-preview.10-linux-x86_64.AppImage
-./Jeeves-0.1.0-preview.10-linux-x86_64.AppImage
+chmod +x Jeeves-0.1.0-preview.11-linux-x86_64.AppImage
+./Jeeves-0.1.0-preview.11-linux-x86_64.AppImage
 ```
 
 Some systems require FUSE support for AppImages. Use the Debian package on a supported distribution if that is simpler. An ARM Linux or Windows ARM build is not provided in this preview.

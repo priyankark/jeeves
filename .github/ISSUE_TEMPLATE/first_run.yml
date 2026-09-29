@@ -11,7 +11,7 @@ body:
     id: setup
     attributes:
       label: Your setup
-      placeholder: Jeeves 0.1.0-preview.10, Mac with Apple silicon, release installer
+      placeholder: Jeeves 0.1.0-preview.11, Mac with Apple silicon, release installer
     validations:
       required: true
   - type: dropdown

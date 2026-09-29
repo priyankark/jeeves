@@ -16,7 +16,7 @@ In Jeeves, you can build that workflow, run it with new input, and inspect each 
 
 There's a built-in example you can try without API keys. It uses sample data, so you can see how things work before connecting an AI service. The app is free under Apache 2.0; live providers may charge for usage.
 
-It's an early preview for Mac, Windows, and Linux. The installers are unsigned, updates are manual, and browser tasks can still need your help. Workflows stay on your computer; cloud models receive the context you send them.
+It's an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. The Windows installer is unsigned, updates are manual, and browser tasks can still need your help. Workflows stay on your computer; cloud models receive the context you send them.
 
 Demo and downloads: https://getjeeves.app/
 

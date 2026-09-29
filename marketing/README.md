@@ -25,9 +25,9 @@ Open **index.html** for the visual overview. This folder is a self-contained, of
 
 ## Audience and status
 
-Primary audience: developers and AI power users. Campaign line: **Turn repeat work into a workflow.** The page, deck, and graphics use product-preview language because public distribution has not been announced and the source repository is private. The deck is a product introduction, not an investor deck: there are no invented market figures, traction metrics, testimonials, or financial projections.
+Primary audience: developers and AI power users. Campaign line: **Turn repeat work into a workflow.** The page, deck, and graphics use product-preview language because they were made before public distribution. The repository and downloads are now public. The deck is a product introduction, not an investor deck: there are no invented market figures, traction metrics, testimonials, or financial projections.
 
-The actual product screenshots were captured in a separate temporary Demo workspace, with synthetic examples and no provider credentials. The landing page's interactive routing diagram is an illustration of documented live test cases; it does not call a model. Current verified desktop platform: macOS Apple Silicon.
+The actual product screenshots were captured in a separate temporary Demo workspace, with synthetic examples and no provider credentials. The landing page's interactive routing diagram is an illustration of documented live test cases; it does not call a model. Those original captures were made on macOS Apple Silicon. See the current launch notes for release verification.
 
 ## Edit and regenerate
 
@@ -44,6 +44,6 @@ Preview pages can be opened directly from disk. For a local web preview, run `py
 
 ## Distribution
 
-Send individual exports or the ZIP when ready. The kit has no analytics, signup form, live waitlist, publishing integration, or public download link. Website calls to action open the included tour and product brief. A future public release will need its actual URL and availability wording supplied before using a public-launch announcement.
+Send individual exports or the ZIP when ready. The kit has no analytics, signup form, live waitlist, publishing integration, or public download link. Website calls to action open the included tour and product brief. Use the current launch kit linked at the top of this page for public announcements.
 
 The existing icon and code-generated artwork are part of the Jeeves project. Font license notices are included. Bundled third-party agent skills are not embedded in this marketing kit.

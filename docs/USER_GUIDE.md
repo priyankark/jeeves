@@ -187,7 +187,7 @@ Browser tests use installed Google Chrome and a separate temporary workspace on 
 2. Add a durable human approval queue, connector idempotency, and transient-error retry policies.
 3. Batch independent Jev questions and improve copilot latency.
 4. Add writable coding-harness worktrees and tool-enabled API agents.
-5. Add connector OAuth, richer nested-run navigation, signed/notarized desktop builds, and broader platform tests.
+5. Add connector OAuth, richer nested-run navigation, Windows publisher signing, and broader real-world platform tests.
 
 ## Primary references
 
