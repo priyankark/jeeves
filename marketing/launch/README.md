@@ -1,8 +1,8 @@
 # Jeeves launch kit
 
-Jev needs Jeeves.
+Save your everyday tasks as reusable AI workflows.
 
-Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, chooses the next step. Agents handle the work. Jeeves connects the steps and waits when it needs your answer. Keep the name's small Wodehouse nod, then explain the product directly. Avoid extended butler jokes and theatrical language.
+Lead with what people can do: turn notes into a weekly update, sort requests, or research a topic. Explain how they save the steps and run them again with new input. Jev is a supporting feature for decisions, not the product category or main pitch. Keep the Wodehouse nod brief and the examples concrete.
 
 Website: https://getjeeves.app/
 Source and installers: https://github.com/priyankark/jeeves

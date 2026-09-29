@@ -8,27 +8,29 @@ Launch submitted from Priyankar Kumar's maker account. Scheduled for October 1, 
 
 **Name:** Jeeves
 
-**Tagline:** Put Jev to work in everyday workflows
+**Tagline:** Save your everyday tasks as reusable AI workflows
 
-**Description:** Jeeves is an open source app for productivity workflows. Jev, TypeSafe's decision model, chooses what happens next. Agents handle the writing, research, and browser work. Jeeves connects the steps and waits when it needs your answer. Inspect each decision and reuse the workflow with new input. For Mac, Windows, and Linux.
+**Description:** Turn notes into a weekly update, sort incoming requests, or research a topic. Jeeves lets you save the steps, choose the AI service for each job, and run them again with new input. See what happened at each step. When a task needs your answer, it pauses and waits. Free and open source for Mac, Windows, and Linux.
 
-**Campaign line:** Jev needs Jeeves.
+**Campaign line:** Save the steps. Use them again.
 
 ## Maker comment draft
 
-Hi, I'm Priyankar. I built Jeeves to save a useful process and run it again with new input.
+Hi, I'm Priyankar. I built Jeeves for work that comes around again: the weekly update, the research brief, the next batch of requests.
 
-Jev, TypeSafe's decision model, handles questions like: is this urgent, is there enough detail, or is the draft ready? You connect its possible answers to the next steps. Agents do focused jobs, and Jeeves waits when a step needs your answer.
+Take a weekly update. Add your project notes, have an AI draft the update, check it against the notes, and review the result. Save those steps. Next week, give the same workflow new notes.
 
-The demo sorts incoming requests. Jev sends an outage to an incident agent. When a request needs more detail, Jeeves asks you, waits for your answer, and lets an agent turn it into a brief. You can open the decision and see the answer and route it chose.
+You can start with a template and change the steps in a visual editor. Each step has a job, such as researching, writing, or using the browser. You can see its inputs and results. If it needs a login, an answer, or your review, Jeeves saves progress and waits for you to continue.
 
-The name is a nod to Wodehouse's Jeeves. Jev needs Jeeves. I liked the fit.
+Some tasks need a choice along the way. For example, an urgent request needs different handling from a routine one. Jeeves supports Jev, TypeSafe's decision model, for those choices. It's one part of the workflow, alongside the agents and your input.
 
-You can try the built-in example without an API key. It uses sample data. For your own tasks, connect an AI service; live Jev decisions need a TypeSafe key. The app is free under Apache 2.0. Your AI provider may charge for usage.
+Start with the built-in example, which uses sample data and needs no API key. For your own tasks, connect an AI service. The app is free under Apache 2.0, with no paid tier. Your chosen provider may charge for usage; live Jev decisions need a TypeSafe key.
 
-It's an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. The Windows installer is unsigned, updates are manual, and browser tasks can need your help. Your workspace stays on your computer, but cloud models receive the task context you send them.
+The name comes from Wodehouse's Jeeves, the person who knows what needs doing. A small nod to a very capable assistant.
 
-I'd love to hear what you'd use it for, and where your first attempt gets confusing.
+This is an early preview for Mac, Windows, and Linux. Mac downloads are signed and notarized. Windows is unsigned, updates are manual, and browser tasks sometimes need your help. Your workspace stays on your computer; cloud AI services receive the task context you send them.
+
+I'd love to hear which recurring task you'd try first, and where setup gets confusing.
 
 ## Media
 

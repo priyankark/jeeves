@@ -42,7 +42,7 @@ The downloaded app was copied into a clean test location and launched with a fre
 
 Ready for a public preview and early-user feedback. Known friction remains: an unsigned Windows installer, manual updates, provider access, and retailer pages that can change. Describe those plainly. Do not present the app as a finished autonomous shopping service or claim validation by users we have not studied.
 
-Lead with “Jev needs Jeeves.” Explain that Jev is TypeSafe's decision model, then show its answers becoming routes to agents or a question for the user. Keep the category clear: Jeeves is an app for productivity workflows. The maker prefers friendly, direct copy with a small Wodehouse nod, not extended butler jokes. Wodehouse supplies the inspiration, not an endorsement. Avoid em dashes, invented claims, and requests for votes.
+Lead with recurring tasks and a concrete example, such as turning project notes into a weekly update. Explain that users save the steps and run them again with new input. Jev is one supported decision feature, not the main pitch. Keep the category clear: Jeeves is an app for productivity workflows. The maker prefers friendly, direct copy with a small Wodehouse nod, not extended butler jokes. Wodehouse supplies the inspiration, not an endorsement. Avoid em dashes, invented claims, and requests for votes.
 
 ## Scope of the open source release
 
