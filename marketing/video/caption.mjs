@@ -1,5 +1,6 @@
 import { readFile, writeFile, copyFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 const work = "/tmp/jeeves-film";
 const vtt = await readFile("site/media/jeeves-demo.vtt", "utf8");
 const assTime = (s) =>
@@ -42,3 +43,18 @@ execFileSync(
   ],
   { stdio: ["ignore", "ignore", "pipe"], maxBuffer: 10_000_000 },
 );
+
+// Media is cached for an hour. Change the page URLs with each export so
+// returning viewers receive the matching film and captions immediately.
+let page = await readFile("site/index.html", "utf8");
+for (const extension of ["mp4", "vtt"]) {
+  const version = createHash("sha256")
+    .update(await readFile(`site/media/jeeves-demo.${extension}`))
+    .digest("hex")
+    .slice(0, 12);
+  page = page.replaceAll(
+    new RegExp(`(/media/jeeves-demo\\.${extension})(?:\\?[^"\\s]*)?(?=")`, "g"),
+    `$1?v=${version}`,
+  );
+}
+await writeFile("site/index.html", page);

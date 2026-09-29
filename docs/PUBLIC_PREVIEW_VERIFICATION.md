@@ -34,3 +34,7 @@ Signed-out HEAD requests succeeded for all five release installers. Local landin
 The revised demo uses Clipchamp’s Andrew Multilingual voice, English US, at default pitch and 1x pace. It is approximately 64 seconds and ends with an invitation to try the example. All eight audio clips were checked against the script using local Whisper recognition, then used for aligned captions. This establishes wording and approximate timing, not subjective naturalness. A human listening review remains outstanding.
 
 These checks do not establish native Windows/Linux installation, Gatekeeper behavior, live retailer reliability, or satisfaction among real new users. The readiness verdict remains an honest public preview, with unsigned installers, manual updates, and provider setup as known friction.
+
+Production checks on getjeeves.app also passed. The deployed video matched the local SHA-256 hash. Both www.getjeeves.app and the old jeeves-workflows.vercel.app address redirect to the apex domain with paths and query strings preserved. The old address required an explicit project-domain redirect after a Git deployment. Film and caption URLs now carry content hashes to avoid serving an older cached narration to returning visitors.
+
+The final cut is also saved as **Jeeves launch demo v2** in Clipchamp, with its media backed up to OneDrive. The generated narration clips are stored separately as **Jeeves narration source clips v2**.
