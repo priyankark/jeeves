@@ -1,0 +1,30 @@
+{
+  "product": "Jeeves",
+  "verifiedOn": "2026-09-29",
+  "website": "https://getjeeves.app/",
+  "repository": "https://github.com/priyankark/jeeves",
+  "release": "https://github.com/priyankark/jeeves/releases/tag/v0.1.0-preview.11",
+  "youtube": {
+    "url": "https://www.youtube.com/watch?v=KV6YvV7WovE",
+    "status": "public",
+    "channel": "@PriyankarKumarTBR",
+    "verification": "Studio reports saved and Public; anonymous oEmbed returns the current title and maker channel."
+  },
+  "productHunt": {
+    "url": "https://www.producthunt.com/products/jeeves-3?launch=jeeves-6",
+    "dashboard": "https://www.producthunt.com/products/jeeves-3/jeeves-6/prelaunch",
+    "status": "scheduled",
+    "scheduledFor": "2026-10-01T00:01:00-07:00",
+    "timezone": "America/Los_Angeles",
+    "maker": "priyankar_kumar1",
+    "verification": "Pre-launch dashboard reports Scheduled with a countdown. The date picker states October 1 at 12:01am PT."
+  },
+  "reddit": {
+    "url": "https://www.reddit.com/r/SideProject/comments/1wtes5p/i_made_jev_a_butler_its_called_jeeves_and_its/",
+    "status": "published",
+    "author": "DoughnutUpper",
+    "community": "SideProject",
+    "verification": "Reddit confirmed Posted. The permalink, full body, and author were also verified while signed out."
+  },
+  "editing": "Update these existing posts and this video. Do not submit duplicate launches or uploads."
+}

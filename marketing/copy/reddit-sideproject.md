@@ -1,6 +1,6 @@
-# Reddit launch draft
+# Reddit launch post
 
-Target: r/SideProject. Check its sidebar, posting form, pinned threads, and current rules again on launch day. This draft has not been posted. Use it only after the repository and downloads are public.
+Published to r/SideProject from u/DoughnutUpper on September 29, 2026. [Live post](https://www.reddit.com/r/SideProject/comments/1wtes5p/i_made_jev_a_butler_its_called_jeeves_and_its/). The permalink and full post were verified while signed out. Edit this post if needed; do not submit a duplicate.
 
 ## Title
 
@@ -26,7 +26,7 @@ I'd appreciate feedback on the setup and your first workflow. What would you try
 
 ## Posting notes
 
-Post once from the maker's account. Answer questions with specific examples and known limits. Do not request votes or send unsolicited messages. Do not cross-post this draft to r/opensource: its rules prohibit AI-generated content. Follow each community's own rules.
+Posted once from the maker's account after checking the sidebar, community highlights, rules, and live form. Answer questions with specific examples and known limits. Do not request votes or send unsolicited messages. Do not cross-post this copy to r/opensource: its rules prohibit AI-generated content. Follow each community's own rules.
 
 Rules endpoint checked September 29, 2026. The r/SideProject endpoint returned no community-specific rules; still check its sidebar, pinned posts, and live form:
 
