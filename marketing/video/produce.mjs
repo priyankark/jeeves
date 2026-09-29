@@ -1,5 +1,5 @@
 import { chromium } from "playwright-core";
-import { mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile, copyFile, access } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 const work = "/tmp/jeeves-film",
   out = "site/media";
@@ -7,58 +7,31 @@ await mkdir(out, { recursive: true });
 const ffmpeg = process.env.FFMPEG || "ffmpeg";
 
 const shots = JSON.parse(await readFile(work + "/shots.json", "utf8"));
-const scenes = [
-  {
-    name: "intro",
-    title: "Jev needs Jeeves.",
-    sub: "So does your to-do list.",
-    voice:
-      "Jev needs Jeeves. So does your to-do list. Here is a little direction, for work with a plot twist.",
-  },
-  {
-    name: "01-workflow",
-    title: "Give the work a shape.",
-    voice:
-      "A request comes in. Jeeves gives each step a job, and makes the whole process visible. This is a real workflow, running with Jev and Codex.",
-  },
-  {
-    name: "02-decision",
-    title: "Jev makes the judgment.",
-    voice:
-      "Jev sees a concrete outage and chooses the urgent route. You can inspect the answer, confidence, and the branch it selected.",
-  },
-  {
-    name: "03-waiting",
-    title: "A mystery deserves a question.",
-    voice:
-      "But when a request is vague, guessing is poor form. Jeeves asks for the missing facts, saves the progress, and waits for you.",
-  },
-  {
-    name: "04-answer",
-    title: "Your answer moves things along.",
-    voice:
-      "Add the context and submit. Only then does the next agent pick up the work.",
-  },
-  {
-    name: "05-result",
-    title: "Useful work. Ready for review.",
-    voice:
-      "Your clarification becomes a concrete action brief, with a suggested fix and a draft reply. The facts stay visible. Nothing has been sent.",
-  },
-  {
-    name: "06-export",
-    title: "Keep the process. Take it with you.",
-    voice:
-      "Keep the workflow for next time, or export it as a portable skill with its requirements. A useful process deserves a second outing.",
-  },
-  {
-    name: "outro",
-    title: "A little direction.",
-    sub: "A lot done.",
-    voice:
-      "Jev makes the judgment. Jeeves handles the follow-through. Meet your Jeeves.",
-  },
-];
+const scenes = JSON.parse(
+  await readFile(new URL("./narration.json", import.meta.url), "utf8"),
+);
+const narrationDir = process.env.NARRATION_DIR;
+if (!narrationDir)
+  throw new Error(
+    "Set NARRATION_DIR to approved narration exports. The renderer no longer generates a macOS system voice.",
+  );
+const narrationCredit = process.env.NARRATION_CREDIT || "Imported narration";
+const audioFiles = new Map();
+// Check every scene before changing any published media files.
+for (const scene of scenes) {
+  for (const extension of ["wav", "mp3", "m4a", "mp4", "aiff"]) {
+    const file = `${narrationDir}/${scene.name}.${extension}`;
+    try {
+      await access(file);
+      audioFiles.set(scene.name, file);
+      break;
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+  }
+  if (!audioFiles.has(scene.name))
+    throw new Error(`Missing narration export for ${scene.name}`);
+}
 const b = await chromium.launch({ channel: "chrome", headless: true });
 const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
 await p.goto("http://127.0.0.1:4341");
@@ -85,18 +58,9 @@ const timeline = [];
 for (const [i, s] of scenes.entries()) {
   const stem = work + "/" + s.name;
   await writeFile(stem + ".txt", s.voice);
-  execFileSync("say", [
-    "-v",
-    "Daniel",
-    "-r",
-    "165",
-    "-f",
-    stem + ".txt",
-    "-o",
-    stem + ".aiff",
-  ]);
+  const narration = audioFiles.get(s.name);
   const voiceDuration = Number(
-    execFileSync("afinfo", [stem + ".aiff"], { encoding: "utf8" }).match(
+    execFileSync("afinfo", [narration], { encoding: "utf8" }).match(
       /estimated duration: ([0-9.]+)/,
     )[1],
   );
@@ -113,7 +77,7 @@ for (const [i, s] of scenes.entries()) {
       work + "/" + (shot.file || "capture.webm"),
     );
   else args.push("-loop", "1", "-i", stem + ".png");
-  args.push("-i", stem + ".aiff");
+  args.push("-i", narration);
   await writeFile(stem + "-title.txt", s.title);
   await writeFile(
     stem + "-label.txt",
@@ -197,7 +161,15 @@ await writeFile(
   "marketing/video/timeline.json",
   JSON.stringify(timeline, null, 2) + "\n",
 );
-const transcript = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jeeves demo transcript</title><link rel="icon" href="/assets/jeeves-icon.png"><link rel="stylesheet" href="/style.css"></head><body><main class="wrap section"><a href="/#film">← Back to the demo</a><h1 class="transcript-title">The moving picture.</h1><p>Real live Jev and Codex runs, recorded with synthetic requests. Waiting time is edited out. Narration uses the macOS Daniel voice.</p>${timeline.map((s) => `<section><h2 class="transcript-heading">${time(s.start).slice(3, 8)} · ${s.title}</h2><p class="lede">${s.voice}</p></section>`).join("")}</main></body></html>`;
+const escapeHtml = (value) =>
+  String(value).replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ],
+  );
+const transcript = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jeeves demo transcript</title><link rel="icon" href="/assets/jeeves-icon.png"><link rel="stylesheet" href="/style.css"></head><body><main class="wrap section"><a href="/#film">← Back to the demo</a><h1 class="transcript-title">The moving picture.</h1><p>Real live Jev and Codex runs, recorded with synthetic requests. Waiting time is edited out. Narration: ${escapeHtml(narrationCredit)}.</p>${timeline.map((s) => `<section><h2 class="transcript-heading">${time(s.start).slice(3, 8)} · ${s.title}</h2><p class="lede">${s.voice}</p></section>`).join("")}</main></body></html>`;
 await writeFile("site/transcript.html", transcript);
 console.log(
   JSON.stringify({ duration: offset, file: out + "/jeeves-demo.mp4" }),

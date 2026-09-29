@@ -1,0 +1,44 @@
+[
+  {
+    "name": "intro",
+    "title": "Jev needs Jeeves.",
+    "sub": "So does your to-do list.",
+    "voice": "Jev needs Jeeves. So does your to-do list. Here's how they work together."
+  },
+  {
+    "name": "01-workflow",
+    "title": "Give the work a shape.",
+    "voice": "Start with a request. Each agent gets a clear job, and you can see every step. This run uses Jev and Codex."
+  },
+  {
+    "name": "02-decision",
+    "title": "Jev makes the judgment.",
+    "voice": "Jev spots an outage and chooses the urgent route. Open the decision to see its answer, confidence, and the path it picked."
+  },
+  {
+    "name": "03-waiting",
+    "title": "A mystery deserves a question.",
+    "voice": "Now try a request that's missing the details. Jeeves asks a question, saves the run, and waits. No answer, no next step."
+  },
+  {
+    "name": "04-answer",
+    "title": "Your answer moves things along.",
+    "voice": "Add what's missing and hit submit. The next agent can now get to work."
+  },
+  {
+    "name": "05-result",
+    "title": "Useful work. Ready for review.",
+    "voice": "Here's the result: a concrete action brief, a suggested fix, and a draft reply. It's ready for your review. Nothing has been sent."
+  },
+  {
+    "name": "06-export",
+    "title": "Keep the process. Take it with you.",
+    "voice": "Save the workflow for next time, or export it as a portable skill. Next Tuesday is already looking a little more organised."
+  },
+  {
+    "name": "outro",
+    "title": "A little direction.",
+    "sub": "A lot done.",
+    "voice": "Jev makes the judgment. Jeeves keeps things moving. Open source, on your desktop. Very good, then."
+  }
+]
