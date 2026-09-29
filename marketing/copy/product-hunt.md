@@ -2,7 +2,7 @@
 
 Landing page: https://getjeeves.app/
 
-Launch submitted from Priyankar Kumar's maker account. Scheduled for October 1, 2026 at 12:01 a.m. Pacific. [Listing](https://www.producthunt.com/products/jeeves-3?launch=jeeves-6). The pre-launch dashboard confirms **Scheduled**. Edit the existing launch rather than submitting another one.
+Launch submitted from Priyankar Kumar's maker account. Scheduled for September 30, 2026 at 12:01 a.m. Pacific. [Listing](https://www.producthunt.com/products/jeeves-3?launch=jeeves-6). The pre-launch dashboard confirms **Scheduled**. Edit the existing launch rather than submitting another one.
 
 ## Listing
 
@@ -52,7 +52,7 @@ Pricing: Free. Provider usage is separate. Suggested launch tags: Productivity, 
 
 ## Launch verification
 
-Signed-out source, installer downloads, and checksum checks passed. The maker identity, copy, open source repository link, Free pricing, three launch tags, thumbnail, gallery, video, and first comment were checked in the saved listing. September 30 required participation in a separate feature-building challenge, so the launch uses the first standard slot, October 1. Mac downloads are signed and notarized; the Windows installer remains unsigned.
+Signed-out source, installer downloads, and checksum checks passed. The maker identity, copy, open source repository link, Free pricing, three launch tags, thumbnail, gallery, video, and first comment were checked in the saved listing. The existing launch was moved to September 30 through the Hypership scheduling flow, with “Yes, I accept the challenge” selected. The saved date was verified after reloading. Only featured launches qualify for the event; featured status is not yet confirmed. Mac downloads are signed and notarized; the Windows installer remains unsigned.
 
 ## Literary source
 

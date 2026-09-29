@@ -14,10 +14,17 @@
     "url": "https://www.producthunt.com/products/jeeves-3?launch=jeeves-6",
     "dashboard": "https://www.producthunt.com/products/jeeves-3/jeeves-6/prelaunch",
     "status": "scheduled",
-    "scheduledFor": "2026-10-01T00:01:00-07:00",
+    "scheduledFor": "2026-09-30T00:01:00-07:00",
     "timezone": "America/Los_Angeles",
     "maker": "priyankar_kumar1",
-    "verification": "Listing and maker comment reloaded after saving. Copy leads with recurring tasks and a weekly-update example; Jev is a supporting decision feature. The scheduled date remains October 1 at 12:01am Pacific."
+    "verification": "Existing launch rescheduled through the official Hypership date control with Yes, I accept the challenge selected. Update succeeded and September 30 at 12:01am Pacific persisted after reloading. The revised tagline and description remain saved.",
+    "event": {
+      "name": "Hypership Day",
+      "url": "https://www.producthunt.com/p/producthunt/introducing-hypership-day-build-fast-and-ship-same-day-on-product-hunt",
+      "status": "opted-in",
+      "featuredStatus": "not yet confirmed",
+      "participation": "Only featured launches are eligible. Build and ship multiple features based on real user feedback during the event."
+    }
   },
   "reddit": {
     "url": "https://www.reddit.com/r/SideProject/comments/1wtfvya/i_built_jeeves_an_open_source_workflow_app_with/",

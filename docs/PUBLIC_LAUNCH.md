@@ -1,6 +1,6 @@
 # Public launch readiness
 
-Status: public desktop preview. Source, installers, the landing page, and the YouTube demo are public. Product Hunt is submitted and scheduled for October 1, 2026 at 12:01 a.m. Pacific. The Reddit announcement is public from u/yotta_mind.
+Status: public desktop preview. Source, installers, the landing page, and the YouTube demo are public. Product Hunt is submitted and scheduled for September 30, 2026 at 12:01 a.m. Pacific. The Reddit announcement is public from u/yotta_mind.
 
 ## Ready to review
 
@@ -34,7 +34,7 @@ The downloaded app was copied into a clean test location and launched with a fre
 ## Launch status and next steps
 
 1. Recheck signed-out access to source, license, installers, checksums, and the catalog on launch day. Keep preview and signing limitations visible.
-2. Product Hunt is scheduled from Priyankar Kumar's maker account, with the source link, Free pricing, Productivity/Open Source/Artificial Intelligence tags, thumbnail, social card, five product screenshots, and maker comment. The September 30 slot required a separate feature-building challenge, so the first standard slot, October 1, was selected. Edit the existing launch instead of submitting another one.
+2. Product Hunt is scheduled from Priyankar Kumar's maker account, with the source link, Free pricing, Productivity/Open Source/Artificial Intelligence tags, thumbnail, social card, five product screenshots, and maker comment. The maker opted into Hypership Day and moved this existing launch to September 30. Only featured launches qualify; featured status is not yet confirmed. Edit the existing launch instead of submitting another one.
 3. The published YouTube demo is attached to Product Hunt. The MP4 also works on the website and GitHub. The revised Jev introduction is live on the website, in GitHub, and in the video's title and description. [Source checks](https://github.com/priyankark/jeeves/actions/runs/36594689933) and live layout, interaction, media, download-link, and kit checks passed.
 4. The r/SideProject announcement is published from u/yotta_mind and verified while signed out. Update the existing post if corrections are needed. Do not post AI-authored copy to r/opensource, whose rules prohibit it.
 

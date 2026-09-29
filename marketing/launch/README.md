@@ -19,7 +19,7 @@ Use `product-hunt-fields.json` for the listing fields, `product-hunt-comment.txt
 
 The demo is already public at https://www.youtube.com/watch?v=KV6YvV7WovE, with English captions and the custom poster. Paste that full URL into Product Hunt's optional video field. `youtube-title.txt` and `youtube-description.txt` contain the current metadata. The software demo is not made for kids. Its stock Clipchamp narration is disclosed in the description and YouTube's synthetic content setting.
 
-The Product Hunt launch is submitted and scheduled for October 1, 2026 at 12:01 a.m. Pacific. Its pre-launch dashboard confirms **Scheduled**. The saved listing has the maker comment, Free pricing, source link, three tags, thumbnail, social card, five product screenshots, and the published video. Edit this existing launch when updating copy; do not submit a duplicate. The launch is scheduled, not yet on the daily leaderboard.
+The Product Hunt launch is submitted and scheduled for September 30, 2026 at 12:01 a.m. Pacific. Its pre-launch dashboard confirms **Scheduled**. The saved listing has the maker comment, Free pricing, source link, three tags, thumbnail, social card, five product screenshots, and the published video. Edit this existing launch when updating copy; do not submit a duplicate. The launch is scheduled for Hypership Day, not yet on the daily leaderboard. “Yes, I accept the challenge” was selected in the official scheduling flow. Only featured launches qualify; featured status is not yet confirmed. During the event, collect real feedback and ship tested improvements with links to the corresponding commits or releases.
 
 ## Reddit
 
