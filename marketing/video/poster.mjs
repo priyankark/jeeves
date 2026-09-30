@@ -15,9 +15,9 @@ export async function renderPoster(page, path = "site/media/demo-poster.png") {
       img{display:block;max-width:100%;height:830px;object-fit:contain;margin:auto;border-radius:10px}
       footer{font-size:18px;color:#506342;margin-top:24px;text-align:center}
     </style>
-    <header><h1>From a request to a useful brief.</h1><span>jeeves</span></header>
+    <header><h1>A closer look at how Jeeves works.</h1><span>jeeves</span></header>
     <img src="data:image/png;base64,${screenshot}" alt="Jeeves workflow editor">
-    <footer>Watch the one-minute demo · Real product footage · Example requests</footer>
+    <footer>Technical walkthrough · Jev decisions, AI steps, and human input</footer>
   `);
   await page.screenshot({ path });
 }

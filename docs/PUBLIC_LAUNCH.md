@@ -34,8 +34,8 @@ The downloaded app was copied into a clean test location and launched with a fre
 ## Launch status and next steps
 
 1. Recheck signed-out access to source, license, installers, checksums, and the catalog on launch day. Keep preview and signing limitations visible.
-2. Product Hunt is scheduled from Priyankar Kumar's maker account, with the source link, Free pricing, Productivity/Open Source/Artificial Intelligence tags, thumbnail, social card, five product screenshots, and maker comment. The maker opted into Hypership Day and moved this existing launch to September 30. Only featured launches qualify; featured status is not yet confirmed. Edit the existing launch instead of submitting another one.
-3. The published YouTube demo is attached to Product Hunt. The MP4 also works on the website and GitHub. The revised Jev introduction is live on the website, in GitHub, and in the video's title and description. [Source checks](https://github.com/priyankark/jeeves/actions/runs/36594689933) and live layout, interaction, media, download-link, and kit checks passed.
+2. Product Hunt is scheduled from Priyankar Kumar's maker account, with the source link, Free pricing, Productivity/Open Source/Artificial Intelligence tags, thumbnail, five matching gallery slides, and maker comment. The maker opted into Hypership Day and moved this existing launch to September 30. Only featured launches qualify; featured status is not yet confirmed. Edit the existing launch instead of submitting another one.
+3. The landing page and Product Hunt gallery use one weekly-update story. Actual app screenshots are labeled as the built-in sample. Jev and provider details are in a separate technical section. The request-routing video remains public on YouTube and is linked from that section and the maker comment, rather than leading the gallery.
 4. The r/SideProject announcement is published from u/yotta_mind and verified while signed out. Update the existing post if corrections are needed. Do not post AI-authored copy to r/opensource, whose rules prohibit it.
 
 ## Readiness judgment

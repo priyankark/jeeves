@@ -1,8 +1,8 @@
 # Jeeves launch kit
 
-Save your everyday tasks as reusable AI workflows.
+Turn repeat work into a workflow.
 
-Lead with what people can do: turn notes into a weekly update, sort requests, or research a topic. Explain how they save the steps and run them again with new input. Jev is a supporting feature for decisions, not the product category or main pitch. Keep the Wodehouse nod brief and the examples concrete.
+Use one example from start to finish: project notes become a weekly update. Explain the broader product as reusable AI workflows, then show input, process, and result. Put implementation details in the separate technical section. Jev is a supporting feature for decisions, not the product category or main pitch. Keep the Wodehouse nod brief and the examples concrete.
 
 Website: https://getjeeves.app/
 Source and installers: https://github.com/priyankark/jeeves
@@ -11,15 +11,15 @@ Product Hunt: https://www.producthunt.com/products/jeeves-3?launch=jeeves-6
 Reddit: https://www.reddit.com/r/SideProject/comments/1wtfvya/i_built_jeeves_an_open_source_workflow_app_with/
 Download this kit: https://getjeeves.app/media/jeeves-launch-kit.zip
 
-This kit is for the public desktop preview. It contains the current copy, real product screenshots, a 64-second demo, captions, and a thumbnail. It contains no customer testimonials or user-study results.
+This kit is for the public desktop preview. It contains the current copy, a consistent five-slide gallery with real app screenshots, a 64-second demo, captions, and a thumbnail. It contains no customer testimonials or user-study results.
 
 ## Product Hunt
 
-Use `product-hunt-fields.json` for the listing fields, `product-hunt-comment.txt` for the maker comment, and the five numbered gallery images in their listed order. The 240 × 240 thumbnail is separate. Pricing is Free; connected AI services may charge for usage.
+Use `product-hunt-fields.json` for the listing fields, `product-hunt-comment.txt` for the maker comment, and the five numbered gallery slides in their listed order. The 240 × 240 thumbnail is separate. Pricing is Free; connected AI services may charge for usage.
 
-The demo is already public at https://www.youtube.com/watch?v=KV6YvV7WovE, with English captions and the custom poster. Paste that full URL into Product Hunt's optional video field. `youtube-title.txt` and `youtube-description.txt` contain the current metadata. The software demo is not made for kids. Its stock Clipchamp narration is disclosed in the description and YouTube's synthetic content setting.
+The demo is already public at https://www.youtube.com/watch?v=KV6YvV7WovE, with English captions and the custom poster. Keep this request-routing film in the technical section of the website and link it from the maker comment. The main Product Hunt gallery tells the weekly-update story. `youtube-title.txt` and `youtube-description.txt` contain the current metadata. The software demo is not made for kids. Its stock Clipchamp narration is disclosed in the description and YouTube's synthetic content setting.
 
-The Product Hunt launch is submitted and scheduled for September 30, 2026 at 12:01 a.m. Pacific. Its pre-launch dashboard confirms **Scheduled**. The saved listing has the maker comment, Free pricing, source link, three tags, thumbnail, social card, five product screenshots, and the published video. Edit this existing launch when updating copy; do not submit a duplicate. The launch is scheduled for Hypership Day, not yet on the daily leaderboard. “Yes, I accept the challenge” was selected in the official scheduling flow. Only featured launches qualify; featured status is not yet confirmed. During the event, collect real feedback and ship tested improvements with links to the corresponding commits or releases.
+The Product Hunt launch is submitted and scheduled for September 30, 2026 at 12:01 a.m. Pacific. Its pre-launch dashboard confirms **Scheduled**. The saved listing has the maker comment, Free pricing, source link, three tags, thumbnail and five matching gallery slides: overview, input, workflow, result, and technical details. Edit this existing launch when updating copy; do not submit a duplicate. The launch is scheduled for Hypership Day, not yet on the daily leaderboard. “Yes, I accept the challenge” was selected in the official scheduling flow. Only featured launches qualify; featured status is not yet confirmed. During the event, collect real feedback and ship tested improvements with links to the corresponding commits or releases.
 
 ## Reddit
 

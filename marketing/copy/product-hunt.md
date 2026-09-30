@@ -8,11 +8,11 @@ Launch submitted from Priyankar Kumar's maker account. Scheduled for September 3
 
 **Name:** Jeeves
 
-**Tagline:** Save your everyday tasks as reusable AI workflows
+**Tagline:** Turn repeat work into reusable AI workflows
 
-**Description:** Turn notes into a weekly update, sort incoming requests, or research a topic. Jeeves lets you save the steps, choose the AI service for each job, and run them again with new input. See what happened at each step. When a task needs your answer, it pauses and waits. Free and open source for Mac, Windows, and Linux.
+**Description:** Jeeves is a desktop app for reusable AI workflows. Set up the steps for a task, run them with your input, and review the result. Start with a weekly update: notes in, draft and check, update out. Change the steps in a visual editor and reuse them next week. Add human input when the workflow should wait for you. Free and open source for Mac, Windows, and Linux.
 
-**Campaign line:** Save the steps. Use them again.
+**Campaign line:** Turn repeat work into a workflow.
 
 ## Maker comment draft
 
@@ -22,7 +22,9 @@ Take a weekly update. Add your project notes, have an AI draft the update, check
 
 You can start with a template and change the steps in a visual editor. Each step has a job, such as researching, writing, or using the browser. You can see its inputs and results. If it needs a login, an answer, or your review, Jeeves saves progress and waits for you to continue.
 
-Some tasks need a choice along the way. For example, an urgent request needs different handling from a routine one. Jeeves supports Jev, TypeSafe's decision model, for those choices. It's one part of the workflow, alongside the agents and your input.
+Under the hood, you choose the AI service for each step. Jeeves supports OpenAI, Codex CLI, OpenRouter, and local models. Optional Jev decisions can choose the next step when a workflow needs to branch. Human input steps save progress and wait for your answer.
+
+For a closer look at decisions and human input, the technical walkthrough is here: https://www.youtube.com/watch?v=KV6YvV7WovE
 
 Start with the built-in example, which uses sample data and needs no API key. For your own tasks, connect an AI service. The app is free under Apache 2.0, with no paid tier. Your chosen provider may charge for usage; live Jev decisions need a TypeSafe key.
 
@@ -37,12 +39,12 @@ I'd love to hear which recurring task you'd try first, and where setup gets conf
 - `site/media/jeeves-demo.mp4`: 1080p, approximately 64 seconds, narration and burned-in captions.
 - `site/media/jeeves-demo.vtt`: separate English captions.
 - `marketing/video/gallery/thumbnail.png`: 240 × 240.
-- `marketing/video/gallery/01-workflow.png`, `02-decision.png`, `03-waiting.png`, `05-result.png`, `06-onboarding.png`: 1270 × 760, real product screenshots.
+- `marketing/video/gallery/01-overview.png`, `02-input.png`, `03-workflow.png`, `04-result.png`, `05-how-it-works.png`: 1270 × 760. One coherent weekly-update walkthrough, followed by a separate technical overview. App captures show the built-in sample, not a live AI run.
 - Poster and social card: `site/media/`.
 
 Published demo: https://www.youtube.com/watch?v=KV6YvV7WovE
 
-This full YouTube URL is attached to the scheduled Product Hunt launch. The video is public on the maker's channel, with English captions and a custom thumbnail. The listing includes the five product screenshots and the website's social card.
+The technical walkthrough is linked from the maker comment and the landing page’s Under the hood section. It is not the main gallery video. The video is public on the maker's channel, with English captions and a custom thumbnail. The gallery uses five matching slides: overview, input, workflow, result, and technical details. The first slide is the social preview. The video is a separate technical walkthrough of request routing.
 
 Source: https://www.producthunt.com/launch/preparing-for-launch (checked September 29, 2026).
 
@@ -52,7 +54,7 @@ Pricing: Free. Provider usage is separate. Suggested launch tags: Productivity, 
 
 ## Launch verification
 
-Signed-out source, installer downloads, and checksum checks passed. The maker identity, copy, open source repository link, Free pricing, three launch tags, thumbnail, gallery, video, and first comment were checked in the saved listing. The existing launch was moved to September 30 through the Hypership scheduling flow, with “Yes, I accept the challenge” selected. The saved date was verified after reloading. Only featured launches qualify for the event; featured status is not yet confirmed. Mac downloads are signed and notarized; the Windows installer remains unsigned.
+Signed-out source, installer downloads, and checksum checks passed. The maker identity, copy, open source repository link, Free pricing, three launch tags, thumbnail, five-slide gallery, and first comment were checked in the saved listing. The existing launch was moved to September 30 through the Hypership scheduling flow, with “Yes, I accept the challenge” selected. The saved date was verified after reloading. Only featured launches qualify for the event; featured status is not yet confirmed. Mac downloads are signed and notarized; the Windows installer remains unsigned.
 
 ## Literary source
 

@@ -1,32 +1,50 @@
-const examples = {
-  urgent: {
-    request: "“Nobody can sign in. Every login returns an error.”",
-    decision: "Urgent · a concrete outage",
-    result:
-      "Jeeves sends the request to the incident specialist. A draft comes back for your review.",
+const views = {
+  input: {
+    kicker: "YOUR INPUT",
+    heading: "Start with what you have.",
+    description:
+      "A few rough notes are enough for this example. Review the input before the workflow starts.",
+    alt: "Jeeves weekly update input form with sample project notes",
+    width: 783,
+    height: 759,
   },
-  routine: {
-    request: "“The settings tooltip has a typo. Everything else works.”",
-    decision: "Routine · a specific, nonblocking fix",
-    result:
-      "Jeeves asks the response specialist for a useful reply and a clear next step.",
+  canvas: {
+    kicker: "YOUR PROCESS",
+    heading: "See how the work gets done.",
+    description:
+      "This workflow drafts an update, checks it against your notes, and returns the result. Open the editor to change the steps.",
+    alt: "Actual Jeeves canvas: project notes, draft the update, check the facts, weekly update",
+    width: 1440,
+    height: 694,
   },
-  needs_information: {
-    request: "“Something is wrong. Please sort it out.”",
-    decision: "Needs information · ask before assuming",
-    result:
-      "Jeeves pauses, collects your clarification, and waits until you submit it. Then the work continues.",
+  result: {
+    kicker: "YOUR RESULT",
+    heading: "Read it. Then make it yours.",
+    description:
+      "Review progress, blockers, and next steps in one place. Copy or download the result. Next week, reuse the workflow with fresh notes.",
+    alt: "Jeeves sample weekly update with progress, blockers, and next steps",
+    width: 783,
+    height: 729,
   },
 };
-for (const button of document.querySelectorAll("[data-case]"))
+for (const button of document.querySelectorAll("[data-view]")) {
   button.addEventListener("click", () => {
-    const key = button.dataset.case,
-      example = examples[key];
-    for (const b of document.querySelectorAll("[data-case]"))
-      b.setAttribute("aria-pressed", String(b === button));
-    for (const route of document.querySelectorAll("[data-route]"))
-      route.classList.toggle("active", route.dataset.route === key);
-    document.querySelector("#example-request").textContent = example.request;
-    document.querySelector("#decision-label").textContent = example.decision;
-    document.querySelector("#example-result").textContent = example.result;
+    const key = button.dataset.view;
+    const view = views[key];
+    for (const other of document.querySelectorAll("[data-view]"))
+      other.setAttribute("aria-pressed", String(other === button));
+    document.querySelector("#example-kicker").textContent = view.kicker;
+    document.querySelector("#example-heading").textContent = view.heading;
+    document.querySelector("#example-description").textContent =
+      view.description;
+    const image = document.querySelector("#example-image");
+    image.src = `/media/weekly-${key}.png`;
+    image.alt = view.alt;
+    image.width = view.width;
+    image.height = view.height;
+    image.parentElement.href = image.src;
+    document
+      .querySelector(".example-viewer")
+      .classList.toggle("show-canvas", key === "canvas");
   });
+}

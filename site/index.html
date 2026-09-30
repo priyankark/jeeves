@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Jeeves | Save your everyday tasks as reusable AI workflows</title>
+    <title>Jeeves | Turn repeat work into a workflow</title>
     <meta
       name="description"
-      content="Turn notes into a weekly update, sort requests, or research a topic. Save the steps and run them again with new input. Free and open source for Mac, Windows, and Linux."
+      content="Jeeves is a desktop app for reusable AI workflows. Set up the steps, run them with your input, and review the result. Free and open source for Mac, Windows, and Linux."
     />
     <link rel="canonical" href="https://getjeeves.app/" />
     <meta property="og:url" content="https://getjeeves.app/" />
     <meta name="theme-color" content="#f8f4e9" />
     <meta
       property="og:title"
-      content="Jeeves. Save the steps. Use them again."
+      content="Jeeves. Turn repeat work into a workflow."
     />
     <meta
       property="og:description"
@@ -22,14 +22,14 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:image"
-      content="https://getjeeves.app/media/social-card.png?v=4e40cd35fd56"
+      content="https://getjeeves.app/media/social-card.png?v=ca887c003cf7"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Jeeves. Save the steps. Use them again. Reusable AI workflows for everyday tasks."
+      content="Jeeves. Turn repeat work into a workflow. Reusable AI workflows on your desktop."
     />
     <link rel="icon" href="/assets/jeeves-icon.png" />
     <link rel="stylesheet" href="/style.css" />
@@ -46,7 +46,7 @@
         />jeeves<span class="edition">THE DESKTOP EDITION</span></a
       >
       <nav aria-label="Main navigation">
-        <a href="#how">How it works</a><a href="#film">Watch the demo</a
+        <a href="#example">See the workflow</a><a href="#how">Under the hood</a
         ><a class="nav-cta" href="#download"
           >Download <span aria-hidden="true">↗</span></a
         >
@@ -55,228 +55,244 @@
     <main id="main">
       <section class="hero wrap">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="dot"></span> WHAT HO, JEEVES!</p>
-          <h1>Save the steps.<br /><em>Use them again.</em></h1>
-          <p class="hero-aside">Reusable AI workflows for everyday tasks.</p>
+          <p class="eyebrow">
+            <span class="dot"></span> AI WORKFLOWS, ON YOUR DESKTOP
+          </p>
+          <h1>Turn repeat work<br /><em>into a workflow.</em></h1>
           <p class="lede">
-            Jeeves is an app for productivity workflows. Turn project notes into
-            a weekly update, sort incoming requests, or research a topic. Save
-            the steps, then run them with new input. When a task needs your
-            answer, it pauses and waits.
+            Jeeves is an app for productivity workflows. Set up the steps for a
+            task, let AI do the work, and review the result. Next time, start
+            with new input.
           </p>
           <div class="actions">
-            <a class="button dark" href="#download">Download the preview</a
-            ><a class="text-link" href="#film"
-              >Watch the demo <span aria-hidden="true">↓</span></a
-            >
+            <a class="button dark" href="#download">Try Jeeves</a
+            ><a class="text-link" href="#example">See a real example ↓</a>
           </div>
-          <p class="fine">
-            Open source · Mac, Windows, and Linux · No key needed for the
-            example
-          </p>
+          <p class="fine">Free and open source · Mac, Windows, and Linux</p>
         </div>
-        <div class="hero-stage" id="try">
-          <div class="stage-top">
-            <span class="eyebrow">AN EXAMPLE: SORT INCOMING REQUESTS</span
-            ><span class="status-pill">Try it below</span>
+        <div
+          class="routine-card"
+          aria-label="Illustration of a weekly update workflow"
+        >
+          <div class="routine-label">
+            <span>ONE USEFUL ROUTINE</span><span>Every Friday</span>
           </div>
-          <p class="stage-intro">What should happen to this request?</p>
-          <div
-            class="scenarios"
-            role="group"
-            aria-label="Choose an example request"
-          >
-            <button type="button" data-case="urgent" aria-pressed="true">
-              An outage</button
-            ><button type="button" data-case="routine" aria-pressed="false">
-              A small fix</button
-            ><button
-              type="button"
-              data-case="needs_information"
-              aria-pressed="false"
-            >
-              A mystery
-            </button>
-          </div>
-          <div class="workflow-illustration">
-            <article class="request-card">
-              <span class="node-icon" aria-hidden="true">↳</span>
+          <h2>Notes in.<br /><em>Weekly update out.</em></h2>
+          <ol class="routine-steps">
+            <li>
+              <span>01</span>
               <div>
-                <small>A REQUEST ARRIVES</small>
-                <p id="example-request">
-                  “Nobody can sign in. Every login returns an error.”
-                </p>
+                <strong>Add your notes</strong>
+                <p>What changed, what’s blocked, what’s next.</p>
               </div>
-            </article>
-            <div class="connector" aria-hidden="true"></div>
-            <article class="decision-card">
-              <div class="decision-symbol" aria-hidden="true">j</div>
+            </li>
+            <li>
+              <span>02</span>
               <div>
-                <small>CHOOSE THE NEXT STEP</small
-                ><strong>What needs attention?</strong
-                ><span id="decision-label">Urgent · a concrete outage</span>
+                <strong>Draft and check</strong>
+                <p>AI writes the update, then checks it against the notes.</p>
               </div>
-            </article>
-            <div class="branches" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="route-grid">
-              <div data-route="urgent" class="route active">
-                <span aria-hidden="true">↗</span><strong>Incident brief</strong
-                ><small>Summarize the issue.</small>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <strong>Review the result</strong>
+                <p>A draft you can read, edit, and share.</p>
               </div>
-              <div data-route="routine" class="route">
-                <span aria-hidden="true">✎</span><strong>Draft reply</strong
-                ><small>Suggest the next step.</small>
-              </div>
-              <div data-route="needs_information" class="route">
-                <span aria-hidden="true">?</span><strong>Ask you</strong
-                ><small>Wait for your answer.</small>
-              </div>
-            </div>
-            <div class="route-result" aria-live="polite">
-              <span class="dot"></span>
-              <p id="example-result">
-                Jeeves sends the request to the incident specialist. A draft
-                comes back for your review.
-              </p>
-            </div>
-          </div>
-          <p class="illustration-note">
-            This is an illustration, not a live AI run. See the real workflow in
-            the demo below.
-          </p>
+            </li>
+          </ol>
+          <p class="routine-foot">Next Friday, the same steps. Fresh notes.</p>
         </div>
       </section>
-      <section id="how" class="section wrap">
+      <section
+        id="example"
+        class="section wrap example-section"
+        aria-labelledby="example-title"
+      >
         <div class="section-heading">
-          <p class="eyebrow">01 / HOW IT WORKS</p>
-          <h2>Give every step<br /><em>a job to do.</em></h2>
+          <p class="eyebrow">01 / FROM NOTES TO UPDATE</p>
+          <h2 id="example-title">
+            One task.<br /><em>A repeatable process.</em>
+          </h2>
           <p>
-            Take a weekly update: read your project notes, draft the update,
-            check it against the notes, and review the result. Keep those steps
-            for next week.
+            Here’s the weekly update example inside Jeeves. Start with your
+            notes, see the steps, then read the result.
+          </p>
+        </div>
+        <div
+          class="example-tabs"
+          role="group"
+          aria-label="Explore the weekly update"
+        >
+          <button type="button" data-view="input" aria-pressed="true">
+            1. Add notes
+          </button>
+          <button type="button" data-view="canvas" aria-pressed="false">
+            2. See the steps
+          </button>
+          <button type="button" data-view="result" aria-pressed="false">
+            3. Review the update
+          </button>
+        </div>
+        <div class="example-viewer">
+          <div class="example-explanation" aria-live="polite">
+            <span class="chapter" id="example-kicker">YOUR INPUT</span>
+            <h3 id="example-heading">Start with what you have.</h3>
+            <p id="example-description">
+              A few rough notes are enough for this example. Review the input
+              before the workflow starts.
+            </p>
+            <p class="sample-label">
+              Actual app screenshots. The built-in example uses sample data and
+              a prepared result. No AI calls.
+            </p>
+          </div>
+          <a
+            class="example-image-link"
+            href="/media/weekly-input.png"
+            target="_blank"
+            rel="noopener"
+            aria-label="Open full-size app screenshot"
+            ><img
+              id="example-image"
+              src="/media/weekly-input.png"
+              width="783"
+              height="759"
+              alt="Jeeves weekly update input form with sample project notes"
+            /><span>Open full-size screenshot ↗</span></a
+          >
+        </div>
+      </section>
+      <section class="section wrap control-section">
+        <div class="section-heading">
+          <p class="eyebrow">02 / YOU STAY IN CHARGE</p>
+          <h2>A routine you can<br /><em>make your own.</em></h2>
+          <p>
+            The weekly update is a starting point. Use the same approach for
+            research, writing, or other work you do often.
           </p>
         </div>
         <div class="partnership">
           <article>
-            <span class="chapter">01 / SET UP</span>
-            <h3>Start with a template.</h3>
+            <span class="chapter">CHANGE THE PROCESS</span>
+            <h3>Give each step a job.</h3>
             <p>
-              Pick a workflow and add your input. Change the steps in the visual
-              editor to fit the job. Each step has a clear task.
+              Start with a template. Add, connect, or change steps in the visual
+              editor to fit the way you work.
             </p>
-            <div class="mini-label">
-              Project notes · Requests · Research questions
-            </div>
           </article>
           <article>
-            <span class="chapter">02 / RUN</span>
-            <h3>Let AI handle the steps.</h3>
+            <span class="chapter">STAY INVOLVED</span>
+            <h3>Let it wait for you.</h3>
             <p>
-              Connect an AI service for writing, research, or browser work. See
-              what went into each step and what came out. Jeeves saves progress
-              and waits when it needs your input.
+              Add a step that asks for your answer or review. Progress is saved
+              while the workflow waits. Optional sound alerts let you know.
             </p>
-            <div class="mini-label">Your chosen provider · Visible results</div>
           </article>
-          <article class="you">
-            <span class="chapter">03 / REUSE</span>
-            <h3>Keep what works.</h3>
+          <article>
+            <span class="chapter">USE IT AGAIN</span>
+            <h3>Keep the useful parts.</h3>
             <p>
-              Review the result and adjust the steps. Next time, give the same
-              workflow new input. You can also schedule it while Jeeves is
-              running.
+              Inspect each step’s input and output. Adjust the workflow, save
+              it, and run it again with new input.
             </p>
-            <div class="mini-label">New input · The same useful routine</div>
           </article>
         </div>
       </section>
-      <section id="film" class="film-section">
+      <section
+        id="how"
+        class="technical-section"
+        aria-labelledby="technical-title"
+      >
         <div class="wrap">
-          <div class="film-heading">
-            <div>
-              <p class="eyebrow">02 / WATCH IT WORK</p>
-              <h2>From a request<br /><em>to a useful brief.</em></h2>
-            </div>
+          <div class="section-heading">
+            <p class="eyebrow">03 / UNDER THE HOOD</p>
+            <h2 id="technical-title">
+              How the pieces<br /><em>work together.</em>
+            </h2>
             <p>
-              This one-minute demo follows two requests. An outage becomes an
-              incident brief. An unclear request comes back to you for details,
-              then continues when you answer.
+              Jeeves connects the steps and keeps track of progress. You choose
+              which AI services each workflow uses.
             </p>
           </div>
-          <div class="film-frame">
-            <video
-              controls
-              playsinline
-              preload="metadata"
-              poster="/media/demo-poster.png?v=9a87191d2398"
-              aria-label="Jeeves product demonstration"
+          <div class="technical-grid">
+            <article>
+              <span class="chapter">DO THE WORK</span>
+              <h3>AI steps</h3>
+              <p>
+                Use OpenAI, Codex CLI, OpenRouter, or a local model for writing,
+                research, and other tasks. Browser steps use Chrome and may need
+                your help to sign in.
+              </p>
+            </article>
+            <article>
+              <span class="chapter">CHOOSE A PATH</span>
+              <h3>Optional Jev decisions</h3>
+              <p>
+                Add TypeSafe’s Jev when an answer should determine the next
+                step. For example, an unclear request can go to a question
+                instead of a draft. Jev needs a TypeSafe key.
+              </p>
+            </article>
+            <article>
+              <span class="chapter">KEEP THE CONTEXT</span>
+              <h3>Saved progress</h3>
+              <p>
+                Your workspace and run history stay on your computer. Cloud AI
+                services receive the task context you send them. Human input
+                steps wait for your answer before continuing.
+              </p>
+            </article>
+          </div>
+          <div class="technical-links">
+            <a href="https://github.com/priyankark/jeeves">Read the source ↗</a
+            ><a
+              href="https://github.com/priyankark/jeeves/blob/main/docs/QUICKSTART.md"
+              >Setup and connections ↗</a
             >
-              <source
-                src="/media/jeeves-demo.mp4?v=2cf7ecbc9a93"
-                type="video/mp4"
-              />
-              <track
-                kind="captions"
-                src="/media/jeeves-demo.vtt?v=f8e413713f48"
-                srclang="en"
-                label="English"
-              />
-              Your browser does not support video.
-              <a href="/media/jeeves-demo.mp4?v=2cf7ecbc9a93"
-                >Download the demo</a
-              >.
-            </video>
           </div>
-          <div class="film-notes">
-            <span
-              >Real product footage · Synthetic example requests · Live Jev +
-              Codex · Waiting time edited</span
-            ><a href="https://www.youtube.com/watch?v=KV6YvV7WovE"
-              >Watch on YouTube ↗</a
-            ><a href="/transcript.html">Read the transcript ↗</a>
-          </div>
-        </div>
-      </section>
-      <section class="section wrap possibilities">
-        <div class="section-heading">
-          <p class="eyebrow">03 / WORK YOU CAN REUSE</p>
-          <h2>One less thing<br /><em>to explain on Monday.</em></h2>
-        </div>
-        <div class="feature-grid">
-          <article>
-            <span class="feature-number">01</span>
-            <h3>Start with the work.</h3>
+          <details id="film" class="technical-film">
+            <summary>
+              Watch a technical walkthrough: requests, decisions, and human
+              input <span>1 minute</span>
+            </summary>
             <p>
-              Choose a workflow, describe what you need, and review the input.
-              Open the canvas when you want to change the process.
+              This separate example follows an incoming request through Jev and
+              Codex, including a pause for clarification.
             </p>
-          </article>
-          <article>
-            <span class="feature-number">02</span>
-            <h3>See what happened.</h3>
-            <p>
-              Open a run to inspect each step, its input, and its output. See
-              why a request took one route and where it needs your attention.
-            </p>
-          </article>
-          <article>
-            <span class="feature-number">03</span>
-            <h3>Come back to a question.</h3>
-            <p>
-              Input forms, saved progress, and optional sound alerts. A sign-in
-              or missing detail becomes a pause you can return to.
-            </p>
-          </article>
-          <article>
-            <span class="feature-number">04</span>
-            <h3>Run it next week.</h3>
-            <p>
-              Reuse a saved workflow, schedule it while Jeeves is running, or
-              export it as a portable skill with its requirements.
-            </p>
-          </article>
+            <div class="film-frame">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster="/media/demo-poster.png?v=17c7cee7325a"
+                aria-label="Jeeves technical demonstration"
+              >
+                <source
+                  src="/media/jeeves-demo.mp4?v=2cf7ecbc9a93"
+                  type="video/mp4"
+                />
+                <track
+                  kind="captions"
+                  src="/media/jeeves-demo.vtt?v=f8e413713f48"
+                  srclang="en"
+                  label="English"
+                />
+                Your browser does not support video.
+                <a href="/media/jeeves-demo.mp4?v=2cf7ecbc9a93"
+                  >Download the demo</a
+                >.
+              </video>
+            </div>
+            <div class="film-notes">
+              <span
+                >Real product footage · Example requests · Live Jev + Codex ·
+                Waiting time edited</span
+              ><a href="https://www.youtube.com/watch?v=KV6YvV7WovE"
+                >YouTube ↗</a
+              ><a href="/transcript.html">Read the transcript ↗</a>
+            </div>
+          </details>
         </div>
       </section>
       <section id="name" class="name-section" aria-labelledby="name-title">
@@ -291,12 +307,7 @@
               steps ahead, he is the person you want around when a simple plan
               gets complicated.
             </p>
-            <p>
-              There’s a small wordplay bonus: Jeeves can use
-              <strong>Jev</strong>, TypeSafe’s decision model, when a task needs
-              a choice along the way. Jev needs Jeeves. The name came easily.
-            </p>
-            <p class="name-wink">No Wodehouse reading list required.</p>
+            <p class="name-wink">What ho, Jeeves.</p>
           </div>
           <figure class="name-quote">
             <blockquote>“I endeavour to give satisfaction.”</blockquote>
@@ -312,7 +323,7 @@
       </section>
       <section id="download" class="section wrap download-section">
         <div>
-          <p class="eyebrow">04 / TRY JEEVES</p>
+          <p class="eyebrow">04 / TRY IT YOURSELF</p>
           <h2>Shall we put Jeeves<br /><em>to work?</em></h2>
           <p class="lede">
             Open Jeeves, choose <strong>Try the example</strong>, then
@@ -329,7 +340,7 @@
               class="text-link"
               download
               href="/assets/request-triage.jeeves.json"
-              >Get the demo workflow ↓</a
+              >Get the technical demo workflow ↓</a
             >
           </div>
           <p class="access-note">

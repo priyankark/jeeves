@@ -23,26 +23,49 @@ try {
       ),
       `Horizontal overflow at ${width}`,
     );
-    for (const name of ["A small fix", "A mystery", "An outage"]) {
+    for (const name of [
+      "1. Add notes",
+      "2. See the steps",
+      "3. Review the update",
+    ]) {
       const button = p.getByRole("button", { name, exact: true });
       await button.click();
       assert.equal(await button.getAttribute("aria-pressed"), "true");
+      await p.locator("#example-image").evaluate((image) => image.decode());
+      assert(
+        await p.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+        `Example overflow at ${width}: ${name}`,
+      );
+      assert.equal(
+        await p.locator('[data-view][aria-pressed="true"]').count(),
+        1,
+      );
     }
     await p.screenshot({
       path: `${output}/${width}.png`,
       fullPage: true,
     });
     checks.push(
-      `No horizontal overflow; all three example routes work at ${width}px`,
+      `No horizontal overflow; all three weekly-update views work at ${width}px`,
     );
   }
   await p.goto(base);
-  await p.getByRole("button", { name: "A mystery", exact: true }).focus();
+  await p
+    .getByRole("button", { name: "3. Review the update", exact: true })
+    .focus();
   await p.keyboard.press("Enter");
-  assert.match(await p.locator("#example-result").innerText(), /pauses/);
+  assert.match(await p.locator("#example-heading").innerText(), /Read it/);
+  assert.match(
+    await p.locator("#example-image").getAttribute("src"),
+    /weekly-result/,
+  );
   checks.push("Example selection works from the keyboard");
   const targets = await p
-    .locator("a[href],source[src],link[rel=stylesheet],script[src],track[src]")
+    .locator(
+      "a[href],img[src],source[src],link[rel=stylesheet],script[src],track[src]",
+    )
     .evaluateAll((els) =>
       els.map((e) => e.getAttribute("href") || e.getAttribute("src")),
     );
@@ -57,6 +80,7 @@ try {
   checks.push(
     "All local links, media, captions, script, stylesheet, and workflow download return successfully",
   );
+  await p.locator("#film > summary").click();
   await p.locator("video").evaluate(async (v) => {
     v.muted = true;
     await v.play();

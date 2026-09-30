@@ -27,4 +27,4 @@ I'd love to hear what you would use it for.
 
 **YouTube URL:** https://www.youtube.com/watch?v=KV6YvV7WovE
 
-Published publicly on Priyankar Kumar's channel on September 29, 2026. English captions and the custom poster are attached. Category: Science & Technology. Not made for kids. Synthetic content disclosure enabled for the stock Clipchamp narration. Copyright and community checks reported no issues. Use the full watch URL in Product Hunt. Edit this existing video when updating copy; do not upload a duplicate.
+Published publicly on Priyankar Kumar's channel on September 29, 2026. English captions and the custom poster are attached. Category: Science & Technology. Not made for kids. Synthetic content disclosure enabled for the stock Clipchamp narration. Copyright and community checks reported no issues. Link the full watch URL from the technical section and Product Hunt maker comment. Edit this existing video when updating copy; do not upload a duplicate.

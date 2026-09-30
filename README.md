@@ -1,19 +1,19 @@
 # Jeeves
 
-### Save the steps. Use them again.
+### Turn repeat work into a workflow.
 
 [![Checks](https://github.com/priyankark/jeeves/actions/workflows/ci.yml/badge.svg)](https://github.com/priyankark/jeeves/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-526a43)](LICENSE)
 
-**Reusable AI workflows for everyday tasks.**
+**Reusable AI workflows on your desktop.**
 
 Jeeves is an open source app for productivity workflows. Turn project notes into a weekly update, sort incoming requests, or research a topic. Save the steps, then run them with new input. When a task needs your answer, it pauses and waits.
 
 For a weekly update, add your notes, have an AI draft the update, check it against the notes, and review the result. Next week, give the same workflow new notes. Start with a template and change the steps in the visual editor.
 
-[Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Watch the demo](https://www.youtube.com/watch?v=KV6YvV7WovE) · [Website](https://getjeeves.app/)
+[Download Jeeves](https://github.com/priyankark/jeeves/releases) · [Quick start](docs/QUICKSTART.md) · [Technical walkthrough](https://www.youtube.com/watch?v=KV6YvV7WovE) · [Website](https://getjeeves.app/)
 
-[![Watch the one-minute demo: sort a request, ask for missing details, and write a brief](site/media/demo-poster.png)](https://www.youtube.com/watch?v=KV6YvV7WovE)
+[![Turn repeat work into a workflow: project notes, draft and check, weekly update](marketing/video/gallery/01-overview.png)](https://getjeeves.app/#example)
 
 ## Keep the steps for next time
 

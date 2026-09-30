@@ -39,16 +39,18 @@ export async function buildKit() {
     release: `v${version}`,
     thumbnail: "thumbnail.png",
     gallery: [
-      "01-workflow.png",
-      "02-decision.png",
-      "03-waiting.png",
-      "05-result.png",
-      "06-onboarding.png",
+      "01-overview.png",
+      "02-input.png",
+      "03-workflow.png",
+      "04-result.png",
+      "05-how-it-works.png",
     ],
     video: {
       file: "jeeves-demo.mp4",
       youtubeUrl: field(youtube, "YouTube URL"),
       required: false,
+      placement:
+        "Technical walkthrough linked in maker comment and website; omit from the main Product Hunt gallery.",
     },
     limitsSource: "https://www.producthunt.com/launch/preparing-for-launch",
     limitsChecked: "2026-09-29",
